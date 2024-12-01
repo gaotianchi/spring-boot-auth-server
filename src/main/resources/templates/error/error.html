@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #d9534f;
+        }
+        .error-details {
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: left;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .error-details pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .home-link {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .home-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Oops! Something went wrong.</h1>
+<p>We're sorry, but an unexpected error occurred. Below are the details:</p>
+
+<div class="error-details">
+    <p><strong>Status:</strong> <span th:text="${errorVo.getStatus()}"></span></p>
+    <p><strong>Error:</strong> <span th:text="${errorVo.getMessage()}"></span></p>
+    <p><strong>Path:</strong> <span th:text="${errorVo.getPath()}"></span></p>
+    <p><strong>Timestamp:</strong> <span th:text="${errorVo.getTimestamp()}"></span></p>
+</div>
+
+<a href="/" class="home-link">Return to Home</a>
+</body>
+</html>
