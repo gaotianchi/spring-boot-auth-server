@@ -65,6 +65,8 @@ public class AuthorizationSecurityConfig {
                         .requestMatchers("*/info/**").permitAll()
                         .requestMatchers("/client/**").permitAll()
                         .requestMatchers("/test/public/**").permitAll()
+                        .requestMatchers("/static/**").permitAll()
+                        .requestMatchers("/*.ico").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)

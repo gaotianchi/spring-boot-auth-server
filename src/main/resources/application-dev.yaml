@@ -10,6 +10,7 @@ spring:
     hikari:
       max-lifetime: 300000
 
+
 startup:
   load-mock-data: false
   reset-database: true
