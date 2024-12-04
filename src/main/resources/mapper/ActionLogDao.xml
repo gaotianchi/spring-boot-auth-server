@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gaotianchi.auth.dao.ActionLogDao">
+
+    <resultMap type="com.gaotianchi.auth.entity.ActionLog" id="ActionLogMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="action" column="action" jdbcType="VARCHAR"/>
+        <result property="actionTime" column="action_time" jdbcType="TIMESTAMP"/>
+        <result property="objectType" column="object_type" jdbcType="VARCHAR"/>
+        <result property="objectId" column="object_id" jdbcType="INTEGER"/>
+        <result property="ipAddress" column="ip_address" jdbcType="VARCHAR"/>
+        <result property="deviceInfo" column="device_info" jdbcType="VARCHAR"/>
+        <result property="details" column="details" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO action_log(user_id, action, action_time, object_type, object_id, ip_address, device_info, details,
+                               created_at)
+        VALUES (#{userId}, #{action}, #{actionTime}, #{objectType}, #{objectId}, #{ipAddress}, #{deviceInfo},
+                #{details}, #{createdAt})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE
+        FROM action_log
+        where id = #{id}
+    </delete>
+
+    <update id="update">
+        UPDATE action_log
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="action != null and action != ''">
+                action = #{action},
+            </if>
+            <if test="actionTime != null">
+                action_time = #{actionTime},
+            </if>
+            <if test="objectType != null and objectType != ''">
+                object_type = #{objectType},
+            </if>
+            <if test="objectId != null">
+                object_id = #{objectId},
+            </if>
+            <if test="ipAddress != null and ipAddress != ''">
+                ip_address = #{ipAddress},
+            </if>
+            <if test="deviceInfo != null and deviceInfo != ''">
+                device_info = #{deviceInfo},
+            </if>
+            <if test="details != null and details != ''">
+                details = #{details},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" resultMap="ActionLogMap">
+        SELECT id,
+               user_id,
+               action,
+               action_time,
+               object_type,
+               object_id,
+               ip_address,
+               device_info,
+               details,
+               created_at
+        FROM action_log
+        WHERE id = #{id}
+    </select>
+</mapper>
+

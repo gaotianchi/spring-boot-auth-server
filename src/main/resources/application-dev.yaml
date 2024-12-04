@@ -1,0 +1,20 @@
+server:
+  port: 8090
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: gaotianchi
+    password: 20040401
+    url: jdbc:mysql://109.206.246.61:3306/blog_auth?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+    hikari:
+      max-lifetime: 300000
+
+startup:
+  load-mock-data: false
+  reset-database: true
+  path:
+    drop-schema-sql: classpath:db/schema/drop_schema.sql
+    create-schema-sql: classpath:db/schema/create_schema.sql
+    initial-data-sql: classpath:db/data/initial_data.sql
+    load-mock-data-sql: classpath:db/data/mock_data.sql

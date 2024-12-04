@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gaotianchi.auth.dao.UserDao">
+
+    <resultMap type="com.gaotianchi.auth.entity.User" id="UserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
+        <result property="lastLoginIp" column="last_login_ip" jdbcType="VARCHAR"/>
+        <result property="failedAttempts" column="failed_attempts" jdbcType="INTEGER"/>
+        <result property="isLocked" column="is_locked" jdbcType="INTEGER"/>
+        <result property="lockExpiration" column="lock_expiration" jdbcType="TIMESTAMP"/>
+        <result property="isEnabled" column="is_enabled" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO user(username, password, email, created_at, updated_at, last_login_time, last_login_ip,
+                         failed_attempts, is_locked, lock_expiration, is_enabled)
+        VALUES (#{username}, #{password}, #{email}, #{createdAt}, #{updatedAt}, #{lastLoginTime}, #{lastLoginIp},
+                #{failedAttempts}, #{isLocked}, #{lockExpiration}, #{isEnabled})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE
+        FROM user
+        where id = #{id}
+    </delete>
+
+    <update id="update">
+        UPDATE user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime},
+            </if>
+            <if test="lastLoginIp != null and lastLoginIp != ''">
+                last_login_ip = #{lastLoginIp},
+            </if>
+            <if test="failedAttempts != null">
+                failed_attempts = #{failedAttempts},
+            </if>
+            <if test="isLocked != null">
+                is_locked = #{isLocked},
+            </if>
+            <if test="lockExpiration != null">
+                lock_expiration = #{lockExpiration},
+            </if>
+            <if test="isEnabled != null">
+                is_enabled = #{isEnabled},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" resultMap="UserMap">
+        SELECT id,
+               username,
+               password,
+               email,
+               created_at,
+               updated_at,
+               last_login_time,
+               last_login_ip,
+               failed_attempts,
+               is_locked,
+               lock_expiration,
+               is_enabled
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByUsernameOrEmail" resultMap="UserMap">
+        SELECT id,
+               username,
+               password,
+               email,
+               created_at,
+               updated_at,
+               last_login_time,
+               last_login_ip,
+               failed_attempts,
+               is_locked,
+               lock_expiration,
+               is_enabled
+        FROM user
+        WHERE username = #{usernameOrEmail}
+           OR email = #{usernameOrEmail}
+    </select>
+
+    <select id="selectUserRolesAndPermissionsNamesByUsername" resultType="java.lang.String">
+        WITH user_roles AS (SELECT r.name AS role_name,
+                                   p.name AS permission_name
+                            FROM user u
+                                     INNER JOIN
+                                 user_role ur ON u.id = ur.user_id
+                                     INNER JOIN
+                                 role r ON ur.role_code = r.code
+                                     LEFT JOIN
+                                 role_permission rp ON r.code = rp.role_code
+                                     LEFT JOIN
+                                 permission p ON rp.permission_code = p.code
+                            WHERE u.username = #{username})
+        SELECT DISTINCT CONCAT('ROLE_', role_name) AS name
+        FROM user_roles
+
+        UNION
+
+        SELECT DISTINCT permission_name AS name
+        FROM user_roles;
+    </select>
+</mapper>
+
