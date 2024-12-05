@@ -12,14 +12,14 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ClientDao {
 
-    int insert(Client client);
+    int insertClient(Client client);
 
-    int deleteById(Integer id);
+    int deleteClientById(Integer id);
 
-    int update(Client client);
+    int updateClientById(Client client);
 
-    Client selectById(Integer id);
+    Client selectClientById(Integer id);
 
-    Client selectByClientIdOrClientName(String clientIdOrClientName);
+    Client selectClientByClientIdOrClientName(String clientIdOrClientName);
 }
 

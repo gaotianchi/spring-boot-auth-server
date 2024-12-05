@@ -97,30 +97,30 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void insert(Client client) {
-        int row = clientDao.insert(client);
+    public void addNewClient(Client client) {
+        int row = clientDao.insertClient(client);
         if (row != 1) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
     }
 
     @Override
-    public void deleteById(Integer id) {
-        if (clientDao.deleteById(id) != 1) {
+    public void removeClientById(Integer id) {
+        if (clientDao.deleteClientById(id) != 1) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
 
     @Override
-    public void update(Client client) {
-        if (clientDao.update(client) != 1) {
+    public void updateClientDetails(Client client) {
+        if (clientDao.updateClientById(client) != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
 
     @Override
-    public Client findById(Integer id) {
-        return clientDao.selectById(id);
+    public Client getClientById(Integer id) {
+        return clientDao.selectClientById(id);
     }
 
     @Override
@@ -129,13 +129,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public RegisteredClient findById(String id) {
-        Client client = findById(Integer.valueOf(id));
+        Client client = getClientById(Integer.valueOf(id));
         return toRegisteredClient(client);
     }
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
-        Client client = clientDao.selectByClientIdOrClientName(clientId);
+        Client client = clientDao.selectClientByClientIdOrClientName(clientId);
         return toRegisteredClient(client);
     }
 }

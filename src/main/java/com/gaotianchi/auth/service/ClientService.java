@@ -11,11 +11,11 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
  */
 public interface ClientService extends RegisteredClientRepository {
 
-    void insert(Client client);
+    void addNewClient(Client client);
 
-    void deleteById(Integer id);
+    void removeClientById(Integer id);
 
-    void update(Client client);
+    void updateClientDetails(Client client);
 
-    Client findById(Integer id);
+    Client getClientById(Integer id);
 }
