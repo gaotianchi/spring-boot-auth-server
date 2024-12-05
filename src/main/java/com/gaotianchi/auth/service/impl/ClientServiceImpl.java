@@ -5,6 +5,9 @@ import com.gaotianchi.auth.entity.Client;
 import com.gaotianchi.auth.enums.Code;
 import com.gaotianchi.auth.exception.SQLException;
 import com.gaotianchi.auth.service.ClientService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -15,6 +18,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Set;
 
 
@@ -98,8 +102,14 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void addNewClient(Client client) {
-        int row = clientDao.insertClient(client);
-        if (row != 1) {
+        if (clientDao.insertClient(client) != 1) {
+            throw new SQLException(Code.SQL_INSERT_ERROR);
+        }
+    }
+
+    @Override
+    public void addNewClientsBatch(List<Client> clients) {
+        if (clientDao.insertClientsBatch(clients) != clients.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
     }
@@ -112,6 +122,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public void removeClientsBatchByIds(List<Integer> ids) {
+        if (clientDao.deleteClientsBatchByIds(ids) != ids.size()) {
+            throw new SQLException(Code.SQL_DELETE_ERROR);
+        }
+    }
+
+    @Override
     public void updateClientDetails(Client client) {
         if (clientDao.updateClientById(client) != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
@@ -119,8 +136,21 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public void addNewOrUpdateClientsBatch(List<Client> clients) {
+        if (clientDao.insertOrUpdateClientsBatch(clients) != clients.size()) {
+            throw new SQLException(Code.SQL_UPDATE_ERROR);
+        }
+    }
+
+    @Override
     public Client getClientById(Integer id) {
         return clientDao.selectClientById(id);
+    }
+
+    @Override
+    public Page<Client> getClientsByPage(Client client, PageRequest pageRequest) {
+        long total = clientDao.selectClientsCount(client);
+        return new PageImpl<>(clientDao.selectClientsByPage(client, pageRequest), pageRequest, total);
     }
 
     @Override

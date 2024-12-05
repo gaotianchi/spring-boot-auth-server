@@ -3,6 +3,7 @@ package com.gaotianchi.auth.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.groups.Default;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,36 +20,37 @@ import java.util.Set;
 @Data
 public class ClientDto {
 
-    @NotBlank(message = "客户端ID不能为空")
-    @Size(max = 255, message = "客户端ID长度不能超过255")
+    @NotBlank(message = "客户端ID不能为空", groups = CreateClient.class)
+    @Size(max = 255, message = "客户端ID长度不能超过255", groups = CreateClient.class)
     private String clientId;
+
+    @Size(max = 255, message = "客户端密钥长度不能超过255", groups = CreateClient.class)
+    private String clientSecret;
+
+    @NotBlank(message = "客户端名称不能为空", groups = CreateClient.class)
+    @Size(max = 255, message = "客户端名称长度不能超过255", groups = {CreateClient.class, UpdateClientDetails.class})
+    private String clientName;
 
     @Builder.Default
     private Date clientIdIssuedAt = new Date();
-
-    @Size(max = 255, message = "客户端密钥长度不能超过255")
-    private String clientSecret;
+    @NotNull(message = "授权类型不能为空", groups = CreateClient.class)
+    private Set<@NotBlank(message = "授权类型不能为空", groups = ClientDto.class) String> authorizationGrantTypes;
 
     private Date clientSecretExpiresAt;
+    @Size(max = 1000, message = "重定向URI列表长度不能超过1000", groups = CreateClient.class)
+    private Set<@NotBlank(message = "重定向URI不能为空", groups = ClientDto.class) String> redirectUris;
+    @Size(max = 1000, message = "注销后重定向URI列表长度不能超过1000", groups = CreateClient.class)
+    private Set<@NotBlank(message = "注销后重定向URI不能为空", groups = ClientDto.class) String> postLogoutRedirectUris;
+    @NotNull(message = "作用域不能为空", groups = CreateClient.class)
+    private Set<@NotBlank(message = "作用域不能为空", groups = ClientDto.class) String> scopes;
+    @NotNull(message = "客户端认证方式不能为空", groups = CreateClient.class)
+    private Set<@NotBlank(message = "认证方式不能为空", groups = ClientDto.class) String> clientAuthenticationMethods;
 
-    @NotBlank(message = "客户端名称不能为空")
-    @Size(max = 255, message = "客户端名称长度不能超过255")
-    private String clientName;
+    public interface CreateClient extends Default {
+    }
 
-    @NotNull(message = "授权类型不能为空")
-    private Set<@NotBlank(message = "授权类型不能为空") String> authorizationGrantTypes;
-
-    @Size(max = 1000, message = "重定向URI列表长度不能超过1000")
-    private Set<@NotBlank(message = "重定向URI不能为空") String> redirectUris;
-
-    @Size(max = 1000, message = "注销后重定向URI列表长度不能超过1000")
-    private Set<@NotBlank(message = "注销后重定向URI不能为空") String> postLogoutRedirectUris;
-
-    @NotNull(message = "作用域不能为空")
-    private Set<@NotBlank(message = "作用域不能为空") String> scopes;
-
-    @NotNull(message = "客户端认证方式不能为空")
-    private Set<@NotBlank(message = "认证方式不能为空") String> clientAuthenticationMethods;
+    public interface UpdateClientDetails extends Default {
+    }
 
     @Builder.Default
     private Integer requireProofKey = 1;
