@@ -128,9 +128,13 @@ public class ClientRest {
     public VO<Page<ClientVO>> handleGetClientListRequest(
             @RequestBody
             ClientDto clientDto,
-            PageRequest pageRequest
+            @RequestParam(defaultValue = "0")
+            int page,
+            @RequestParam(defaultValue = "10")
+            int size
     ) {
         Client client = clientConverter.toEntity(clientDto);
+        PageRequest pageRequest = PageRequest.of(page, size);
         Page<Client> clientPage = clientService.getClientsByPage(client, pageRequest);
         Page<ClientVO> clientVOPage = clientPage.map(clientConverter::toVO);
         return VO.response(Code.SUCCESS, clientVOPage);
