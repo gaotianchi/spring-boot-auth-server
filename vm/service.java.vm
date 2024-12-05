@@ -1,0 +1,41 @@
+##定义初始变量
+#set($tableName = $tool.append($tableInfo.name, "Service"))
+##设置回调
+$!callback.setFileName($tool.append($tableName, ".java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/service"))
+
+##拿到主键
+#if(!$tableInfo.pkColumn.isEmpty())
+    #set($pk = $tableInfo.pkColumn.get(0))
+#end
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}service;
+
+import $!{tableInfo.savePackageName}.entity .$!{tableInfo.name};
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+/**
+ * $!{tableInfo.comment}($!{tableInfo.name})表服务接口
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+public interface $!{tableName} {
+
+void addNew$!{tableInfo.name}($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+void addNew$!{tableInfo.name}sBatch(List<$!{tableInfo.name}> $!tool.firstLowerCase($!{tableInfo.name})s);
+
+void remove$!{tableInfo.name}ById($!pk.shortType $!pk.name);
+
+void remove$!{tableInfo.name}sBatchByIds(List<Integer> ids);
+
+void update$!{tableInfo.name}ById($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+
+void insertOrUpdate$!{tableInfo.name}sBatch(List<$!{tableInfo.name}> $!tool.firstLowerCase($!{tableInfo.name})s);
+
+    $!{tableInfo.name} get$!{tableInfo.name}ById($!pk.shortType $!pk.name);
+
+Page<$!{tableInfo.name}> get$!{tableInfo.name}sByPage($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}), PageRequest pageRequest);
+}
