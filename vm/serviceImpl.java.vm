@@ -1,0 +1,103 @@
+##定义初始变量
+#set($tableName = $tool.append($tableInfo.name, "RepositoryServiceImpl"))
+#set($E = $!{tableInfo.name})
+#set($e = $!tool.firstLowerCase($!{tableInfo.name}))
+#set($D = $tool.append($!{E}, "RepositoryDao"))
+#set($d = $tool.append($!{e}, "RepositoryDao"))
+##设置回调
+$!callback.setFileName($tool.append($tableName, ".java"))
+$!callback.setSavePath($tool.append($tableInfo.savePath, "/service/impl"))
+
+##拿到主键
+#if(!$tableInfo.pkColumn.isEmpty())
+    #set($pk = $tableInfo.pkColumn.get(0))
+#end
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}service.impl;
+
+import com.gaotianchi.auth.enums.Code;
+import com.gaotianchi.auth.exception.SQLException;
+import $!{tableInfo.savePackageName}.entity.$!{E};
+import $!{tableInfo.savePackageName}.dao.$!{D};
+import $!{tableInfo.savePackageName}.service.$!{E}RepositoryService;
+import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.util.Assert;
+
+import java.util.List;
+
+/**
+ * $!{tableInfo.comment}($!{E})表服务实现类
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+@Service("$!{e}Service")
+public class $!{tableName} implements
+
+    $!{E}RepositoryService {
+
+    private final $!{D} $!{d};
+
+    public $!{tableName}($!{D} $!{d}) {
+        Assert.notNull($!{d}, "$!{E}Repository cannot be null");
+        this.$!{d} = $!{d};
+    }
+
+    @Override
+    public void addNew$!{E}($!{E} $!{e}) {
+        if ($!{d}.insert$!{E}($!{e}) != 1){
+            throw new SQLException(Code.SQL_INSERT_ERROR);
+        }
+    }
+
+    @Override
+    public void addNew$!{E}sBatch (List <$!{E}> $!{e}s){
+        if ($!{d}.insert$!{E}sBatch($!{e}s) != $!{e}s.size()){
+            throw new SQLException(Code.SQL_INSERT_ERROR);
+        }
+    }
+
+    @Override
+    public void remove$!{E}ById (Integer id){
+        if ($!{d}.delete$!{E}ById(id) != 1){
+            throw new SQLException(Code.SQL_DELETE_ERROR);
+        }
+    }
+
+    @Override
+    public void remove$!{E}sBatchByIds (List < Integer > ids) {
+        if ($!{d}.delete$!{E}sBatchByIds(ids) != ids.size()){
+            throw new SQLException(Code.SQL_DELETE_ERROR);
+        }
+    }
+
+    @Override
+    public void update$!{E}DetailsById ($!{E} $!{e}) {
+        if ($!{d}.update$!{E}ById($!{e}) != 1){
+            throw new SQLException(Code.SQL_UPDATE_ERROR);
+        }
+    }
+
+    @Override
+    public void addNewOrUpdate$!{E}sBatch (List <$!{E}> $!{e}s){
+        if ($!{d}.insertOrUpdate$!{E}sBatch($!{e}s) != $!{e}s.size()){
+            throw new SQLException(Code.SQL_UPDATE_ERROR);
+        }
+    }
+
+    @Override
+    public $!{E} get$!{E}ById(Integer id) {
+        return $!{d}.select$!{E}ById(id);
+    }
+
+    @Override
+    public Page<$!{E}> get$!{E}sByPage ($!{E} $!{e}, PageRequest pageRequest){
+        long total = $!{d}.select$!{E}sCount($!{e});
+        return new PageImpl<>($!{d}.select$!{E}sByPage($!{e}, pageRequest),pageRequest, total);
+    }
+
+
+}

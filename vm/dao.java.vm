@@ -1,5 +1,7 @@
 ##定义初始变量
-#set($tableName = $tool.append($tableInfo.name, "Dao"))
+#set($tableName = $tool.append($tableInfo.name, "RepositoryDao"))
+#set($E = $!{tableInfo.name})
+#set($e = $!tool.firstLowerCase($!{tableInfo.name}))
 ##设置回调
 $!callback.setFileName($tool.append($tableName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/dao"))
@@ -11,36 +13,35 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/dao"))
 
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}dao;
 
-import $!{tableInfo.savePackageName}.entity.$!{tableInfo.name};
+import $!{tableInfo.savePackageName}.entity.$!{E};
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 /**
- * $!{tableInfo.comment}($!{tableInfo.name})表数据库访问层
+ * $!{tableInfo.comment}($!{E})表数据库访问层
  * @author $!author
  * @since $!time.currTime()
  */
 @Mapper
 public interface $!{tableName} {
 
-int insert$!{tableInfo.name}($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+int insert$!{E}($!{E} $!{e});
 
-int insert$!{tableInfo.name}sBatch(@Param("entities") List<$!{tableInfo.name}> entities);
+int insert$!{E}sBatch(@Param("entities") List<$!{E}> entities);
 
-int delete$!{tableInfo.name}ById($!pk.shortType $!pk.name);
+int delete$!{E}ById($!pk.shortType $!pk.name);
 
-int delete$!{tableInfo.name}sBatchByIds(@Param("ids") List<Integer> ids);
+int delete$!{E}sBatchByIds(@Param("ids") List<Integer> ids);
 
-int update$!{tableInfo.name}ById($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+int update$!{E}ById($!{E} $!{e});
 
-int insertOrUpdate$!{tableInfo.name}sBatch(@Param("entities") List<$!{tableInfo.name}> entities);
+int insertOrUpdate$!{E}sBatch(@Param("entities") List<$!{E}> entities);
 
-    $!{tableInfo.name} select$!{tableInfo.name}ById($!pk.shortType $!pk.name);
+    $!{E} select$!{E}ById($!pk.shortType $!pk.name);
 
-long select$!{tableInfo.name}sCount($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+long select$!{E}sCount($!{E} $!{e});
 
-List<$!{tableInfo.name}> select$!{tableInfo.name}sByPage($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}), @Param("pageable") Pageable pageable);
-
+List<$!{E}> select$!{E}sByPage($!{E} $!{e}, @Param("pageable") Pageable pageable);
 }

@@ -1,5 +1,7 @@
 ##定义初始变量
-#set($tableName = $tool.append($tableInfo.name, "Service"))
+#set($tableName = $tool.append($tableInfo.name, "RepositoryService"))
+#set($E = $!{tableInfo.name})
+#set($e = $!tool.firstLowerCase($!{tableInfo.name}))
 ##设置回调
 $!callback.setFileName($tool.append($tableName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/service"))
@@ -11,31 +13,33 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/service"))
 
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}service;
 
-import $!{tableInfo.savePackageName}.entity .$!{tableInfo.name};
+import $!{tableInfo.savePackageName}.entity.$!{E};
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 /**
- * $!{tableInfo.comment}($!{tableInfo.name})表服务接口
+ * $!{tableInfo.comment}($!{E})表服务接口
  *
  * @author $!author
  * @since $!time.currTime()
  */
 public interface $!{tableName} {
 
-void addNew$!{tableInfo.name}($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+void addNew$!{E}($!{E} $!{e});
 
-void addNew$!{tableInfo.name}sBatch(List<$!{tableInfo.name}> $!tool.firstLowerCase($!{tableInfo.name})s);
+void addNew$!{E}sBatch(List<$!{E}> $!{e}s);
 
-void remove$!{tableInfo.name}ById($!pk.shortType $!pk.name);
+void remove$!{E}ById($!pk.shortType $!pk.name);
 
-void remove$!{tableInfo.name}sBatchByIds(List<Integer> ids);
+void remove$!{E}sBatchByIds(List<Integer> ids);
 
-void update$!{tableInfo.name}ById($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}));
+void update$!{E}DetailsById($!{E} $!{e});
 
-void insertOrUpdate$!{tableInfo.name}sBatch(List<$!{tableInfo.name}> $!tool.firstLowerCase($!{tableInfo.name})s);
+void addNewOrUpdate$!{E}sBatch(List<$!{E}> $!{e}s);
 
-    $!{tableInfo.name} get$!{tableInfo.name}ById($!pk.shortType $!pk.name);
+    $!{E} get$!{E}ById($!pk.shortType $!pk.name);
 
-Page<$!{tableInfo.name}> get$!{tableInfo.name}sByPage($!{tableInfo.name} $!tool.firstLowerCase($!{tableInfo.name}), PageRequest pageRequest);
+Page<$!{E}> get$!{E}sByPage($!{E} $!{e}, PageRequest pageRequest);
 }

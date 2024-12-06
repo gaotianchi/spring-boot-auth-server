@@ -1,9 +1,13 @@
     ##引入mybatis支持
         $!{mybatisSupport.vm}
 
+        #set($tableName = $tool.append($tableInfo.name, "RepositoryMapper"))
+        #set($E = $!{tableInfo.name})
+        #set($e = $!tool.firstLowerCase($!{tableInfo.name}))
+
         ##设置保存名称与保存位置
-        $!callback.setFileName($tool.append($!{tableInfo.name}, "Dao.xml"))
-        $!callback.setSavePath($tool.append($modulePath, "/src/main/resources/mapper"))
+        $!callback.setFileName($tool.append($tableName, ".xml"))
+        $!callback.setSavePath($tool.append($modulePath, "/src/main/resources/mapper/repository"))
 
         ##拿到主键
         #if(!$tableInfo.pkColumn.isEmpty())
@@ -12,21 +16,21 @@
 
     <?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    <mapper namespace="$!{tableInfo.savePackageName}.dao.$!{tableInfo.name}Dao">
+    <mapper namespace="$!{tableInfo.savePackageName}.dao.$!{E}RepositoryDao">
 
-        <resultMap type="$!{tableInfo.savePackageName}.entity.$!{tableInfo.name}" id="$!{tableInfo.name}Map">
+        <resultMap type="$!{tableInfo.savePackageName}.entity.$!{E}" id="$!{E}Map">
             #foreach($column in $tableInfo.fullColumn)
                 <result property="$!column.name" column="$!column.obj.name" jdbcType="$!column.ext.jdbcType"/>
             #end
         </resultMap>
 
-        <insert id="insert$!{tableInfo.name}" keyProperty="$!pk.name" useGeneratedKeys="true">
+        <insert id="insert$!{E}" keyProperty="$!pk.name" useGeneratedKeys="true">
             INSERT INTO $!{tableInfo.obj.name}(#foreach($column in $tableInfo.otherColumn)$!column.obj.name#if($foreach.hasNext), #end#end)
                 VALUES
             (#foreach($column in $tableInfo.otherColumn)#{$!{column.name}}#if($foreach.hasNext), #end#end)
         </insert>
 
-        <insert id="insert$!{tableInfo.name}sBatch" keyProperty="$!pk.name" useGeneratedKeys="true">
+        <insert id="insert$!{E}sBatch" keyProperty="$!pk.name" useGeneratedKeys="true">
             INSERT INTO $!{tableInfo.obj.name}
             (#foreach($column in $tableInfo.otherColumn)$!column.obj.name#if($foreach.hasNext), #end#end)
             VALUES
@@ -35,12 +39,12 @@
             </foreach>
         </insert>
 
-        <delete id="delete$!{tableInfo.name}ById">
+        <delete id="delete$!{E}ById">
             DELETE
             FROM $!{tableInfo.obj.name} WHERE $!pk.obj.name = #{$!pk.name}
         </delete>
 
-        <delete id="delete$!{tableInfo.name}sBatchByIds">
+        <delete id="delete$!{E}sBatchByIds">
             DELETE
             FROM $!{tableInfo.obj.name}
             WHERE $!pk.obj.name IN
@@ -49,7 +53,7 @@
             </foreach>
         </delete>
 
-        <update id="update$!{tableInfo.name}ById">
+        <update id="update$!{E}ById">
             UPDATE $!{tableInfo.obj.name}
             <set>
                 #foreach($column in $tableInfo.otherColumn)
@@ -62,7 +66,7 @@
             WHERE $!pk.obj.name = #{$!pk.name}
         </update>
 
-        <insert id="insertOrUpdate$!{tableInfo.name}sBatch" keyProperty="$!pk.name" useGeneratedKeys="true">
+        <insert id="insertOrUpdate$!{E}sBatch" keyProperty="$!pk.name" useGeneratedKeys="true">
             INSERT INTO $!{tableInfo.obj.name}
             (#foreach($column in $tableInfo.otherColumn)$!column.obj.name#if($foreach.hasNext), #end#end)
             VALUES
@@ -75,7 +79,7 @@
             #end
         </insert>
 
-        <select id="select$!{tableInfo.name}ById" resultMap="$!{tableInfo.name}Map">
+        <select id="select$!{E}ById" resultMap="$!{E}Map">
             SELECT
                 #allSqlColumn()
 
@@ -83,7 +87,7 @@
                 WHERE $!pk.obj.name = #{$!pk.name}
         </select>
 
-        <select id="select$!{tableInfo.name}sCount" resultType="java.lang.Long">
+        <select id="select$!{E}sCount" resultType="java.lang.Long">
             SELECT count(1)
             FROM $!tableInfo.obj.name
             <where>
@@ -96,7 +100,7 @@
             </where>
         </select>
 
-        <select id="select$!{tableInfo.name}sByPage" resultMap="$!{tableInfo.name}Map">
+        <select id="select$!{E}sByPage" resultMap="$!{E}Map">
             SELECT
             #allSqlColumn()
 
