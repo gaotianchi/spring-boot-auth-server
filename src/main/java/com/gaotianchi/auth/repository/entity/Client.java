@@ -11,16 +11,14 @@ import java.util.Date;
  * (Client)实体类
  *
  * @author gaotianchi
- * @since 2024-12-06 19:26:32
+ * @since 2024-12-06 19:47:32
  */
 @Data
 @Builder
-public class Client implements
-
-        Serializable {
+public class Client implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 131236054058371334L;
+    private static final long serialVersionUID = 680659810582326373L;
 
     private Integer id;
     private String clientId;

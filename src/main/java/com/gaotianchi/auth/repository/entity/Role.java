@@ -11,16 +11,14 @@ import java.util.Date;
  * 角色表(Role)实体类
  *
  * @author gaotianchi
- * @since 2024-12-06 19:26:32
+ * @since 2024-12-06 19:47:32
  */
 @Data
 @Builder
-public class Role implements
-
-        Serializable {
+public class Role implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 111490923550882054L;
+    private static final long serialVersionUID = -56288570994293347L;
 
     private Integer id;  // 自增ID
     private Integer code;  // 角色代码

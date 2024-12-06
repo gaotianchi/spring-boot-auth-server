@@ -1,8 +1,6 @@
 package com.gaotianchi.auth.service.impl;
 
 import com.gaotianchi.auth.dao.ClientDao;
-import com.gaotianchi.auth.enums.Code;
-import com.gaotianchi.auth.exception.SQLException;
 import com.gaotianchi.auth.repository.entity.Client;
 import com.gaotianchi.auth.service.ClientService;
 import org.springframework.data.domain.Page;
@@ -18,7 +16,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
-import java.util.List;
 import java.util.Set;
 
 
@@ -98,48 +95,6 @@ public class ClientServiceImpl implements ClientService {
                         .reuseRefreshTokens(client.getReuseRefreshTokens() == 1)
                         .build())
                 .build();
-    }
-
-    @Override
-    public void addNewClient(Client client) {
-        if (clientDao.insertClient(client) != 1) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
-    }
-
-    @Override
-    public void addNewClientsBatch(List<Client> clients) {
-        if (clientDao.insertClientsBatch(clients) != clients.size()) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
-    }
-
-    @Override
-    public void removeClientById(Integer id) {
-        if (clientDao.deleteClientById(id) != 1) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
-    }
-
-    @Override
-    public void removeClientsBatchByIds(List<Integer> ids) {
-        if (clientDao.deleteClientsBatchByIds(ids) != ids.size()) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
-    }
-
-    @Override
-    public void updateClientDetails(Client client) {
-        if (clientDao.updateClientById(client) != 1) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
-    }
-
-    @Override
-    public void addNewOrUpdateClientsBatch(List<Client> clients) {
-        if (clientDao.insertOrUpdateClientsBatch(clients) != clients.size()) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
     }
 
     @Override

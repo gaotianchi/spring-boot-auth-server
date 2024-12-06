@@ -1,5 +1,6 @@
 package com.gaotianchi.auth.dao;
 
+import com.gaotianchi.auth.repository.dao.UserRepositoryDao;
 import com.gaotianchi.auth.repository.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,15 +13,7 @@ import java.util.Set;
  * @since 2024-11-27 21:35:13
  */
 @Mapper
-public interface UserDao {
-
-    int insert(User user);
-
-    int deleteById(Integer id);
-
-    int update(User user);
-
-    User selectById(Integer id);
+public interface UserDao extends UserRepositoryDao {
 
     User selectByUsernameOrEmail(String usernameOrEmail);
 

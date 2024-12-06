@@ -11,16 +11,14 @@ import java.util.Date;
  * 用户表(User)实体类
  *
  * @author gaotianchi
- * @since 2024-12-06 19:26:32
+ * @since 2024-12-06 19:47:32
  */
 @Data
 @Builder
-public class User implements
-
-        Serializable {
+public class User implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -72231067251427584L;
+    private static final long serialVersionUID = -66781057454619559L;
 
     private Integer id;  // 自增ID
     private String username;  // 用户名

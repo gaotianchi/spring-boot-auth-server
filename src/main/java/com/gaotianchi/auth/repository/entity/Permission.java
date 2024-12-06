@@ -11,16 +11,14 @@ import java.util.Date;
  * 权限表(Permission)实体类
  *
  * @author gaotianchi
- * @since 2024-12-06 19:26:32
+ * @since 2024-12-06 19:47:32
  */
 @Data
 @Builder
-public class Permission implements
-
-        Serializable {
+public class Permission implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 349773340496115688L;
+    private static final long serialVersionUID = -45210136263239561L;
 
     private Integer id;  // 自增ID
     private Integer code;  // 权限代码

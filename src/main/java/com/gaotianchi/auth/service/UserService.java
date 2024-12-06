@@ -1,6 +1,5 @@
 package com.gaotianchi.auth.service;
 
-import com.gaotianchi.auth.repository.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -11,11 +10,4 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  */
 public interface UserService extends UserDetailsService {
 
-    void insert(User user);
-
-    void deleteById(Integer id);
-
-    void update(User user);
-
-    User findById(Integer id);
 }

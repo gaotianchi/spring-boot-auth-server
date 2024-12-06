@@ -11,16 +11,14 @@ import java.util.Date;
  * 用户行为日志(ActionLog)实体类
  *
  * @author gaotianchi
- * @since 2024-12-06 19:26:32
+ * @since 2024-12-06 19:47:32
  */
 @Data
 @Builder
-public class ActionLog implements
-
-        Serializable {
+public class ActionLog implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -80900946630090329L;
+    private static final long serialVersionUID = -64945140909757163L;
 
     private Integer id;  // 自增ID
     private Integer userId;  // 用户ID
