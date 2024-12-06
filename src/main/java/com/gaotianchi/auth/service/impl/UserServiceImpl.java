@@ -1,9 +1,9 @@
 package com.gaotianchi.auth.service.impl;
 
 import com.gaotianchi.auth.dao.UserDao;
-import com.gaotianchi.auth.entity.User;
 import com.gaotianchi.auth.enums.Code;
 import com.gaotianchi.auth.exception.SQLException;
+import com.gaotianchi.auth.repository.entity.User;
 import com.gaotianchi.auth.service.UserService;
 import lombok.Builder;
 import lombok.Data;

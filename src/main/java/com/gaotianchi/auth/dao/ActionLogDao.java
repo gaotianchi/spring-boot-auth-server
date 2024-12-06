@@ -1,6 +1,6 @@
 package com.gaotianchi.auth.dao;
 
-import com.gaotianchi.auth.entity.ActionLog;
+import com.gaotianchi.auth.repository.entity.ActionLog;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

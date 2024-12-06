@@ -3,8 +3,8 @@ package com.gaotianchi.auth.rest;
 
 import com.gaotianchi.auth.converter.ClientConverter;
 import com.gaotianchi.auth.dto.ClientDto;
-import com.gaotianchi.auth.entity.Client;
 import com.gaotianchi.auth.enums.Code;
+import com.gaotianchi.auth.repository.entity.Client;
 import com.gaotianchi.auth.service.ClientService;
 import com.gaotianchi.auth.vo.ClientVO;
 import com.gaotianchi.auth.vo.VO;

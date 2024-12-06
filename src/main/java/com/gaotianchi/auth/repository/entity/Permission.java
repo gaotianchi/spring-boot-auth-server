@@ -1,4 +1,4 @@
-package com.gaotianchi.auth.entity;
+package com.gaotianchi.auth.repository.entity;
 
 import lombok.Builder;
 import lombok.Data;
@@ -11,14 +11,16 @@ import java.util.Date;
  * 权限表(Permission)实体类
  *
  * @author gaotianchi
- * @since 2024-11-27 21:01:31
+ * @since 2024-12-06 19:26:32
  */
 @Data
 @Builder
-public class Permission implements Serializable {
+public class Permission implements
+
+        Serializable {
 
     @Serial
-    private static final long serialVersionUID = -37027710868994924L;
+    private static final long serialVersionUID = 349773340496115688L;
 
     private Integer id;  // 自增ID
     private Integer code;  // 权限代码

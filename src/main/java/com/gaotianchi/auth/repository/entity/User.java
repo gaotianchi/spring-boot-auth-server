@@ -1,4 +1,4 @@
-package com.gaotianchi.auth.entity;
+package com.gaotianchi.auth.repository.entity;
 
 import lombok.Builder;
 import lombok.Data;
@@ -11,14 +11,16 @@ import java.util.Date;
  * 用户表(User)实体类
  *
  * @author gaotianchi
- * @since 2024-11-27 21:01:30
+ * @since 2024-12-06 19:26:32
  */
 @Data
 @Builder
-public class User implements Serializable {
+public class User implements
+
+        Serializable {
 
     @Serial
-    private static final long serialVersionUID = 536423674767533787L;
+    private static final long serialVersionUID = -72231067251427584L;
 
     private Integer id;  // 自增ID
     private String username;  // 用户名

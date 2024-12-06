@@ -1,7 +1,7 @@
 package com.gaotianchi.auth.rest;
 
-import com.gaotianchi.auth.entity.User;
 import com.gaotianchi.auth.enums.Code;
+import com.gaotianchi.auth.repository.entity.User;
 import com.gaotianchi.auth.service.UserService;
 import com.gaotianchi.auth.vo.UserVo;
 import com.gaotianchi.auth.vo.VO;

@@ -1,9 +1,9 @@
 package com.gaotianchi.auth.service.impl;
 
 import com.gaotianchi.auth.dao.RoleDao;
-import com.gaotianchi.auth.entity.Role;
 import com.gaotianchi.auth.enums.Code;
 import com.gaotianchi.auth.exception.SQLException;
+import com.gaotianchi.auth.repository.entity.Role;
 import com.gaotianchi.auth.service.RoleService;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.gaotianchi.auth.service;
 
-import com.gaotianchi.auth.entity.RolePermission;
+import com.gaotianchi.auth.repository.entity.RolePermission;
 
 /**
  * 角色权限表(RolePermission)表服务接口

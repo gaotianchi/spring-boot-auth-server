@@ -1,6 +1,6 @@
 package com.gaotianchi.auth.dao;
 
-import com.gaotianchi.auth.entity.Client;
+import com.gaotianchi.auth.repository.entity.Client;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.domain.Pageable;
 

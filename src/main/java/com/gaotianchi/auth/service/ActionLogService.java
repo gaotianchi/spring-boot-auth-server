@@ -1,6 +1,6 @@
 package com.gaotianchi.auth.service;
 
-import com.gaotianchi.auth.entity.ActionLog;
+import com.gaotianchi.auth.repository.entity.ActionLog;
 
 /**
  * 用户行为日志(ActionLog)表服务接口

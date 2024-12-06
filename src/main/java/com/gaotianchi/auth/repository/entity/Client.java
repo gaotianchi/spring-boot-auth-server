@@ -1,4 +1,4 @@
-package com.gaotianchi.auth.entity;
+package com.gaotianchi.auth.repository.entity;
 
 import lombok.Builder;
 import lombok.Data;
@@ -11,14 +11,16 @@ import java.util.Date;
  * (Client)实体类
  *
  * @author gaotianchi
- * @since 2024-11-30 19:25:56
+ * @since 2024-12-06 19:26:32
  */
 @Data
 @Builder
-public class Client implements Serializable {
+public class Client implements
+
+        Serializable {
 
     @Serial
-    private static final long serialVersionUID = -67741514635894671L;
+    private static final long serialVersionUID = 131236054058371334L;
 
     private Integer id;
     private String clientId;
@@ -28,9 +30,9 @@ public class Client implements Serializable {
     private String clientName;
     private String authorizationGrantTypes;
     private String redirectUris;
-    private String postLogoutRedirectUris;
     private String scopes;
     private String clientAuthenticationMethods;
+    private String postLogoutRedirectUris;
     private Integer requireProofKey;
     private Integer requireAuthorizationConsent;
     private Integer accessTokenTimeLive;

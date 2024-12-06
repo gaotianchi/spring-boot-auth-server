@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gaotianchi.auth.repository.dao.UserRoleRepositoryDao">
+
+    <resultMap type="com.gaotianchi.auth.repository.entity.UserRole" id="UserRoleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="roleCode" column="role_code" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="insertUserRole" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO user_role(user_id, role_code)
+        VALUES (#{userId}, #{roleCode})
+    </insert>
+
+    <insert id="insertUserRolesBatch" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO user_role
+        (user_id, role_code)
+        VALUES
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.roleCode})
+        </foreach>
+    </insert>
+
+    <delete id="deleteUserRoleById">
+        DELETE
+        FROM user_role
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteUserRolesBatchByIds">
+        DELETE
+        FROM user_role
+        WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateUserRoleById">
+        UPDATE user_role
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="roleCode != null">
+                role_code = #{roleCode},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insertOrUpdateUserRolesBatch" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO user_role
+        (user_id, role_code)
+        VALUES
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.roleCode})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        user_id = VALUES(user_id)
+        ,role_code = VALUES(role_code)
+    </insert>
+
+    <select id="selectUserRoleById" resultMap="UserRoleMap">
+        SELECT id,
+               user_id,
+               role_code
+        FROM user_role
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectUserRolesCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM user_role
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="roleCode != null">
+                and role_code = #{roleCode}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectUserRolesByPage" resultMap="UserRoleMap">
+        SELECT
+        id, user_id, role_code
+        FROM user_role
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="roleCode != null">
+                and role_code = #{roleCode}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+</mapper>
+

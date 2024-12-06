@@ -1,4 +1,4 @@
-package com.gaotianchi.auth.entity;
+package com.gaotianchi.auth.repository.entity;
 
 import lombok.Builder;
 import lombok.Data;
@@ -11,14 +11,16 @@ import java.util.Date;
  * 用户行为日志(ActionLog)实体类
  *
  * @author gaotianchi
- * @since 2024-11-27 21:01:31
+ * @since 2024-12-06 19:26:32
  */
 @Data
 @Builder
-public class ActionLog implements Serializable {
+public class ActionLog implements
+
+        Serializable {
 
     @Serial
-    private static final long serialVersionUID = -47114859349961305L;
+    private static final long serialVersionUID = -80900946630090329L;
 
     private Integer id;  // 自增ID
     private Integer userId;  // 用户ID

@@ -1,9 +1,9 @@
 package com.gaotianchi.auth.service.impl;
 
 import com.gaotianchi.auth.dao.ActionLogDao;
-import com.gaotianchi.auth.entity.ActionLog;
 import com.gaotianchi.auth.enums.Code;
 import com.gaotianchi.auth.exception.SQLException;
+import com.gaotianchi.auth.repository.entity.ActionLog;
 import com.gaotianchi.auth.service.ActionLogService;
 import org.springframework.stereotype.Service;
 

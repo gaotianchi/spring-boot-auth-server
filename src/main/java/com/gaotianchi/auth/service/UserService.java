@@ -1,6 +1,6 @@
 package com.gaotianchi.auth.service;
 
-import com.gaotianchi.auth.entity.User;
+import com.gaotianchi.auth.repository.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**

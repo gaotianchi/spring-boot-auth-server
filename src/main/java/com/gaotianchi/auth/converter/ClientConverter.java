@@ -1,7 +1,7 @@
 package com.gaotianchi.auth.converter;
 
 import com.gaotianchi.auth.dto.ClientDto;
-import com.gaotianchi.auth.entity.Client;
+import com.gaotianchi.auth.repository.entity.Client;
 import com.gaotianchi.auth.vo.ClientVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

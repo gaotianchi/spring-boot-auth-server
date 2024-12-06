@@ -1,6 +1,6 @@
 package com.gaotianchi.auth.dao;
 
-import com.gaotianchi.auth.entity.Role;
+import com.gaotianchi.auth.repository.entity.Role;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

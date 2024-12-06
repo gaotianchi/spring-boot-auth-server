@@ -1,6 +1,6 @@
 package com.gaotianchi.auth.dao;
 
-import com.gaotianchi.auth.entity.User;
+import com.gaotianchi.auth.repository.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Set;

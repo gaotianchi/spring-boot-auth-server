@@ -1,6 +1,6 @@
 package com.gaotianchi.auth.service;
 
-import com.gaotianchi.auth.entity.UserRole;
+import com.gaotianchi.auth.repository.entity.UserRole;
 
 /**
  * (UserRole)表服务接口
