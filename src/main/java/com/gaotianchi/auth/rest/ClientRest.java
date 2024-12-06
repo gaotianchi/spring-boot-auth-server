@@ -5,6 +5,7 @@ import com.gaotianchi.auth.converter.ClientConverter;
 import com.gaotianchi.auth.dto.ClientDto;
 import com.gaotianchi.auth.enums.Code;
 import com.gaotianchi.auth.repository.entity.Client;
+import com.gaotianchi.auth.repository.service.ClientRepositoryService;
 import com.gaotianchi.auth.service.ClientService;
 import com.gaotianchi.auth.vo.ClientVO;
 import com.gaotianchi.auth.vo.VO;
@@ -28,11 +29,13 @@ import java.util.List;
 public class ClientRest {
 
     private final ClientService clientService;
+    private final ClientRepositoryService clientRepositoryService;
 
     private final ClientConverter clientConverter;
 
-    public ClientRest(ClientService clientService, ClientConverter clientConverter) {
+    public ClientRest(ClientService clientService, ClientRepositoryService clientRepositoryService, ClientConverter clientConverter) {
         this.clientService = clientService;
+        this.clientRepositoryService = clientRepositoryService;
         this.clientConverter = clientConverter;
     }
 
@@ -43,7 +46,7 @@ public class ClientRest {
             ClientDto clientDto
     ) {
         Client client = clientConverter.toEntity(clientDto);
-        clientService.addNewClient(client);
+        clientRepositoryService.addNewClient(client);
         return VO.response(Code.SUCCESS, "/client/info/" + client.getId());
     }
 
@@ -57,7 +60,7 @@ public class ClientRest {
                 .stream()
                 .map(clientConverter::toEntity)
                 .toList();
-        clientService.addNewClientsBatch(clientList);
+        clientRepositoryService.addNewClientsBatch(clientList);
         List<String> uris = new ArrayList<>();
         clientList.forEach(client -> uris.add("/client/info/" + client.getId()));
         return VO.response(Code.SUCCESS, uris.toString());
@@ -70,7 +73,7 @@ public class ClientRest {
             @Min(value = 1, message = "id 必须大于等于 1")
             Integer id
     ) {
-        clientService.removeClientById(id);
+        clientRepositoryService.removeClientById(id);
         return VO.response(Code.SUCCESS, null);
     }
 
@@ -81,7 +84,7 @@ public class ClientRest {
             @Size(min = 1, message = "至少需要提供一个 id")
             List<Integer> ids
     ) {
-        clientService.removeClientsBatchByIds(ids);
+        clientRepositoryService.removeClientsBatchByIds(ids);
         return VO.response(Code.SUCCESS, null);
     }
 
@@ -92,7 +95,7 @@ public class ClientRest {
             ClientDto clientDto
     ) {
         Client client = clientConverter.toEntity(clientDto);
-        clientService.updateClientDetails(client);
+        clientRepositoryService.updateClientDetailsById(client);
         return VO.response(Code.SUCCESS, "/client/info/" + client.getId());
     }
 
@@ -106,7 +109,7 @@ public class ClientRest {
                 .stream()
                 .map(clientConverter::toEntity)
                 .toList();
-        clientService.addNewOrUpdateClientsBatch(clientList);
+        clientRepositoryService.addNewOrUpdateClientsBatch(clientList);
         List<String> uris = new ArrayList<>();
         clientList.forEach(client -> uris.add("/client/info/" + client.getId()));
         return VO.response(Code.SUCCESS, uris.toString());
