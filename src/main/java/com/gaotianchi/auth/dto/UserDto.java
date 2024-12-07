@@ -54,4 +54,10 @@ public class UserDto implements Serializable {
 
     @NotNull
     private Integer isEnabled;
+
+    public interface CreateUser {
+    }
+
+    public interface UpdateUser {
+    }
 }

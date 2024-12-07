@@ -11,7 +11,7 @@ import java.util.Date;
  **/
 @Data
 @Builder
-public class UserVo {
+public class UserVO {
 
     private Integer id;
     private String username;

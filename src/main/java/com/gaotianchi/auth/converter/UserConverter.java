@@ -2,7 +2,7 @@ package com.gaotianchi.auth.converter;
 
 import com.gaotianchi.auth.dto.UserDto;
 import com.gaotianchi.auth.infrastructure.entity.User;
-import com.gaotianchi.auth.vo.UserVo;
+import com.gaotianchi.auth.vo.UserVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -22,5 +22,5 @@ public interface UserConverter {
 
     UserDto toDTO(User user);
 
-    UserVo toVO(User user);
+    UserVO toVO(User user);
 }
