@@ -21,7 +21,7 @@ public class UserVo {
     private Date lastLoginTime;
     private String lastLoginIp;
     private Integer failedAttempts;
-    private Integer isLocked;  // 是否锁定用户（0未锁定，1锁定）
+    private Integer isLocked;
     private Date lockExpiration;
-    private Integer isEnabled;  // 账户是否启用（0启用，1未启用）
+    private Integer isEnabled;
 }
