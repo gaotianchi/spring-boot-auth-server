@@ -49,9 +49,6 @@ public class ClientDto {
     private String clientName;
 
 
-    private Date clientIdIssuedAt;
-
-
     @NotNull(
             groups = CreateClient.class,
             message = "授权类型不能为空"
@@ -115,6 +112,9 @@ public class ClientDto {
                     groups = ClientDto.class
             ) String
             > clientAuthenticationMethods;
+
+
+    private Date clientIdIssuedAt;
 
 
     private Integer requireProofKey;

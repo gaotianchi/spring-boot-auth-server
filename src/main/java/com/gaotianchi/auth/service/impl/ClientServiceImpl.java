@@ -3,9 +3,6 @@ package com.gaotianchi.auth.service.impl;
 import com.gaotianchi.auth.dao.ClientDao;
 import com.gaotianchi.auth.infrastructure.entity.Client;
 import com.gaotianchi.auth.service.ClientService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -98,23 +95,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client getClientById(Integer id) {
-        return clientDao.selectClientById(id);
-    }
-
-    @Override
-    public Page<Client> getClientsByPage(Client client, PageRequest pageRequest) {
-        long total = clientDao.selectClientsCount(client);
-        return new PageImpl<>(clientDao.selectClientsByPage(client, pageRequest), pageRequest, total);
-    }
-
-    @Override
     public void save(RegisteredClient registeredClient) {
     }
 
     @Override
     public RegisteredClient findById(String id) {
-        Client client = getClientById(Integer.valueOf(id));
+        Client client = clientDao.selectClientById(Integer.valueOf(id));
         return toRegisteredClient(client);
     }
 

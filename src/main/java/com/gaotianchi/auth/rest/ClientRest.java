@@ -126,12 +126,9 @@ public class ClientRest {
 
     @GetMapping("info-list")
     public VO<Page<ClientVO>> handleGetClientListRequest(
-            @ModelAttribute
-            ClientDto clientDto,
-            @RequestParam(defaultValue = "0")
-            int page,
-            @RequestParam(defaultValue = "10")
-            int size
+            @ModelAttribute ClientDto clientDto,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
         Client client = clientConverter.toEntity(clientDto);
         PageRequest pageRequest = PageRequest.of(page, size);

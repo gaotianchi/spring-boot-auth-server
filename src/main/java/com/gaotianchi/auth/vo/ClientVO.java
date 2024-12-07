@@ -21,7 +21,6 @@ public class ClientVO implements Serializable {
     private Integer id;
     private String clientId;
     private Date clientIdIssuedAt;
-    private String clientSecret;
     private Date clientSecretExpiresAt;
     private String clientName;
     private Set<String> authorizationGrantTypes;

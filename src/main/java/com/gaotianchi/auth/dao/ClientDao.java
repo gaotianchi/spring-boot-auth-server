@@ -1,6 +1,6 @@
 package com.gaotianchi.auth.dao;
 
-import com.gaotianchi.auth.infrastructure.dao.ClientRepositoryDao;
+import com.gaotianchi.auth.infrastructure.dao.ClientBaseDao;
 import com.gaotianchi.auth.infrastructure.entity.Client;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024-11-27 21:35:13
  */
 @Mapper
-public interface ClientDao extends ClientRepositoryDao {
+public interface ClientDao extends ClientBaseDao {
 
     Client selectClientByClientIdOrClientName(String clientIdOrClientName);
 }
