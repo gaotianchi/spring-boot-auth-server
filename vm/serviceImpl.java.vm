@@ -1,9 +1,9 @@
 ##定义初始变量
-#set($tableName = $tool.append($tableInfo.name, "RepositoryServiceImpl"))
+#set($tableName = $tool.append($tableInfo.name, "BaseServiceImpl"))
 #set($E = $!{tableInfo.name})
 #set($e = $!tool.firstLowerCase($!{tableInfo.name}))
-#set($D = $tool.append($!{E}, "RepositoryDao"))
-#set($d = $tool.append($!{e}, "RepositoryDao"))
+#set($D = $tool.append($!{E}, "BaseDao"))
+#set($d = $tool.append($!{e}, "BaseDao"))
 ##设置回调
 $!callback.setFileName($tool.append($tableName, ".java"))
 $!callback.setSavePath($tool.append($tableInfo.savePath, "/service/impl"))
@@ -19,7 +19,7 @@ import com.gaotianchi.auth.enums.Code;
 import com.gaotianchi.auth.exception.SQLException;
 import $!{tableInfo.savePackageName}.entity.$!{E};
 import $!{tableInfo.savePackageName}.dao.$!{D};
-import $!{tableInfo.savePackageName}.service.$!{E}RepositoryService;
+import $!{tableInfo.savePackageName}.service.$!{E}BaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -37,7 +37,7 @@ import java.util.List;
 @Service("$!{e}Service")
 public class $!{tableName} implements
 
-    $!{E}RepositoryService {
+    $!{E}BaseService {
 
     private final $!{D} $!{d};
 

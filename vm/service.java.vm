@@ -1,5 +1,5 @@
 ##定义初始变量
-#set($tableName = $tool.append($tableInfo.name, "RepositoryService"))
+#set($tableName = $tool.append($tableInfo.name, "BaseService"))
 #set($E = $!{tableInfo.name})
 #set($e = $!tool.firstLowerCase($!{tableInfo.name}))
 ##设置回调

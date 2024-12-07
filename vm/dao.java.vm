@@ -1,5 +1,5 @@
 ##定义初始变量
-#set($tableName = $tool.append($tableInfo.name, "RepositoryDao"))
+#set($tableName = $tool.append($tableInfo.name, "BaseDao"))
 #set($E = $!{tableInfo.name})
 #set($e = $!tool.firstLowerCase($!{tableInfo.name}))
 ##设置回调

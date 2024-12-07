@@ -1,7 +1,7 @@
 package com.gaotianchi.auth.dao;
 
-import com.gaotianchi.auth.repository.dao.ClientRepositoryDao;
-import com.gaotianchi.auth.repository.entity.Client;
+import com.gaotianchi.auth.infrastructure.dao.ClientRepositoryDao;
+import com.gaotianchi.auth.infrastructure.entity.Client;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

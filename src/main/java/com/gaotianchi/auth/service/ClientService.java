@@ -1,8 +1,5 @@
 package com.gaotianchi.auth.service;
 
-import com.gaotianchi.auth.repository.entity.Client;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 
 /**
@@ -13,7 +10,4 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
  */
 public interface ClientService extends RegisteredClientRepository {
 
-    Client getClientById(Integer id);
-
-    Page<Client> getClientsByPage(Client client, PageRequest pageRequest);
 }

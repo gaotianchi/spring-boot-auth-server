@@ -4,9 +4,8 @@ package com.gaotianchi.auth.rest;
 import com.gaotianchi.auth.converter.ClientConverter;
 import com.gaotianchi.auth.dto.ClientDto;
 import com.gaotianchi.auth.enums.Code;
-import com.gaotianchi.auth.repository.entity.Client;
-import com.gaotianchi.auth.repository.service.ClientRepositoryService;
-import com.gaotianchi.auth.service.ClientService;
+import com.gaotianchi.auth.infrastructure.entity.Client;
+import com.gaotianchi.auth.infrastructure.service.ClientBaseService;
 import com.gaotianchi.auth.vo.ClientVO;
 import com.gaotianchi.auth.vo.VO;
 import jakarta.validation.constraints.Min;
@@ -28,14 +27,12 @@ import java.util.List;
 @RequestMapping("client")
 public class ClientRest {
 
-    private final ClientService clientService;
-    private final ClientRepositoryService clientRepositoryService;
+    private final ClientBaseService clientBaseService;
 
     private final ClientConverter clientConverter;
 
-    public ClientRest(ClientService clientService, ClientRepositoryService clientRepositoryService, ClientConverter clientConverter) {
-        this.clientService = clientService;
-        this.clientRepositoryService = clientRepositoryService;
+    public ClientRest(ClientBaseService clientBaseService, ClientConverter clientConverter) {
+        this.clientBaseService = clientBaseService;
         this.clientConverter = clientConverter;
     }
 
@@ -46,7 +43,7 @@ public class ClientRest {
             ClientDto clientDto
     ) {
         Client client = clientConverter.toEntity(clientDto);
-        clientRepositoryService.addNewClient(client);
+        clientBaseService.addNewClient(client);
         return VO.response(Code.SUCCESS, "/client/info/" + client.getId());
     }
 
@@ -60,7 +57,7 @@ public class ClientRest {
                 .stream()
                 .map(clientConverter::toEntity)
                 .toList();
-        clientRepositoryService.addNewClientsBatch(clientList);
+        clientBaseService.addNewClientsBatch(clientList);
         List<String> uris = new ArrayList<>();
         clientList.forEach(client -> uris.add("/client/info/" + client.getId()));
         return VO.response(Code.SUCCESS, uris.toString());
@@ -73,7 +70,7 @@ public class ClientRest {
             @Min(value = 1, message = "id 必须大于等于 1")
             Integer id
     ) {
-        clientRepositoryService.removeClientById(id);
+        clientBaseService.removeClientById(id);
         return VO.response(Code.SUCCESS, null);
     }
 
@@ -84,7 +81,7 @@ public class ClientRest {
             @Size(min = 1, message = "至少需要提供一个 id")
             List<Integer> ids
     ) {
-        clientRepositoryService.removeClientsBatchByIds(ids);
+        clientBaseService.removeClientsBatchByIds(ids);
         return VO.response(Code.SUCCESS, null);
     }
 
@@ -95,7 +92,7 @@ public class ClientRest {
             ClientDto clientDto
     ) {
         Client client = clientConverter.toEntity(clientDto);
-        clientRepositoryService.updateClientDetailsById(client);
+        clientBaseService.updateClientDetailsById(client);
         return VO.response(Code.SUCCESS, "/client/info/" + client.getId());
     }
 
@@ -109,7 +106,7 @@ public class ClientRest {
                 .stream()
                 .map(clientConverter::toEntity)
                 .toList();
-        clientRepositoryService.addNewOrUpdateClientsBatch(clientList);
+        clientBaseService.addNewOrUpdateClientsBatch(clientList);
         List<String> uris = new ArrayList<>();
         clientList.forEach(client -> uris.add("/client/info/" + client.getId()));
         return VO.response(Code.SUCCESS, uris.toString());
@@ -122,14 +119,14 @@ public class ClientRest {
             @Min(value = 1, message = "id 必须大于等于 1")
             Integer id
     ) {
-        Client client = clientService.getClientById(id);
+        Client client = clientBaseService.getClientById(id);
         ClientVO clientVO = clientConverter.toVO(client);
         return VO.response(Code.SUCCESS, clientVO);
     }
 
     @GetMapping("info-list")
     public VO<Page<ClientVO>> handleGetClientListRequest(
-            @RequestBody
+            @ModelAttribute
             ClientDto clientDto,
             @RequestParam(defaultValue = "0")
             int page,
@@ -138,7 +135,7 @@ public class ClientRest {
     ) {
         Client client = clientConverter.toEntity(clientDto);
         PageRequest pageRequest = PageRequest.of(page, size);
-        Page<Client> clientPage = clientService.getClientsByPage(client, pageRequest);
+        Page<Client> clientPage = clientBaseService.getClientsByPage(client, pageRequest);
         Page<ClientVO> clientVOPage = clientPage.map(clientConverter::toVO);
         return VO.response(Code.SUCCESS, clientVOPage);
     }

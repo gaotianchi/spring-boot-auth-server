@@ -1,7 +1,7 @@
 package com.gaotianchi.auth.service.impl;
 
 import com.gaotianchi.auth.dao.ClientDao;
-import com.gaotianchi.auth.repository.entity.Client;
+import com.gaotianchi.auth.infrastructure.entity.Client;
 import com.gaotianchi.auth.service.ClientService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gaotianchi.auth.infrastructure.dao.ActionLogBaseDao">
+
+    <resultMap type="com.gaotianchi.auth.infrastructure.entity.ActionLog" id="ActionLogMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="action" column="action" jdbcType="VARCHAR"/>
+        <result property="actionTime" column="action_time" jdbcType="TIMESTAMP"/>
+        <result property="objectType" column="object_type" jdbcType="VARCHAR"/>
+        <result property="objectId" column="object_id" jdbcType="INTEGER"/>
+        <result property="ipAddress" column="ip_address" jdbcType="VARCHAR"/>
+        <result property="deviceInfo" column="device_info" jdbcType="VARCHAR"/>
+        <result property="details" column="details" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="insertActionLog" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO action_log(user_id, action, action_time, object_type, object_id, ip_address, device_info, details,
+                               created_at)
+        VALUES (#{userId}, #{action}, #{actionTime}, #{objectType}, #{objectId}, #{ipAddress}, #{deviceInfo},
+                #{details}, #{createdAt})
+    </insert>
+
+    <insert id="insertActionLogsBatch" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO action_log
+        (user_id, action, action_time, object_type, object_id, ip_address, device_info, details, created_at)
+        VALUES
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.action}, #{entity.actionTime}, #{entity.objectType}, #{entity.objectId},
+            #{entity.ipAddress}, #{entity.deviceInfo}, #{entity.details}, #{entity.createdAt})
+        </foreach>
+    </insert>
+
+    <delete id="deleteActionLogById">
+        DELETE
+        FROM action_log
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteActionLogsBatchByIds">
+        DELETE
+        FROM action_log
+        WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateActionLogById">
+        UPDATE action_log
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="action != null and action != ''">
+                action = #{action},
+            </if>
+            <if test="actionTime != null">
+                action_time = #{actionTime},
+            </if>
+            <if test="objectType != null and objectType != ''">
+                object_type = #{objectType},
+            </if>
+            <if test="objectId != null">
+                object_id = #{objectId},
+            </if>
+            <if test="ipAddress != null and ipAddress != ''">
+                ip_address = #{ipAddress},
+            </if>
+            <if test="deviceInfo != null and deviceInfo != ''">
+                device_info = #{deviceInfo},
+            </if>
+            <if test="details != null and details != ''">
+                details = #{details},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insertOrUpdateActionLogsBatch" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO action_log
+        (user_id, action, action_time, object_type, object_id, ip_address, device_info, details, created_at)
+        VALUES
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.action}, #{entity.actionTime}, #{entity.objectType}, #{entity.objectId},
+            #{entity.ipAddress}, #{entity.deviceInfo}, #{entity.details}, #{entity.createdAt})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        user_id = VALUES(user_id)
+        ,action = VALUES(action)
+        ,action_time = VALUES(action_time)
+        ,object_type = VALUES(object_type)
+        ,object_id = VALUES(object_id)
+        ,ip_address = VALUES(ip_address)
+        ,device_info = VALUES(device_info)
+        ,details = VALUES(details)
+        ,created_at = VALUES(created_at)
+    </insert>
+
+    <select id="selectActionLogById" resultMap="ActionLogMap">
+        SELECT id,
+               user_id,
+               action,
+               action_time,
+               object_type,
+               object_id,
+               ip_address,
+               device_info,
+               details,
+               created_at
+        FROM action_log
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectActionLogsCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM action_log
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="action != null and action != ''">
+                and action = #{action}
+            </if>
+            <if test="actionTime != null">
+                and action_time = #{actionTime}
+            </if>
+            <if test="objectType != null and objectType != ''">
+                and object_type = #{objectType}
+            </if>
+            <if test="objectId != null">
+                and object_id = #{objectId}
+            </if>
+            <if test="ipAddress != null and ipAddress != ''">
+                and ip_address = #{ipAddress}
+            </if>
+            <if test="deviceInfo != null and deviceInfo != ''">
+                and device_info = #{deviceInfo}
+            </if>
+            <if test="details != null and details != ''">
+                and details = #{details}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectActionLogsByPage" resultMap="ActionLogMap">
+        SELECT
+        id, user_id, action, action_time, object_type, object_id, ip_address, device_info, details, created_at
+        FROM action_log
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="action != null and action != ''">
+                and action = #{action}
+            </if>
+            <if test="actionTime != null">
+                and action_time = #{actionTime}
+            </if>
+            <if test="objectType != null and objectType != ''">
+                and object_type = #{objectType}
+            </if>
+            <if test="objectId != null">
+                and object_id = #{objectId}
+            </if>
+            <if test="ipAddress != null and ipAddress != ''">
+                and ip_address = #{ipAddress}
+            </if>
+            <if test="deviceInfo != null and deviceInfo != ''">
+                and device_info = #{deviceInfo}
+            </if>
+            <if test="details != null and details != ''">
+                and details = #{details}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+</mapper>
+

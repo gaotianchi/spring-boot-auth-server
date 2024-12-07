@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gaotianchi.auth.infrastructure.dao.UserBaseDao">
+
+    <resultMap type="com.gaotianchi.auth.infrastructure.entity.User" id="UserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
+        <result property="lastLoginIp" column="last_login_ip" jdbcType="VARCHAR"/>
+        <result property="failedAttempts" column="failed_attempts" jdbcType="INTEGER"/>
+        <result property="isLocked" column="is_locked" jdbcType="INTEGER"/>
+        <result property="lockExpiration" column="lock_expiration" jdbcType="TIMESTAMP"/>
+        <result property="isEnabled" column="is_enabled" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="insertUser" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO user(username, password, email, created_at, updated_at, last_login_time, last_login_ip,
+                         failed_attempts, is_locked, lock_expiration, is_enabled)
+        VALUES (#{username}, #{password}, #{email}, #{createdAt}, #{updatedAt}, #{lastLoginTime}, #{lastLoginIp},
+                #{failedAttempts}, #{isLocked}, #{lockExpiration}, #{isEnabled})
+    </insert>
+
+    <insert id="insertUsersBatch" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO user
+        (username, password, email, created_at, updated_at, last_login_time, last_login_ip, failed_attempts, is_locked,
+        lock_expiration, is_enabled)
+        VALUES
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.username}, #{entity.password}, #{entity.email}, #{entity.createdAt}, #{entity.updatedAt},
+            #{entity.lastLoginTime}, #{entity.lastLoginIp}, #{entity.failedAttempts}, #{entity.isLocked},
+            #{entity.lockExpiration}, #{entity.isEnabled})
+        </foreach>
+    </insert>
+
+    <delete id="deleteUserById">
+        DELETE
+        FROM user
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteUsersBatchByIds">
+        DELETE
+        FROM user
+        WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateUserById">
+        UPDATE user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime},
+            </if>
+            <if test="lastLoginIp != null and lastLoginIp != ''">
+                last_login_ip = #{lastLoginIp},
+            </if>
+            <if test="failedAttempts != null">
+                failed_attempts = #{failedAttempts},
+            </if>
+            <if test="isLocked != null">
+                is_locked = #{isLocked},
+            </if>
+            <if test="lockExpiration != null">
+                lock_expiration = #{lockExpiration},
+            </if>
+            <if test="isEnabled != null">
+                is_enabled = #{isEnabled},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insertOrUpdateUsersBatch" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO user
+        (username, password, email, created_at, updated_at, last_login_time, last_login_ip, failed_attempts, is_locked,
+        lock_expiration, is_enabled)
+        VALUES
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.username}, #{entity.password}, #{entity.email}, #{entity.createdAt}, #{entity.updatedAt},
+            #{entity.lastLoginTime}, #{entity.lastLoginIp}, #{entity.failedAttempts}, #{entity.isLocked},
+            #{entity.lockExpiration}, #{entity.isEnabled})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        username = VALUES(username)
+        ,password = VALUES(password)
+        ,email = VALUES(email)
+        ,created_at = VALUES(created_at)
+        ,updated_at = VALUES(updated_at)
+        ,last_login_time = VALUES(last_login_time)
+        ,last_login_ip = VALUES(last_login_ip)
+        ,failed_attempts = VALUES(failed_attempts)
+        ,is_locked = VALUES(is_locked)
+        ,lock_expiration = VALUES(lock_expiration)
+        ,is_enabled = VALUES(is_enabled)
+    </insert>
+
+    <select id="selectUserById" resultMap="UserMap">
+        SELECT id,
+               username,
+               password,
+               email,
+               created_at,
+               updated_at,
+               last_login_time,
+               last_login_ip,
+               failed_attempts,
+               is_locked,
+               lock_expiration,
+               is_enabled
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectUsersCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+            <if test="lastLoginTime != null">
+                and last_login_time = #{lastLoginTime}
+            </if>
+            <if test="lastLoginIp != null and lastLoginIp != ''">
+                and last_login_ip = #{lastLoginIp}
+            </if>
+            <if test="failedAttempts != null">
+                and failed_attempts = #{failedAttempts}
+            </if>
+            <if test="isLocked != null">
+                and is_locked = #{isLocked}
+            </if>
+            <if test="lockExpiration != null">
+                and lock_expiration = #{lockExpiration}
+            </if>
+            <if test="isEnabled != null">
+                and is_enabled = #{isEnabled}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectUsersByPage" resultMap="UserMap">
+        SELECT
+        id, username, password, email, created_at, updated_at, last_login_time, last_login_ip, failed_attempts,
+        is_locked, lock_expiration, is_enabled
+        FROM user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+            <if test="lastLoginTime != null">
+                and last_login_time = #{lastLoginTime}
+            </if>
+            <if test="lastLoginIp != null and lastLoginIp != ''">
+                and last_login_ip = #{lastLoginIp}
+            </if>
+            <if test="failedAttempts != null">
+                and failed_attempts = #{failedAttempts}
+            </if>
+            <if test="isLocked != null">
+                and is_locked = #{isLocked}
+            </if>
+            <if test="lockExpiration != null">
+                and lock_expiration = #{lockExpiration}
+            </if>
+            <if test="isEnabled != null">
+                and is_enabled = #{isEnabled}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+</mapper>
+
