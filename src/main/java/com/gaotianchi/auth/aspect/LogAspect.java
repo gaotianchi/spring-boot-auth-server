@@ -37,10 +37,10 @@ public class LogAspect {
         Object[] args = joinPoint.getArgs();
 
         log.info("请求开始：IP={}, URL={}, 方法名={}, 参数={}",
-                request.getRemoteAddr(),
-                request.getRequestURI(),
+                request.getRemoteAddr().replace('\n', '_').replace('\r', '_'),
+                request.getRequestURI().replace('\n', '_').replace('\r', '_'),
                 methodName,
-                objectMapper.writeValueAsString(args));
+                objectMapper.writeValueAsString(args).replace('\n', '_').replace('\r', '_'));
 
         long startTime = System.currentTimeMillis();
         Object result;
