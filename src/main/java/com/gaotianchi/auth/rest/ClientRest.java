@@ -97,7 +97,7 @@ public class ClientRest {
     }
 
     @PutMapping("batch")
-    public VO<String> handleAddNewOrUpdateClientsBatchRequest(
+    public VO<String> handleUpdateClientsBatchRequest(
             @RequestBody
             @Validated(ClientDto.UpdateClientDetails.class)
             List<ClientDto> clientDtoList
@@ -113,7 +113,7 @@ public class ClientRest {
     }
 
     @GetMapping("info/{id}")
-    public VO<ClientVO> handleGetInfoByIdRequest(
+    public VO<ClientVO> handleGetClientByIdRequest(
             @PathVariable
             @NotNull(message = "id 不能为空")
             @Min(value = 1, message = "id 必须大于等于 1")
@@ -127,8 +127,8 @@ public class ClientRest {
     @GetMapping("info-list")
     public VO<Page<ClientVO>> handleGetClientListRequest(
             @ModelAttribute ClientDto clientDto,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         Client client = clientConverter.toEntity(clientDto);
         PageRequest pageRequest = PageRequest.of(page, size);
