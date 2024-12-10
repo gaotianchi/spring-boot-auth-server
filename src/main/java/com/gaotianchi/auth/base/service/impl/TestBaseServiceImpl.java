@@ -3,19 +3,14 @@ package com.gaotianchi.auth.base.service.impl;
 import com.gaotianchi.auth.base.dao.TestBaseDao;
 import com.gaotianchi.auth.base.entity.Test;
 import com.gaotianchi.auth.base.service.TestBaseService;
-import com.gaotianchi.auth.enums.Code;
-import com.gaotianchi.auth.exception.SQLException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.List;
 
 /**
- * (Test)表服务实现类
- *
  * @author gaotianchi
  * @since 2024-12-10 11:16:08
  */
@@ -25,50 +20,37 @@ public class TestBaseServiceImpl implements TestBaseService {
     private final TestBaseDao testBaseDao;
 
     public TestBaseServiceImpl(TestBaseDao testBaseDao) {
-        Assert.notNull(testBaseDao, "TestRepository cannot be null");
         this.testBaseDao = testBaseDao;
     }
 
     @Override
     public void addNewTest(Test test) {
-        if (testBaseDao.insertTest(test) != 1) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
+        testBaseDao.insertTest(test);
     }
 
     @Override
     public void addNewTestsInBatches(List<Test> tests) {
-        if (testBaseDao.insertTestsInBatches(tests) != tests.size()) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
+        testBaseDao.insertTestsInBatches(tests);
     }
 
     @Override
     public void removeTestById(Integer id) {
-        if (testBaseDao.deleteTestById(id) != 1) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
+        testBaseDao.deleteTestById(id);
     }
 
     @Override
     public void removeTestsInBatchesByIds(List<Integer> ids) {
-        if (testBaseDao.deleteTestsInBatchesByIds(ids) != ids.size()) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
+        testBaseDao.deleteTestsInBatchesByIds(ids);
     }
 
     @Override
     public void updateTestById(Test test) {
-        if (testBaseDao.updateTestById(test) != 1) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
+        testBaseDao.updateTestById(test);
     }
 
     @Override
     public void addNewOrUpdateExistingTestsInBatches(List<Test> tests) {
-        if (testBaseDao.insertOrUpdateExistingTestsInBatches(tests) != tests.size()) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
+        testBaseDao.insertOrUpdateExistingTestsInBatches(tests);
     }
 
     @Override
@@ -79,8 +61,7 @@ public class TestBaseServiceImpl implements TestBaseService {
     @Override
     public Page<Test> getTestsByPage(Test test, PageRequest pageRequest) {
         long total = testBaseDao.countByTest(test);
-        return new PageImpl<>(testBaseDao.selectTestsByPage(test, pageRequest), pageRequest, total);
+        List<Test> testList = testBaseDao.selectTestsByPage(test, pageRequest);
+        return new PageImpl<>(testList, pageRequest, total);
     }
-
-
 }

@@ -19,7 +19,8 @@ public enum Code {
     SQL_UPDATE_ERROR(1002, "SQL update operation failed."),
     SQL_DELETE_ERROR(1003, "SQL delete operation failed."),
     SQL_SELECT_ERROR(1004, "SQL select operation failed."),
-    SQL_DUPLICATE_ENTRY_ERROR(1005, "SQL duplicate entry error."),
+    SQL_DUPLICATE_KEY_ERROR(1005, "Duplicate key exception"),
+    SQL_FOREIGN_KEY_CONSTRAINT_ERROR(1006, "Foreign key constraint violation"),
 
     // 授权模块
     AUTH_TOKEN_EXPIRED(2001, "Authentication token expired."),
@@ -43,4 +44,13 @@ public enum Code {
 
     private final int code;
     private final String message;
+
+    public static Code fromCode(int code) {
+        for (Code c : Code.values()) {
+            if (c.getCode() == code) {
+                return c;
+            }
+        }
+        return INVALID_PARAMETER;
+    }
 }

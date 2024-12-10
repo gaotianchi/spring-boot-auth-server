@@ -1,7 +1,8 @@
-package com.gaotianchi.auth.exception.handler;
+package com.gaotianchi.auth.filter;
 
 import com.gaotianchi.auth.base.vo.VO;
 import com.gaotianchi.auth.enums.Code;
+import com.gaotianchi.auth.exception.SQLException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.validation.BindException;
@@ -20,6 +21,13 @@ import java.util.Map;
  **/
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(SQLException.class)
+    @ResponseBody
+    public VO<String> handleSQLException(SQLException e) {
+        return VO.response(Code.fromCode(e.getCode()), e.getDetails());
+    }
+
 
     /**
      * 处理参数校验失败的异常（用于 @RequestBody）
