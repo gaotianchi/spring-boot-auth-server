@@ -19,7 +19,7 @@ import java.util.List;
  * @author gaotianchi
  * @since 2024-12-07 11:29:50
  */
-@Service("userRoleService")
+@Service("userRoleBaseService")
 public class UserRoleBaseServiceImpl implements UserRoleBaseService {
 
     private final UserRoleBaseDao userRoleBaseDao;
