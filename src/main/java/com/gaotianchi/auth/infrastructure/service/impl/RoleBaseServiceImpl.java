@@ -37,7 +37,7 @@ public class RoleBaseServiceImpl implements RoleBaseService {
     }
 
     @Override
-    public void addNewRolesBatch(List<Role> roles) {
+    public void addNewRolesInBatches(List<Role> roles) {
         if (roleBaseDao.insertRolesInBatches(roles) != roles.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
@@ -51,21 +51,21 @@ public class RoleBaseServiceImpl implements RoleBaseService {
     }
 
     @Override
-    public void removeRolesBatchByIds(List<Integer> ids) {
+    public void removeRolesInBatchesByIds(List<Integer> ids) {
         if (roleBaseDao.deleteRolesInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
 
     @Override
-    public void updateRoleDetailsById(Role role) {
+    public void updateRoleById(Role role) {
         if (roleBaseDao.updateRoleById(role) != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
 
     @Override
-    public void addNewOrUpdateRolesBatch(List<Role> roles) {
+    public void addNewOrUpdateExistingRolesInBatches(List<Role> roles) {
         if (roleBaseDao.insertOrUpdateExistingRolesInBatches(roles) != roles.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }

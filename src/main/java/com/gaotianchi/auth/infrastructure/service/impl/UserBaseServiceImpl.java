@@ -37,7 +37,7 @@ public class UserBaseServiceImpl implements UserBaseService {
     }
 
     @Override
-    public void addNewUsersBatch(List<User> users) {
+    public void addNewUsersInBatches(List<User> users) {
         if (userBaseDao.insertUsersInBatches(users) != users.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
@@ -51,21 +51,21 @@ public class UserBaseServiceImpl implements UserBaseService {
     }
 
     @Override
-    public void removeUsersBatchByIds(List<Integer> ids) {
+    public void removeUsersInBatchesByIds(List<Integer> ids) {
         if (userBaseDao.deleteUsersInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
 
     @Override
-    public void updateUserDetailsById(User user) {
+    public void updateUserById(User user) {
         if (userBaseDao.updateUserById(user) != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
 
     @Override
-    public void addNewOrUpdateUsersBatch(List<User> users) {
+    public void addNewOrUpdateExistingUsersInBatches(List<User> users) {
         if (userBaseDao.insertOrUpdateExistingUsersInBatches(users) != users.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }

@@ -57,7 +57,7 @@ public class ClientRest {
                 .stream()
                 .map(clientConverter::toEntity)
                 .toList();
-        clientBaseService.addNewClientsBatch(clientList);
+        clientBaseService.addNewClientsInBatches(clientList);
         List<String> uris = new ArrayList<>();
         clientList.forEach(client -> uris.add("/client/info/" + client.getId()));
         return VO.response(Code.SUCCESS, uris.toString());
@@ -81,7 +81,7 @@ public class ClientRest {
             @Size(min = 1, message = "至少需要提供一个 id")
             List<Integer> ids
     ) {
-        clientBaseService.removeClientsBatchByIds(ids);
+        clientBaseService.removeClientsInBatchesByIds(ids);
         return VO.response(Code.SUCCESS, null);
     }
 
@@ -92,7 +92,7 @@ public class ClientRest {
             ClientDto clientDto
     ) {
         Client client = clientConverter.toEntity(clientDto);
-        clientBaseService.updateClientDetailsById(client);
+        clientBaseService.updateClientById(client);
         return VO.response(Code.SUCCESS, "/client/info/" + client.getId());
     }
 
@@ -106,7 +106,7 @@ public class ClientRest {
                 .stream()
                 .map(clientConverter::toEntity)
                 .toList();
-        clientBaseService.addNewOrUpdateClientsBatch(clientList);
+        clientBaseService.addNewOrUpdateExistingClientsInBatches(clientList);
         List<String> uris = new ArrayList<>();
         clientList.forEach(client -> uris.add("/client/info/" + client.getId()));
         return VO.response(Code.SUCCESS, uris.toString());

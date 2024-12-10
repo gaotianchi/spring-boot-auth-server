@@ -37,7 +37,7 @@ public class RolePermissionBaseServiceImpl implements RolePermissionBaseService 
     }
 
     @Override
-    public void addNewRolePermissionsBatch(List<RolePermission> rolePermissions) {
+    public void addNewRolePermissionsInBatches(List<RolePermission> rolePermissions) {
         if (rolePermissionBaseDao.insertRolePermissionsInBatches(rolePermissions) != rolePermissions.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
@@ -51,21 +51,21 @@ public class RolePermissionBaseServiceImpl implements RolePermissionBaseService 
     }
 
     @Override
-    public void removeRolePermissionsBatchByIds(List<Integer> ids) {
+    public void removeRolePermissionsInBatchesByIds(List<Integer> ids) {
         if (rolePermissionBaseDao.deleteRolePermissionsInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
 
     @Override
-    public void updateRolePermissionDetailsById(RolePermission rolePermission) {
+    public void updateRolePermissionById(RolePermission rolePermission) {
         if (rolePermissionBaseDao.updateRolePermissionById(rolePermission) != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
 
     @Override
-    public void addNewOrUpdateRolePermissionsBatch(List<RolePermission> rolePermissions) {
+    public void addNewOrUpdateExistingRolePermissionsInBatches(List<RolePermission> rolePermissions) {
         if (rolePermissionBaseDao.insertOrUpdateExistingRolePermissionsInBatches(rolePermissions) != rolePermissions.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }

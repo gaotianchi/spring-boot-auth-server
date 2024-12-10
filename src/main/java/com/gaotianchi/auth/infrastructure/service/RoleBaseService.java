@@ -16,15 +16,15 @@ public interface RoleBaseService {
 
     void addNewRole(Role role);
 
-    void addNewRolesBatch(List<Role> roles);
+    void addNewRolesInBatches(List<Role> roles);
 
     void removeRoleById(Integer id);
 
-    void removeRolesBatchByIds(List<Integer> ids);
+    void removeRolesInBatchesByIds(List<Integer> ids);
 
-    void updateRoleDetailsById(Role role);
+    void updateRoleById(Role role);
 
-    void addNewOrUpdateRolesBatch(List<Role> roles);
+    void addNewOrUpdateExistingRolesInBatches(List<Role> roles);
 
     Role getRoleById(Integer id);
 

@@ -55,7 +55,7 @@ public class RolePermissionRest {
                 .stream()
                 .map(rolePermissionConverter::toEntity)
                 .toList();
-        rolePermissionBaseService.addNewRolePermissionsBatch(rolePermissionList);
+        rolePermissionBaseService.addNewRolePermissionsInBatches(rolePermissionList);
         List<String> uris = new ArrayList<>();
         rolePermissionList.forEach(rolePermission -> uris.add("/role-permission/info/" + rolePermission.getId()));
         return VO.response(Code.SUCCESS, uris.toString());
@@ -79,7 +79,7 @@ public class RolePermissionRest {
             @Size(min = 1, message = "id 数组长度必须大于等于 1")
             List<@NotNull(message = "id 不能为空") Integer> ids
     ) {
-        rolePermissionBaseService.removeRolePermissionsBatchByIds(ids);
+        rolePermissionBaseService.removeRolePermissionsInBatchesByIds(ids);
         return VO.response(Code.SUCCESS, null);
     }
 
@@ -104,7 +104,7 @@ public class RolePermissionRest {
                 .stream()
                 .map(rolePermissionConverter::toEntity)
                 .toList();
-        rolePermissionBaseService.addNewOrUpdateRolePermissionsBatch(rolePermissionList);
+        rolePermissionBaseService.addNewOrUpdateExistingRolePermissionsInBatches(rolePermissionList);
         List<String> uris = new ArrayList<>();
         rolePermissionList.forEach(rolePermission -> uris.add("/role-permission/info/" + rolePermission.getId()));
         return VO.response(Code.SUCCESS, uris.toString());

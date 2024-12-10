@@ -37,7 +37,7 @@ public class PermissionBaseServiceImpl implements PermissionBaseService {
     }
 
     @Override
-    public void addNewPermissionsBatch(List<Permission> permissions) {
+    public void addNewPermissionsInBatches(List<Permission> permissions) {
         if (permissionBaseDao.insertPermissionsInBatches(permissions) != permissions.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
@@ -51,21 +51,21 @@ public class PermissionBaseServiceImpl implements PermissionBaseService {
     }
 
     @Override
-    public void removePermissionsBatchByIds(List<Integer> ids) {
+    public void removePermissionsInBatchesByIds(List<Integer> ids) {
         if (permissionBaseDao.deletePermissionsInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
 
     @Override
-    public void updatePermissionDetailsById(Permission permission) {
+    public void updatePermissionById(Permission permission) {
         if (permissionBaseDao.updatePermissionById(permission) != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
 
     @Override
-    public void addNewOrUpdatePermissionsBatch(List<Permission> permissions) {
+    public void addNewOrUpdateExistingPermissionsInBatches(List<Permission> permissions) {
         if (permissionBaseDao.insertOrUpdateExistingPermissionsInBatches(permissions) != permissions.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }

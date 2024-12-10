@@ -50,7 +50,7 @@ public class UserRoleRest {
                 .stream()
                 .map(userRoleConverter::toEntity)
                 .toList();
-        userRoleBaseService.addNewUserRolesBatch(userRoleList);
+        userRoleBaseService.addNewUserRolesInBatches(userRoleList);
         return VO.response(Code.SUCCESS, userRoleList
                 .stream()
                 .map(userRole -> "/user-role/info/" + userRole.getId())
@@ -74,7 +74,7 @@ public class UserRoleRest {
             @NotNull(message = "ids cannot be null")
             @Size(min = 1, message = "At least one id must be provided")
             List<Integer> ids) {
-        userRoleBaseService.removeUserRolesBatchByIds(ids);
+        userRoleBaseService.removeUserRolesInBatchesByIds(ids);
         return VO.response(Code.SUCCESS, null);
     }
 

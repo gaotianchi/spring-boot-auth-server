@@ -37,7 +37,7 @@ public class UserRoleBaseServiceImpl implements UserRoleBaseService {
     }
 
     @Override
-    public void addNewUserRolesBatch(List<UserRole> userRoles) {
+    public void addNewUserRolesInBatches(List<UserRole> userRoles) {
         if (userRoleBaseDao.insertUserRolesInBatches(userRoles) != userRoles.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
@@ -51,21 +51,21 @@ public class UserRoleBaseServiceImpl implements UserRoleBaseService {
     }
 
     @Override
-    public void removeUserRolesBatchByIds(List<Integer> ids) {
+    public void removeUserRolesInBatchesByIds(List<Integer> ids) {
         if (userRoleBaseDao.deleteUserRolesInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
 
     @Override
-    public void updateUserRoleDetailsById(UserRole userRole) {
+    public void updateUserRoleById(UserRole userRole) {
         if (userRoleBaseDao.updateUserRoleById(userRole) != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
 
     @Override
-    public void addNewOrUpdateUserRolesBatch(List<UserRole> userRoles) {
+    public void addNewOrUpdateExistingUserRolesInBatches(List<UserRole> userRoles) {
         if (userRoleBaseDao.insertOrUpdateExistingUserRolesInBatches(userRoles) != userRoles.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }

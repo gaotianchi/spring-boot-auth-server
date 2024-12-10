@@ -16,15 +16,15 @@ public interface ActionLogBaseService {
 
     void addNewActionLog(ActionLog actionLog);
 
-    void addNewActionLogsBatch(List<ActionLog> actionLogs);
+    void addNewActionLogsInBatches(List<ActionLog> actionLogs);
 
     void removeActionLogById(Integer id);
 
-    void removeActionLogsBatchByIds(List<Integer> ids);
+    void removeActionLogsInBatchesByIds(List<Integer> ids);
 
-    void updateActionLogDetailsById(ActionLog actionLog);
+    void updateActionLogById(ActionLog actionLog);
 
-    void addNewOrUpdateActionLogsBatch(List<ActionLog> actionLogs);
+    void addNewOrUpdateExistingActionLogsInBatches(List<ActionLog> actionLogs);
 
     ActionLog getActionLogById(Integer id);
 

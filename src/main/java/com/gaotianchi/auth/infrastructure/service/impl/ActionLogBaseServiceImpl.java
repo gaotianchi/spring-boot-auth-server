@@ -37,7 +37,7 @@ public class ActionLogBaseServiceImpl implements ActionLogBaseService {
     }
 
     @Override
-    public void addNewActionLogsBatch(List<ActionLog> actionLogs) {
+    public void addNewActionLogsInBatches(List<ActionLog> actionLogs) {
         if (actionLogBaseDao.insertActionLogsInBatches(actionLogs) != actionLogs.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
@@ -51,21 +51,21 @@ public class ActionLogBaseServiceImpl implements ActionLogBaseService {
     }
 
     @Override
-    public void removeActionLogsBatchByIds(List<Integer> ids) {
+    public void removeActionLogsInBatchesByIds(List<Integer> ids) {
         if (actionLogBaseDao.deleteActionLogsInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
 
     @Override
-    public void updateActionLogDetailsById(ActionLog actionLog) {
+    public void updateActionLogById(ActionLog actionLog) {
         if (actionLogBaseDao.updateActionLogById(actionLog) != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
 
     @Override
-    public void addNewOrUpdateActionLogsBatch(List<ActionLog> actionLogs) {
+    public void addNewOrUpdateExistingActionLogsInBatches(List<ActionLog> actionLogs) {
         if (actionLogBaseDao.insertOrUpdateExistingActionLogsInBatches(actionLogs) != actionLogs.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }

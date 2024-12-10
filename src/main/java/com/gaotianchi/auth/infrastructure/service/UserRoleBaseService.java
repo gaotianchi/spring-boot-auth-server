@@ -16,15 +16,15 @@ public interface UserRoleBaseService {
 
     void addNewUserRole(UserRole userRole);
 
-    void addNewUserRolesBatch(List<UserRole> userRoles);
+    void addNewUserRolesInBatches(List<UserRole> userRoles);
 
     void removeUserRoleById(Integer id);
 
-    void removeUserRolesBatchByIds(List<Integer> ids);
+    void removeUserRolesInBatchesByIds(List<Integer> ids);
 
-    void updateUserRoleDetailsById(UserRole userRole);
+    void updateUserRoleById(UserRole userRole);
 
-    void addNewOrUpdateUserRolesBatch(List<UserRole> userRoles);
+    void addNewOrUpdateExistingUserRolesInBatches(List<UserRole> userRoles);
 
     UserRole getUserRoleById(Integer id);
 

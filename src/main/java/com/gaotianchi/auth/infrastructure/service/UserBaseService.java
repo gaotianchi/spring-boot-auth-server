@@ -16,15 +16,15 @@ public interface UserBaseService {
 
     void addNewUser(User user);
 
-    void addNewUsersBatch(List<User> users);
+    void addNewUsersInBatches(List<User> users);
 
     void removeUserById(Integer id);
 
-    void removeUsersBatchByIds(List<Integer> ids);
+    void removeUsersInBatchesByIds(List<Integer> ids);
 
-    void updateUserDetailsById(User user);
+    void updateUserById(User user);
 
-    void addNewOrUpdateUsersBatch(List<User> users);
+    void addNewOrUpdateExistingUsersInBatches(List<User> users);
 
     User getUserById(Integer id);
 

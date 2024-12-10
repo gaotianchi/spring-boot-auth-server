@@ -54,7 +54,7 @@ public class UserRest {
                 .stream()
                 .map(userConverter::toEntity)
                 .toList();
-        userBaseService.addNewUsersBatch(userList);
+        userBaseService.addNewUsersInBatches(userList);
         List<String> uris = new ArrayList<>();
         userList.forEach(user -> uris.add("/user/info/" + user.getId()));
         return VO.response(Code.SUCCESS, uris.toString());
@@ -78,7 +78,7 @@ public class UserRest {
             UserDto userDto
     ) {
         User user = userConverter.toEntity(userDto);
-        userBaseService.updateUserDetailsById(user);
+        userBaseService.updateUserById(user);
         return VO.response(Code.SUCCESS, null);
     }
 

@@ -16,15 +16,15 @@ public interface PermissionBaseService {
 
     void addNewPermission(Permission permission);
 
-    void addNewPermissionsBatch(List<Permission> permissions);
+    void addNewPermissionsInBatches(List<Permission> permissions);
 
     void removePermissionById(Integer id);
 
-    void removePermissionsBatchByIds(List<Integer> ids);
+    void removePermissionsInBatchesByIds(List<Integer> ids);
 
-    void updatePermissionDetailsById(Permission permission);
+    void updatePermissionById(Permission permission);
 
-    void addNewOrUpdatePermissionsBatch(List<Permission> permissions);
+    void addNewOrUpdateExistingPermissionsInBatches(List<Permission> permissions);
 
     Permission getPermissionById(Integer id);
 

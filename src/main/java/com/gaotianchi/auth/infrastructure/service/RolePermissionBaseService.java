@@ -16,15 +16,15 @@ public interface RolePermissionBaseService {
 
     void addNewRolePermission(RolePermission rolePermission);
 
-    void addNewRolePermissionsBatch(List<RolePermission> rolePermissions);
+    void addNewRolePermissionsInBatches(List<RolePermission> rolePermissions);
 
     void removeRolePermissionById(Integer id);
 
-    void removeRolePermissionsBatchByIds(List<Integer> ids);
+    void removeRolePermissionsInBatchesByIds(List<Integer> ids);
 
-    void updateRolePermissionDetailsById(RolePermission rolePermission);
+    void updateRolePermissionById(RolePermission rolePermission);
 
-    void addNewOrUpdateRolePermissionsBatch(List<RolePermission> rolePermissions);
+    void addNewOrUpdateExistingRolePermissionsInBatches(List<RolePermission> rolePermissions);
 
     RolePermission getRolePermissionById(Integer id);
 

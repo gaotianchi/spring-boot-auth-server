@@ -49,7 +49,7 @@ public class PermissionRest {
                 .stream()
                 .map(permissionConverter::toEntity)
                 .toList();
-        permissionBaseService.addNewPermissionsBatch(permissionList);
+        permissionBaseService.addNewPermissionsInBatches(permissionList);
         List<String> uris = new ArrayList<>();
         permissionList.forEach(permission -> uris.add("/permission/info/" + permission.getId()));
         return VO.response(Code.SUCCESS, uris.toString());
@@ -71,7 +71,7 @@ public class PermissionRest {
             @NotNull(message = "ids cannot be null")
             @Size(min = 1, message = "At least one id must be provided")
             List<Integer> ids) {
-        permissionBaseService.removePermissionsBatchByIds(ids);
+        permissionBaseService.removePermissionsInBatchesByIds(ids);
         return VO.response(Code.SUCCESS, null);
     }
 
@@ -81,7 +81,7 @@ public class PermissionRest {
             @Validated(PermissionDto.UpdatePermission.class)
             PermissionDto permissionDto) {
         Permission permission = permissionConverter.toEntity(permissionDto);
-        permissionBaseService.updatePermissionDetailsById(permission);
+        permissionBaseService.updatePermissionById(permission);
         return VO.response(Code.SUCCESS, "/permission/info/" + permission.getId());
     }
 

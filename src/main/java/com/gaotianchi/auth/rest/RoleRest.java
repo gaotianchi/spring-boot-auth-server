@@ -53,7 +53,7 @@ public class RoleRest {
                 .stream()
                 .map(roleConverter::toEntity)
                 .toList();
-        roleService.addNewRolesBatch(roles);
+        roleService.addNewRolesInBatches(roles);
         return VO.response(Code.SUCCESS, roles
                 .stream()
                 .map(role -> "/role/info/" + role.getId())
@@ -78,7 +78,7 @@ public class RoleRest {
             @NotNull(message = "ids 不能为空")
             List<Integer> ids
     ) {
-        roleService.removeRolesBatchByIds(ids);
+        roleService.removeRolesInBatchesByIds(ids);
         return VO.response(Code.SUCCESS, null);
     }
 
@@ -89,7 +89,7 @@ public class RoleRest {
             RoleDto roleDto
     ) {
         Role role = roleConverter.toEntity(roleDto);
-        roleService.updateRoleDetailsById(role);
+        roleService.updateRoleById(role);
         return VO.response(Code.SUCCESS, "/role/info/" + role.getId());
     }
 
@@ -103,7 +103,7 @@ public class RoleRest {
                 .stream()
                 .map(roleConverter::toEntity)
                 .toList();
-        roleService.addNewOrUpdateRolesBatch(roles);
+        roleService.addNewOrUpdateExistingRolesInBatches(roles);
         return VO.response(Code.SUCCESS, roles
                 .stream()
                 .map(role -> "/role/info/" + role.getId())

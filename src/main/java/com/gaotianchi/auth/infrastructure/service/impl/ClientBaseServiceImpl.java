@@ -37,7 +37,7 @@ public class ClientBaseServiceImpl implements ClientBaseService {
     }
 
     @Override
-    public void addNewClientsBatch(List<Client> clients) {
+    public void addNewClientsInBatches(List<Client> clients) {
         if (clientBaseDao.insertClientsInBatches(clients) != clients.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
@@ -51,21 +51,21 @@ public class ClientBaseServiceImpl implements ClientBaseService {
     }
 
     @Override
-    public void removeClientsBatchByIds(List<Integer> ids) {
+    public void removeClientsInBatchesByIds(List<Integer> ids) {
         if (clientBaseDao.deleteClientsInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
 
     @Override
-    public void updateClientDetailsById(Client client) {
+    public void updateClientById(Client client) {
         if (clientBaseDao.updateClientById(client) != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
 
     @Override
-    public void addNewOrUpdateClientsBatch(List<Client> clients) {
+    public void addNewOrUpdateExistingClientsInBatches(List<Client> clients) {
         if (clientBaseDao.insertOrUpdateExistingClientsInBatches(clients) != clients.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }

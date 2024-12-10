@@ -16,15 +16,15 @@ public interface ClientBaseService {
 
     void addNewClient(Client client);
 
-    void addNewClientsBatch(List<Client> clients);
+    void addNewClientsInBatches(List<Client> clients);
 
     void removeClientById(Integer id);
 
-    void removeClientsBatchByIds(List<Integer> ids);
+    void removeClientsInBatchesByIds(List<Integer> ids);
 
-    void updateClientDetailsById(Client client);
+    void updateClientById(Client client);
 
-    void addNewOrUpdateClientsBatch(List<Client> clients);
+    void addNewOrUpdateExistingClientsInBatches(List<Client> clients);
 
     Client getClientById(Integer id);
 
