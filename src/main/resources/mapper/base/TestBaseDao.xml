@@ -78,7 +78,7 @@
         </where>
     </select>
 
-    <select id="selectTestsByPage" resultOrdered="true" resultMap="TestMap">
+    <select id="selectTestsByPage" resultMap="TestMap">
         SELECT
         id, name
         FROM test
