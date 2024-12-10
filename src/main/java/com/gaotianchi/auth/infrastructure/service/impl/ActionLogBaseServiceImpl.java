@@ -38,7 +38,7 @@ public class ActionLogBaseServiceImpl implements ActionLogBaseService {
 
     @Override
     public void addNewActionLogsBatch(List<ActionLog> actionLogs) {
-        if (actionLogBaseDao.insertActionLogsBatch(actionLogs) != actionLogs.size()) {
+        if (actionLogBaseDao.insertActionLogsInBatches(actionLogs) != actionLogs.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
     }
@@ -52,7 +52,7 @@ public class ActionLogBaseServiceImpl implements ActionLogBaseService {
 
     @Override
     public void removeActionLogsBatchByIds(List<Integer> ids) {
-        if (actionLogBaseDao.deleteActionLogsBatchByIds(ids) != ids.size()) {
+        if (actionLogBaseDao.deleteActionLogsInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
@@ -66,7 +66,7 @@ public class ActionLogBaseServiceImpl implements ActionLogBaseService {
 
     @Override
     public void addNewOrUpdateActionLogsBatch(List<ActionLog> actionLogs) {
-        if (actionLogBaseDao.insertOrUpdateActionLogsBatch(actionLogs) != actionLogs.size()) {
+        if (actionLogBaseDao.insertOrUpdateExistingActionLogsInBatches(actionLogs) != actionLogs.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
@@ -78,7 +78,7 @@ public class ActionLogBaseServiceImpl implements ActionLogBaseService {
 
     @Override
     public Page<ActionLog> getActionLogsByPage(ActionLog actionLog, PageRequest pageRequest) {
-        long total = actionLogBaseDao.selectActionLogsCount(actionLog);
+        long total = actionLogBaseDao.countByActionLog(actionLog);
         return new PageImpl<>(actionLogBaseDao.selectActionLogsByPage(actionLog, pageRequest), pageRequest, total);
     }
 

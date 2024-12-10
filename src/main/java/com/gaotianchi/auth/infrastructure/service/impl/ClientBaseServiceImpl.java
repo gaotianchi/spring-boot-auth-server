@@ -38,7 +38,7 @@ public class ClientBaseServiceImpl implements ClientBaseService {
 
     @Override
     public void addNewClientsBatch(List<Client> clients) {
-        if (clientBaseDao.insertClientsBatch(clients) != clients.size()) {
+        if (clientBaseDao.insertClientsInBatches(clients) != clients.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
     }
@@ -52,7 +52,7 @@ public class ClientBaseServiceImpl implements ClientBaseService {
 
     @Override
     public void removeClientsBatchByIds(List<Integer> ids) {
-        if (clientBaseDao.deleteClientsBatchByIds(ids) != ids.size()) {
+        if (clientBaseDao.deleteClientsInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
@@ -66,7 +66,7 @@ public class ClientBaseServiceImpl implements ClientBaseService {
 
     @Override
     public void addNewOrUpdateClientsBatch(List<Client> clients) {
-        if (clientBaseDao.insertOrUpdateClientsBatch(clients) != clients.size()) {
+        if (clientBaseDao.insertOrUpdateExistingClientsInBatches(clients) != clients.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
@@ -78,7 +78,7 @@ public class ClientBaseServiceImpl implements ClientBaseService {
 
     @Override
     public Page<Client> getClientsByPage(Client client, PageRequest pageRequest) {
-        long total = clientBaseDao.selectClientsCount(client);
+        long total = clientBaseDao.countByClient(client);
         return new PageImpl<>(clientBaseDao.selectClientsByPage(client, pageRequest), pageRequest, total);
     }
 

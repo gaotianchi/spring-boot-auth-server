@@ -18,19 +18,19 @@ public interface PermissionBaseDao {
 
     int insertPermission(Permission permission);
 
-    int insertPermissionsBatch(@Param("entities") List<Permission> entities);
+    int insertPermissionsInBatches(@Param("entities") List<Permission> entities);
 
     int deletePermissionById(Integer id);
 
-    int deletePermissionsBatchByIds(@Param("ids") List<Integer> ids);
+    int deletePermissionsInBatchesByIds(@Param("ids") List<Integer> ids);
 
     int updatePermissionById(Permission permission);
 
-    int insertOrUpdatePermissionsBatch(@Param("entities") List<Permission> entities);
+    int insertOrUpdateExistingPermissionsInBatches(@Param("entities") List<Permission> entities);
 
     Permission selectPermissionById(Integer id);
 
-    long selectPermissionsCount(Permission permission);
+    long countByPermission(Permission permission);
 
     List<Permission> selectPermissionsByPage(Permission permission, @Param("pageable") Pageable pageable);
 }

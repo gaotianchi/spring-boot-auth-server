@@ -13,7 +13,7 @@
         VALUES (#{userId}, #{roleCode})
     </insert>
 
-    <insert id="insertUserRolesBatch" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insertUserRolesInBatches" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO user_role
         (user_id, role_code)
         VALUES
@@ -28,7 +28,7 @@
         WHERE id = #{id}
     </delete>
 
-    <delete id="deleteUserRolesBatchByIds">
+    <delete id="deleteUserRolesInBatchesByIds">
         DELETE
         FROM user_role
         WHERE id IN
@@ -50,7 +50,7 @@
         WHERE id = #{id}
     </update>
 
-    <insert id="insertOrUpdateUserRolesBatch" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insertOrUpdateExistingUserRolesInBatches" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO user_role
         (user_id, role_code)
         VALUES
@@ -70,7 +70,7 @@
         WHERE id = #{id}
     </select>
 
-    <select id="selectUserRolesCount" resultType="java.lang.Long">
+    <select id="countByUserRole" resultType="java.lang.Long">
         SELECT count(1)
         FROM user_role
         <where>

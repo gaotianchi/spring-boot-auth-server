@@ -38,7 +38,7 @@ public class RolePermissionBaseServiceImpl implements RolePermissionBaseService 
 
     @Override
     public void addNewRolePermissionsBatch(List<RolePermission> rolePermissions) {
-        if (rolePermissionBaseDao.insertRolePermissionsBatch(rolePermissions) != rolePermissions.size()) {
+        if (rolePermissionBaseDao.insertRolePermissionsInBatches(rolePermissions) != rolePermissions.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
     }
@@ -52,7 +52,7 @@ public class RolePermissionBaseServiceImpl implements RolePermissionBaseService 
 
     @Override
     public void removeRolePermissionsBatchByIds(List<Integer> ids) {
-        if (rolePermissionBaseDao.deleteRolePermissionsBatchByIds(ids) != ids.size()) {
+        if (rolePermissionBaseDao.deleteRolePermissionsInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
@@ -66,7 +66,7 @@ public class RolePermissionBaseServiceImpl implements RolePermissionBaseService 
 
     @Override
     public void addNewOrUpdateRolePermissionsBatch(List<RolePermission> rolePermissions) {
-        if (rolePermissionBaseDao.insertOrUpdateRolePermissionsBatch(rolePermissions) != rolePermissions.size()) {
+        if (rolePermissionBaseDao.insertOrUpdateExistingRolePermissionsInBatches(rolePermissions) != rolePermissions.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
@@ -78,7 +78,7 @@ public class RolePermissionBaseServiceImpl implements RolePermissionBaseService 
 
     @Override
     public Page<RolePermission> getRolePermissionsByPage(RolePermission rolePermission, PageRequest pageRequest) {
-        long total = rolePermissionBaseDao.selectRolePermissionsCount(rolePermission);
+        long total = rolePermissionBaseDao.countByRolePermission(rolePermission);
         return new PageImpl<>(rolePermissionBaseDao.selectRolePermissionsByPage(rolePermission, pageRequest), pageRequest, total);
     }
 

@@ -38,7 +38,7 @@ public class PermissionBaseServiceImpl implements PermissionBaseService {
 
     @Override
     public void addNewPermissionsBatch(List<Permission> permissions) {
-        if (permissionBaseDao.insertPermissionsBatch(permissions) != permissions.size()) {
+        if (permissionBaseDao.insertPermissionsInBatches(permissions) != permissions.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
     }
@@ -52,7 +52,7 @@ public class PermissionBaseServiceImpl implements PermissionBaseService {
 
     @Override
     public void removePermissionsBatchByIds(List<Integer> ids) {
-        if (permissionBaseDao.deletePermissionsBatchByIds(ids) != ids.size()) {
+        if (permissionBaseDao.deletePermissionsInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
@@ -66,7 +66,7 @@ public class PermissionBaseServiceImpl implements PermissionBaseService {
 
     @Override
     public void addNewOrUpdatePermissionsBatch(List<Permission> permissions) {
-        if (permissionBaseDao.insertOrUpdatePermissionsBatch(permissions) != permissions.size()) {
+        if (permissionBaseDao.insertOrUpdateExistingPermissionsInBatches(permissions) != permissions.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
@@ -78,7 +78,7 @@ public class PermissionBaseServiceImpl implements PermissionBaseService {
 
     @Override
     public Page<Permission> getPermissionsByPage(Permission permission, PageRequest pageRequest) {
-        long total = permissionBaseDao.selectPermissionsCount(permission);
+        long total = permissionBaseDao.countByPermission(permission);
         return new PageImpl<>(permissionBaseDao.selectPermissionsByPage(permission, pageRequest), pageRequest, total);
     }
 

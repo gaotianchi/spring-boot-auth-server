@@ -38,7 +38,7 @@ public class UserBaseServiceImpl implements UserBaseService {
 
     @Override
     public void addNewUsersBatch(List<User> users) {
-        if (userBaseDao.insertUsersBatch(users) != users.size()) {
+        if (userBaseDao.insertUsersInBatches(users) != users.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
     }
@@ -52,7 +52,7 @@ public class UserBaseServiceImpl implements UserBaseService {
 
     @Override
     public void removeUsersBatchByIds(List<Integer> ids) {
-        if (userBaseDao.deleteUsersBatchByIds(ids) != ids.size()) {
+        if (userBaseDao.deleteUsersInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
@@ -66,7 +66,7 @@ public class UserBaseServiceImpl implements UserBaseService {
 
     @Override
     public void addNewOrUpdateUsersBatch(List<User> users) {
-        if (userBaseDao.insertOrUpdateUsersBatch(users) != users.size()) {
+        if (userBaseDao.insertOrUpdateExistingUsersInBatches(users) != users.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
@@ -78,7 +78,7 @@ public class UserBaseServiceImpl implements UserBaseService {
 
     @Override
     public Page<User> getUsersByPage(User user, PageRequest pageRequest) {
-        long total = userBaseDao.selectUsersCount(user);
+        long total = userBaseDao.countByUser(user);
         return new PageImpl<>(userBaseDao.selectUsersByPage(user, pageRequest), pageRequest, total);
     }
 

@@ -38,7 +38,7 @@ public class UserRoleBaseServiceImpl implements UserRoleBaseService {
 
     @Override
     public void addNewUserRolesBatch(List<UserRole> userRoles) {
-        if (userRoleBaseDao.insertUserRolesBatch(userRoles) != userRoles.size()) {
+        if (userRoleBaseDao.insertUserRolesInBatches(userRoles) != userRoles.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
     }
@@ -52,7 +52,7 @@ public class UserRoleBaseServiceImpl implements UserRoleBaseService {
 
     @Override
     public void removeUserRolesBatchByIds(List<Integer> ids) {
-        if (userRoleBaseDao.deleteUserRolesBatchByIds(ids) != ids.size()) {
+        if (userRoleBaseDao.deleteUserRolesInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
@@ -66,7 +66,7 @@ public class UserRoleBaseServiceImpl implements UserRoleBaseService {
 
     @Override
     public void addNewOrUpdateUserRolesBatch(List<UserRole> userRoles) {
-        if (userRoleBaseDao.insertOrUpdateUserRolesBatch(userRoles) != userRoles.size()) {
+        if (userRoleBaseDao.insertOrUpdateExistingUserRolesInBatches(userRoles) != userRoles.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
@@ -78,7 +78,7 @@ public class UserRoleBaseServiceImpl implements UserRoleBaseService {
 
     @Override
     public Page<UserRole> getUserRolesByPage(UserRole userRole, PageRequest pageRequest) {
-        long total = userRoleBaseDao.selectUserRolesCount(userRole);
+        long total = userRoleBaseDao.countByUserRole(userRole);
         return new PageImpl<>(userRoleBaseDao.selectUserRolesByPage(userRole, pageRequest), pageRequest, total);
     }
 

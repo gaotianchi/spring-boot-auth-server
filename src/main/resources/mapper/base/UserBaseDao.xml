@@ -24,7 +24,7 @@
                 #{failedAttempts}, #{isLocked}, #{lockExpiration}, #{isEnabled})
     </insert>
 
-    <insert id="insertUsersBatch" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insertUsersInBatches" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO user
         (username, password, email, created_at, updated_at, last_login_time, last_login_ip, failed_attempts, is_locked,
         lock_expiration, is_enabled)
@@ -42,7 +42,7 @@
         WHERE id = #{id}
     </delete>
 
-    <delete id="deleteUsersBatchByIds">
+    <delete id="deleteUsersInBatchesByIds">
         DELETE
         FROM user
         WHERE id IN
@@ -91,7 +91,7 @@
         WHERE id = #{id}
     </update>
 
-    <insert id="insertOrUpdateUsersBatch" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insertOrUpdateExistingUsersInBatches" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO user
         (username, password, email, created_at, updated_at, last_login_time, last_login_ip, failed_attempts, is_locked,
         lock_expiration, is_enabled)
@@ -132,7 +132,7 @@
         WHERE id = #{id}
     </select>
 
-    <select id="selectUsersCount" resultType="java.lang.Long">
+    <select id="countByUser" resultType="java.lang.Long">
         SELECT count(1)
         FROM user
         <where>

@@ -13,7 +13,7 @@
         VALUES (#{roleCode}, #{permissionCode})
     </insert>
 
-    <insert id="insertRolePermissionsBatch" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insertRolePermissionsInBatches" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO role_permission
         (role_code, permission_code)
         VALUES
@@ -28,7 +28,7 @@
         WHERE id = #{id}
     </delete>
 
-    <delete id="deleteRolePermissionsBatchByIds">
+    <delete id="deleteRolePermissionsInBatchesByIds">
         DELETE
         FROM role_permission
         WHERE id IN
@@ -50,7 +50,7 @@
         WHERE id = #{id}
     </update>
 
-    <insert id="insertOrUpdateRolePermissionsBatch" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insertOrUpdateExistingRolePermissionsInBatches" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO role_permission
         (role_code, permission_code)
         VALUES
@@ -70,7 +70,7 @@
         WHERE id = #{id}
     </select>
 
-    <select id="selectRolePermissionsCount" resultType="java.lang.Long">
+    <select id="countByRolePermission" resultType="java.lang.Long">
         SELECT count(1)
         FROM role_permission
         <where>

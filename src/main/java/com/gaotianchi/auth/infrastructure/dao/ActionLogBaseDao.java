@@ -18,19 +18,19 @@ public interface ActionLogBaseDao {
 
     int insertActionLog(ActionLog actionLog);
 
-    int insertActionLogsBatch(@Param("entities") List<ActionLog> entities);
+    int insertActionLogsInBatches(@Param("entities") List<ActionLog> entities);
 
     int deleteActionLogById(Integer id);
 
-    int deleteActionLogsBatchByIds(@Param("ids") List<Integer> ids);
+    int deleteActionLogsInBatchesByIds(@Param("ids") List<Integer> ids);
 
     int updateActionLogById(ActionLog actionLog);
 
-    int insertOrUpdateActionLogsBatch(@Param("entities") List<ActionLog> entities);
+    int insertOrUpdateExistingActionLogsInBatches(@Param("entities") List<ActionLog> entities);
 
     ActionLog selectActionLogById(Integer id);
 
-    long selectActionLogsCount(ActionLog actionLog);
+    long countByActionLog(ActionLog actionLog);
 
     List<ActionLog> selectActionLogsByPage(ActionLog actionLog, @Param("pageable") Pageable pageable);
 }

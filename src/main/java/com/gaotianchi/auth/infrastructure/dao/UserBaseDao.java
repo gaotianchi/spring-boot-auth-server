@@ -18,19 +18,19 @@ public interface UserBaseDao {
 
     int insertUser(User user);
 
-    int insertUsersBatch(@Param("entities") List<User> entities);
+    int insertUsersInBatches(@Param("entities") List<User> entities);
 
     int deleteUserById(Integer id);
 
-    int deleteUsersBatchByIds(@Param("ids") List<Integer> ids);
+    int deleteUsersInBatchesByIds(@Param("ids") List<Integer> ids);
 
     int updateUserById(User user);
 
-    int insertOrUpdateUsersBatch(@Param("entities") List<User> entities);
+    int insertOrUpdateExistingUsersInBatches(@Param("entities") List<User> entities);
 
     User selectUserById(Integer id);
 
-    long selectUsersCount(User user);
+    long countByUser(User user);
 
     List<User> selectUsersByPage(User user, @Param("pageable") Pageable pageable);
 }

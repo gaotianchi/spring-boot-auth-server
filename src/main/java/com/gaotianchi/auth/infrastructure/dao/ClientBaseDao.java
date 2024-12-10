@@ -18,19 +18,19 @@ public interface ClientBaseDao {
 
     int insertClient(Client client);
 
-    int insertClientsBatch(@Param("entities") List<Client> entities);
+    int insertClientsInBatches(@Param("entities") List<Client> entities);
 
     int deleteClientById(Integer id);
 
-    int deleteClientsBatchByIds(@Param("ids") List<Integer> ids);
+    int deleteClientsInBatchesByIds(@Param("ids") List<Integer> ids);
 
     int updateClientById(Client client);
 
-    int insertOrUpdateClientsBatch(@Param("entities") List<Client> entities);
+    int insertOrUpdateExistingClientsInBatches(@Param("entities") List<Client> entities);
 
     Client selectClientById(Integer id);
 
-    long selectClientsCount(Client client);
+    long countByClient(Client client);
 
     List<Client> selectClientsByPage(Client client, @Param("pageable") Pageable pageable);
 }

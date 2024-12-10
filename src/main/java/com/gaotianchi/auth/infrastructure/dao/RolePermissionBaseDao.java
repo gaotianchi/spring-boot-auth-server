@@ -18,19 +18,19 @@ public interface RolePermissionBaseDao {
 
     int insertRolePermission(RolePermission rolePermission);
 
-    int insertRolePermissionsBatch(@Param("entities") List<RolePermission> entities);
+    int insertRolePermissionsInBatches(@Param("entities") List<RolePermission> entities);
 
     int deleteRolePermissionById(Integer id);
 
-    int deleteRolePermissionsBatchByIds(@Param("ids") List<Integer> ids);
+    int deleteRolePermissionsInBatchesByIds(@Param("ids") List<Integer> ids);
 
     int updateRolePermissionById(RolePermission rolePermission);
 
-    int insertOrUpdateRolePermissionsBatch(@Param("entities") List<RolePermission> entities);
+    int insertOrUpdateExistingRolePermissionsInBatches(@Param("entities") List<RolePermission> entities);
 
     RolePermission selectRolePermissionById(Integer id);
 
-    long selectRolePermissionsCount(RolePermission rolePermission);
+    long countByRolePermission(RolePermission rolePermission);
 
     List<RolePermission> selectRolePermissionsByPage(RolePermission rolePermission, @Param("pageable") Pageable pageable);
 }

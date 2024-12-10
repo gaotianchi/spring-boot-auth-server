@@ -18,19 +18,19 @@ public interface UserRoleBaseDao {
 
     int insertUserRole(UserRole userRole);
 
-    int insertUserRolesBatch(@Param("entities") List<UserRole> entities);
+    int insertUserRolesInBatches(@Param("entities") List<UserRole> entities);
 
     int deleteUserRoleById(Integer id);
 
-    int deleteUserRolesBatchByIds(@Param("ids") List<Integer> ids);
+    int deleteUserRolesInBatchesByIds(@Param("ids") List<Integer> ids);
 
     int updateUserRoleById(UserRole userRole);
 
-    int insertOrUpdateUserRolesBatch(@Param("entities") List<UserRole> entities);
+    int insertOrUpdateExistingUserRolesInBatches(@Param("entities") List<UserRole> entities);
 
     UserRole selectUserRoleById(Integer id);
 
-    long selectUserRolesCount(UserRole userRole);
+    long countByUserRole(UserRole userRole);
 
     List<UserRole> selectUserRolesByPage(UserRole userRole, @Param("pageable") Pageable pageable);
 }

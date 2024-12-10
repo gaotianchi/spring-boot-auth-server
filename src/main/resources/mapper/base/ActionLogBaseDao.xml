@@ -22,7 +22,7 @@
                 #{details}, #{createdAt})
     </insert>
 
-    <insert id="insertActionLogsBatch" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insertActionLogsInBatches" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO action_log
         (user_id, action, action_time, object_type, object_id, ip_address, device_info, details, created_at)
         VALUES
@@ -38,7 +38,7 @@
         WHERE id = #{id}
     </delete>
 
-    <delete id="deleteActionLogsBatchByIds">
+    <delete id="deleteActionLogsInBatchesByIds">
         DELETE
         FROM action_log
         WHERE id IN
@@ -81,7 +81,7 @@
         WHERE id = #{id}
     </update>
 
-    <insert id="insertOrUpdateActionLogsBatch" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insertOrUpdateExistingActionLogsInBatches" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO action_log
         (user_id, action, action_time, object_type, object_id, ip_address, device_info, details, created_at)
         VALUES
@@ -116,7 +116,7 @@
         WHERE id = #{id}
     </select>
 
-    <select id="selectActionLogsCount" resultType="java.lang.Long">
+    <select id="countByActionLog" resultType="java.lang.Long">
         SELECT count(1)
         FROM action_log
         <where>

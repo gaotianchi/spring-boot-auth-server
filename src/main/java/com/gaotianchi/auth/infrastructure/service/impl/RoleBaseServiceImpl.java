@@ -38,7 +38,7 @@ public class RoleBaseServiceImpl implements RoleBaseService {
 
     @Override
     public void addNewRolesBatch(List<Role> roles) {
-        if (roleBaseDao.insertRolesBatch(roles) != roles.size()) {
+        if (roleBaseDao.insertRolesInBatches(roles) != roles.size()) {
             throw new SQLException(Code.SQL_INSERT_ERROR);
         }
     }
@@ -52,7 +52,7 @@ public class RoleBaseServiceImpl implements RoleBaseService {
 
     @Override
     public void removeRolesBatchByIds(List<Integer> ids) {
-        if (roleBaseDao.deleteRolesBatchByIds(ids) != ids.size()) {
+        if (roleBaseDao.deleteRolesInBatchesByIds(ids) != ids.size()) {
             throw new SQLException(Code.SQL_DELETE_ERROR);
         }
     }
@@ -66,7 +66,7 @@ public class RoleBaseServiceImpl implements RoleBaseService {
 
     @Override
     public void addNewOrUpdateRolesBatch(List<Role> roles) {
-        if (roleBaseDao.insertOrUpdateRolesBatch(roles) != roles.size()) {
+        if (roleBaseDao.insertOrUpdateExistingRolesInBatches(roles) != roles.size()) {
             throw new SQLException(Code.SQL_UPDATE_ERROR);
         }
     }
@@ -78,7 +78,7 @@ public class RoleBaseServiceImpl implements RoleBaseService {
 
     @Override
     public Page<Role> getRolesByPage(Role role, PageRequest pageRequest) {
-        long total = roleBaseDao.selectRolesCount(role);
+        long total = roleBaseDao.countByRole(role);
         return new PageImpl<>(roleBaseDao.selectRolesByPage(role, pageRequest), pageRequest, total);
     }
 

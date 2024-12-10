@@ -18,19 +18,19 @@ public interface RoleBaseDao {
 
     int insertRole(Role role);
 
-    int insertRolesBatch(@Param("entities") List<Role> entities);
+    int insertRolesInBatches(@Param("entities") List<Role> entities);
 
     int deleteRoleById(Integer id);
 
-    int deleteRolesBatchByIds(@Param("ids") List<Integer> ids);
+    int deleteRolesInBatchesByIds(@Param("ids") List<Integer> ids);
 
     int updateRoleById(Role role);
 
-    int insertOrUpdateRolesBatch(@Param("entities") List<Role> entities);
+    int insertOrUpdateExistingRolesInBatches(@Param("entities") List<Role> entities);
 
     Role selectRoleById(Integer id);
 
-    long selectRolesCount(Role role);
+    long countByRole(Role role);
 
     List<Role> selectRolesByPage(Role role, @Param("pageable") Pageable pageable);
 }
