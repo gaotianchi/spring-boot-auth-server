@@ -1,7 +1,7 @@
 package com.gaotianchi.auth.service.impl;
 
+import com.gaotianchi.auth.base.entity.Client;
 import com.gaotianchi.auth.dao.ClientDao;
-import com.gaotianchi.auth.infrastructure.entity.Client;
 import com.gaotianchi.auth.service.ClientService;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;

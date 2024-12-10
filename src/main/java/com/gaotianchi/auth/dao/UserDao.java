@@ -1,7 +1,7 @@
 package com.gaotianchi.auth.dao;
 
-import com.gaotianchi.auth.infrastructure.dao.UserBaseDao;
-import com.gaotianchi.auth.infrastructure.entity.User;
+import com.gaotianchi.auth.base.dao.UserBaseDao;
+import com.gaotianchi.auth.base.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Set;

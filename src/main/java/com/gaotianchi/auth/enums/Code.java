@@ -19,6 +19,7 @@ public enum Code {
     SQL_UPDATE_ERROR(1002, "SQL update operation failed."),
     SQL_DELETE_ERROR(1003, "SQL delete operation failed."),
     SQL_SELECT_ERROR(1004, "SQL select operation failed."),
+    SQL_DUPLICATE_ENTRY_ERROR(1005, "SQL duplicate entry error."),
 
     // 授权模块
     AUTH_TOKEN_EXPIRED(2001, "Authentication token expired."),
@@ -33,7 +34,7 @@ public enum Code {
     // 业务逻辑模块
     INVALID_PARAMETER(4001, "Invalid parameter."),
 
-    // TODO: 第三方服务
+
     DATABASE_CONNECTION_ERROR(5001, "Database connection error."),
     DATABASE_INITIALIZATION_FAILED(5002, "Database initialization failed."),
 

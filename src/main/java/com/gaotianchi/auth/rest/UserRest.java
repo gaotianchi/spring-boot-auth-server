@@ -1,12 +1,12 @@
 package com.gaotianchi.auth.rest;
 
-import com.gaotianchi.auth.converter.UserConverter;
-import com.gaotianchi.auth.dto.UserDto;
+import com.gaotianchi.auth.base.converter.UserConverter;
+import com.gaotianchi.auth.base.dto.UserDTO;
+import com.gaotianchi.auth.base.entity.User;
+import com.gaotianchi.auth.base.service.UserBaseService;
+import com.gaotianchi.auth.base.vo.UserVO;
+import com.gaotianchi.auth.base.vo.VO;
 import com.gaotianchi.auth.enums.Code;
-import com.gaotianchi.auth.infrastructure.entity.User;
-import com.gaotianchi.auth.infrastructure.service.UserBaseService;
-import com.gaotianchi.auth.vo.UserVO;
-import com.gaotianchi.auth.vo.VO;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
@@ -36,8 +36,8 @@ public class UserRest {
     @PostMapping("")
     public VO<String> handleCreateUserRequest(
             @RequestBody
-            @Validated(UserDto.CreateUser.class)
-            UserDto userDto
+            @Validated(UserDTO.CreateUser.class)
+            UserDTO userDto
     ) {
         User user = userConverter.toEntity(userDto);
         userBaseService.addNewUser(user);
@@ -47,10 +47,10 @@ public class UserRest {
     @PostMapping("batch")
     public VO<String> handleCreateUsersBatchRequest(
             @RequestBody
-            @Validated(UserDto.CreateUser.class)
-            List<UserDto> userDtoList
+            @Validated(UserDTO.CreateUser.class)
+            List<UserDTO> userDTOList
     ) {
-        List<User> userList = userDtoList
+        List<User> userList = userDTOList
                 .stream()
                 .map(userConverter::toEntity)
                 .toList();
@@ -74,8 +74,8 @@ public class UserRest {
     @PutMapping("")
     public VO<Void> handleUpdateUserRequest(
             @RequestBody
-            @Validated(UserDto.UpdateUser.class)
-            UserDto userDto
+            @Validated(UserDTO.UpdateUser.class)
+            UserDTO userDto
     ) {
         User user = userConverter.toEntity(userDto);
         userBaseService.updateUserById(user);
@@ -95,7 +95,7 @@ public class UserRest {
 
     @GetMapping("info-list")
     public VO<Page<UserVO>> handleGetUserListRequest(
-            @ModelAttribute UserDto userDto,
+            @ModelAttribute UserDTO userDto,
             @RequestParam(value = "page", defaultValue = "0")
             @Min(value = 0, message = "page 必须大于等于 0")
             Integer page,

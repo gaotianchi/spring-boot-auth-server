@@ -1,13 +1,13 @@
 package com.gaotianchi.auth.rest;
 
 
-import com.gaotianchi.auth.converter.ClientConverter;
-import com.gaotianchi.auth.dto.ClientDto;
+import com.gaotianchi.auth.base.converter.ClientConverter;
+import com.gaotianchi.auth.base.dto.ClientDTO;
+import com.gaotianchi.auth.base.entity.Client;
+import com.gaotianchi.auth.base.service.ClientBaseService;
+import com.gaotianchi.auth.base.vo.ClientVO;
+import com.gaotianchi.auth.base.vo.VO;
 import com.gaotianchi.auth.enums.Code;
-import com.gaotianchi.auth.infrastructure.entity.Client;
-import com.gaotianchi.auth.infrastructure.service.ClientBaseService;
-import com.gaotianchi.auth.vo.ClientVO;
-import com.gaotianchi.auth.vo.VO;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -39,8 +39,8 @@ public class ClientRest {
     @PostMapping("")
     public VO<String> handleCreateClientRequest(
             @RequestBody
-            @Validated(ClientDto.CreateClient.class)
-            ClientDto clientDto
+            @Validated(ClientDTO.CreateClient.class)
+            ClientDTO clientDto
     ) {
         Client client = clientConverter.toEntity(clientDto);
         clientBaseService.addNewClient(client);
@@ -50,10 +50,10 @@ public class ClientRest {
     @PostMapping("batch")
     public VO<String> handleCreateClientsBatchRequest(
             @RequestBody
-            @Validated(ClientDto.CreateClient.class)
-            List<ClientDto> clientDtoList
+            @Validated(ClientDTO.CreateClient.class)
+            List<ClientDTO> clientDTOList
     ) {
-        List<Client> clientList = clientDtoList
+        List<Client> clientList = clientDTOList
                 .stream()
                 .map(clientConverter::toEntity)
                 .toList();
@@ -88,8 +88,8 @@ public class ClientRest {
     @PutMapping("")
     public VO<String> handleUpdateClientDetailsRequest(
             @RequestBody
-            @Validated(ClientDto.UpdateClientDetails.class)
-            ClientDto clientDto
+            @Validated(ClientDTO.UpdateClientDetails.class)
+            ClientDTO clientDto
     ) {
         Client client = clientConverter.toEntity(clientDto);
         clientBaseService.updateClientById(client);
@@ -99,10 +99,10 @@ public class ClientRest {
     @PutMapping("batch")
     public VO<String> handleUpdateClientsBatchRequest(
             @RequestBody
-            @Validated(ClientDto.UpdateClientDetails.class)
-            List<ClientDto> clientDtoList
+            @Validated(ClientDTO.UpdateClientDetails.class)
+            List<ClientDTO> clientDTOList
     ) {
-        List<Client> clientList = clientDtoList
+        List<Client> clientList = clientDTOList
                 .stream()
                 .map(clientConverter::toEntity)
                 .toList();
@@ -126,7 +126,7 @@ public class ClientRest {
 
     @GetMapping("info-list")
     public VO<Page<ClientVO>> handleGetClientListRequest(
-            @ModelAttribute ClientDto clientDto,
+            @ModelAttribute ClientDTO clientDto,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {

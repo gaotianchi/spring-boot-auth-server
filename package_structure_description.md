@@ -1,6 +1,6 @@
 # Package Structure Description
 
-#### com.gaotianchi.auth.infrastructure
+#### com.gaotianchi.auth.service.impl.infrastructure
 
 Infrastructure provides the infrastructure for MySQL table operations, including adding rows, adding rows in batches,
 deleting rows, deleting rows in batches, updating rows, updating or adding rows in batches, getting rows, and getting
@@ -16,7 +16,7 @@ as much as possible to enhance the readability of the code.
 ##### Entity class code specification
 
 ```java
-package com.gaotianchi.auth.infrastructure.entity;
+package com.gaotianchi.auth.service.impl.infrastructure.entity;
 
 import lombok.Builder;
 import lombok.Data;
@@ -64,7 +64,7 @@ readablitiy.
    methods.
 
 ```java
-package com.gaotianchi.auth.infrastructure.dao;
+package com.gaotianchi.auth.service.impl.infrastructure.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -116,9 +116,9 @@ in the service layer are named in the way that is closer to everyday language, b
 functionalities in the business layer.
 
 ```java
-package com.gaotianchi.auth.infrastructure.service;
+package com.gaotianchi.auth.service.impl.infrastructure.service;
 
-import com.gaotianchi.auth.infrastructure.entity.Entity;
+import com.gaotianchi.auth.service.impl.infrastructure.entity.Entity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -126,7 +126,7 @@ import java.util.List;
 
 /**
  * Entity
- * 
+ *
  * @author author name
  * @since datetime
  */

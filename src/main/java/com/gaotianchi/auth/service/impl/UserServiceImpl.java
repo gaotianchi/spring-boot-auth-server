@@ -1,7 +1,7 @@
 package com.gaotianchi.auth.service.impl;
 
+import com.gaotianchi.auth.base.entity.User;
 import com.gaotianchi.auth.dao.UserDao;
-import com.gaotianchi.auth.infrastructure.entity.User;
 import com.gaotianchi.auth.service.UserService;
 import lombok.Builder;
 import lombok.Data;

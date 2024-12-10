@@ -1,8 +1,8 @@
 package com.gaotianchi.auth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gaotianchi.auth.base.vo.VO;
 import com.gaotianchi.auth.enums.Code;
-import com.gaotianchi.auth.vo.VO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
