@@ -78,18 +78,29 @@
         </where>
     </select>
 
-    <select id="selectTestsByPage" resultMap="TestMap">
+    <select id="selectTestsByPage" resultOrdered="true" resultMap="TestMap">
         SELECT
         id, name
         FROM test
         <where>
-            <if test="id != null">
-                and id = #{id}
+            <if test="entity.id != null">
+                and id = #{entity.id}
             </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
+            <if test="entity.name != null and entity.name != ''">
+                and name = #{entity.name}
             </if>
         </where>
+        <choose>
+            <when test="pageable.sort != null">
+                ORDER BY
+                <foreach collection="pageable.sort" item="sortOrder" separator=",">
+                    ${sortOrder.property} ${sortOrder.direction}
+                </foreach>
+            </when>
+            <otherwise>
+                ORDER BY id
+            </otherwise>
+        </choose>
         limit #{pageable.offset}, #{pageable.pageSize}
     </select>
 </mapper>

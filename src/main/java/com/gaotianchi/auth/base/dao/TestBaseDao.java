@@ -16,22 +16,22 @@ import java.util.List;
 @Mapper
 public interface TestBaseDao {
 
-    int insertTest(Test test);
+    void insertTest(Test test);
 
-    int insertTestsInBatches(@Param("entities") List<Test> entities);
+    void insertTestsInBatches(@Param("entities") List<Test> entities);
 
-    int deleteTestById(Integer id);
+    void deleteTestById(Integer id);
 
-    int deleteTestsInBatchesByIds(@Param("ids") List<Integer> ids);
+    void deleteTestsInBatchesByIds(@Param("ids") List<Integer> ids);
 
-    int updateTestById(Test test);
+    void updateTestById(Test test);
 
-    int insertOrUpdateExistingTestsInBatches(@Param("entities") List<Test> entities);
+    void insertOrUpdateExistingTestsInBatches(@Param("entities") List<Test> entities);
 
     Test selectTestById(Integer id);
 
     long countByTest(Test test);
 
-    List<Test> selectTestsByPage(Test test, @Param("pageable") Pageable pageable);
+    List<Test> selectTestsByPage(@Param("entity") Test test, @Param("pageable") Pageable pageable);
 }
 

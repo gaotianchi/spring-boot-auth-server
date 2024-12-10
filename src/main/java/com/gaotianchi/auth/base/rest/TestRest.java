@@ -9,8 +9,10 @@ import com.gaotianchi.auth.base.vo.VO;
 import com.gaotianchi.auth.enums.Code;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +32,7 @@ public class TestRest {
     }
 
     @PostMapping("")
-    public VO<String> handleCreateTestRequest(
+    public VO<String> handleAddNewTestRequest(
             @RequestBody
             TestDTO testDto
     ) {
@@ -40,7 +42,7 @@ public class TestRest {
     }
 
     @PostMapping("batch")
-    public VO<String> handleCreateTestsBatchRequest(
+    public VO<String> handleAddNewTestsInBatchesRequest(
             @RequestBody
             List<TestDTO> testDTOList
     ) {
@@ -66,8 +68,8 @@ public class TestRest {
     }
 
     @DeleteMapping("batch")
-    public VO<Void> handleRemoveTestsBatchByIdsRequest(
-            @RequestParam("ids")
+    public VO<Void> handleRemoveTestsInBatchesByIdsRequest(
+            @RequestParam("id")
             List<Integer> ids
     ) {
         testBaseService.removeTestsInBatchesByIds(ids);
@@ -85,7 +87,7 @@ public class TestRest {
     }
 
     @PutMapping("batch")
-    public VO<String> handleUpdateTestsBatchRequest(
+    public VO<String> handleAddNewOrUpdateExistingTestsInBatchesRequest(
             @RequestBody
             List<TestDTO> testDTOList
     ) {
@@ -101,9 +103,9 @@ public class TestRest {
                 .toString());
     }
 
-    @GetMapping("info/{id}")
+    @GetMapping("info")
     public VO<TestVO> handleGetTestByIdRequest(
-            @PathVariable
+            @RequestParam("id")
             Integer id
     ) {
         Test test = testBaseService.getTestById(id);
@@ -111,14 +113,55 @@ public class TestRest {
         return VO.response(Code.SUCCESS, testVO);
     }
 
+    /**
+     * Handles the request to retrieve a paginated and sorted list of Test entities.
+     * <p>
+     * This method accepts the following parameters:
+     * <ul>
+     *     <li> testDto: DTO that contains filter criteria for the Test entities.</li>
+     *     <li> page: The page number to retrieve (default is 0, i.e., the first page).</li>
+     *     <li> size: The number of items per page (default is 10).</li>
+     *     <li> sort: A list of sorting criteria in the format "field,direction" (e.g., "name,asc" or "age,desc").</li>
+     * </ul>
+     * The method converts the input DTO to an entity, constructs a dynamic sorting object based on the provided sorting
+     * criteria, and then uses a `PageRequest` object to fetch a paginated result from the service layer.
+     * The result is then mapped to a list of TestVO objects and returned as a response.
+     * </p>
+     *
+     * @param testDto the filter criteria in the form of a TestDTO object
+     * @param page    the page number for pagination (default is 0)
+     * @param size    the number of records per page (default is 10)
+     * @param sorts   a list of sorting criteria in the format "field,direction" (e.g., "name,asc")
+     * @return a VO containing a paginated list of TestVO objects
+     * @see TestDTO
+     * @see TestVO
+     * @see Sort
+     * @see PageRequest
+     */
     @GetMapping("info-list")
-    public VO<Iterable<TestVO>> handleGetTestListRequest(
+    public VO<Iterable<TestVO>> handleGetTestsByPageRequest(
             @ModelAttribute TestDTO testDto,
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "id:asc") List<String> sorts
     ) {
         Test test = testConverter.toEntity(testDto);
-        PageRequest pageRequest = org.springframework.data.domain.PageRequest.of(page, size);
+        List<Sort.Order> orders = new ArrayList<>();
+        for (String sort : sorts) {
+            String[] sortParts = sort.split(":");
+            if (sortParts.length == 2) {
+                String field = sortParts[0].trim();
+                String direction = sortParts[1].trim().toUpperCase();
+
+                if ("DESC".equals(direction)) {
+                    orders.add(Sort.Order.desc(field));
+                } else {
+                    orders.add(Sort.Order.asc(field));
+                }
+            }
+        }
+        Sort sort = Sort.by(orders);
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
         Page<Test> testPage = testBaseService.getTestsByPage(test, pageRequest);
         Page<TestVO> testVOPage = testPage.map(testConverter::toVO);
         return VO.response(Code.SUCCESS, testVOPage);

@@ -4,7 +4,6 @@ import com.gaotianchi.auth.base.dto.TestDTO;
 import com.gaotianchi.auth.base.entity.Test;
 import com.gaotianchi.auth.base.vo.TestVO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 /**
  * @author gaotianchi
@@ -13,7 +12,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface TestConverter {
 
-    @Mapping(target = "id", ignore = true)
     Test toEntity(TestDTO testDto);
 
     TestVO toVO(Test test);
