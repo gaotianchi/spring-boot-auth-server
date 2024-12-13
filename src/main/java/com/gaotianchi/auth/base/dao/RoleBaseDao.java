@@ -16,17 +16,17 @@ import java.util.List;
 @Mapper
 public interface RoleBaseDao {
 
-    int insertRole(Role role);
+    void insertRole(Role role);
 
-    int insertRolesInBatches(@Param("entities") List<Role> entities);
+    void insertRolesInBatches(@Param("entities") List<Role> entities);
 
-    int deleteRoleById(Integer id);
+    void deleteRoleById(Integer id);
 
-    int deleteRolesInBatchesByIds(@Param("ids") List<Integer> ids);
+    void deleteRolesInBatchesByIds(@Param("ids") List<Integer> ids);
 
-    int updateRoleById(Role role);
+    void updateRoleById(Role role);
 
-    int insertOrUpdateExistingRolesInBatches(@Param("entities") List<Role> entities);
+    void insertOrUpdateExistingRolesInBatches(@Param("entities") List<Role> entities);
 
     Role selectRoleById(Integer id);
 

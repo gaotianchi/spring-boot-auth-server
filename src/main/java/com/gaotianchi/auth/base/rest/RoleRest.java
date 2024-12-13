@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
+
 /**
  * @author gaotianchi
  * @since 2024/12/7 17:28
@@ -33,7 +35,7 @@ public class RoleRest {
     }
 
     @PostMapping("")
-    public VO<String> handleCreateRoleRequest(
+    public VO<String> handleAddNewRoleRequest(
             @RequestBody
             @Validated(RoleDTO.CreateRole.class)
             RoleDTO roleDto
@@ -44,7 +46,7 @@ public class RoleRest {
     }
 
     @PostMapping("batch")
-    public VO<String> handleCreateRolesBatchRequest(
+    public VO<String> handleAddNewRolesInBatchesRequest(
             @RequestBody
             @Validated(RoleDTO.CreateRole.class)
             List<RoleDTO> roleDto
@@ -64,8 +66,8 @@ public class RoleRest {
     @DeleteMapping("")
     public VO<Void> handleRemoveRoleByIdRequest(
             @RequestParam("id")
-            @NotNull(message = "id 不能为空")
-            @Min(value = 1, message = "id 必须大于等于 1")
+            @NotNull(message = "id cannot be null.")
+            @Min(value = 1, message = "id must be greater than or equal to 1")
             Integer id
     ) {
         roleService.removeRoleById(id);
@@ -73,9 +75,9 @@ public class RoleRest {
     }
 
     @DeleteMapping("batch")
-    public VO<Void> handleRemoveRolesBatchByIdsRequest(
-            @RequestParam("ids")
-            @NotNull(message = "ids 不能为空")
+    public VO<Void> handleRemoveRolesInBatchesByIdsRequest(
+            @RequestParam("id")
+            @NotNull(message = "ids cannot be null.")
             List<Integer> ids
     ) {
         roleService.removeRolesInBatchesByIds(ids);
@@ -111,11 +113,11 @@ public class RoleRest {
                 .toString());
     }
 
-    @GetMapping("info/{id}")
+    @GetMapping("info")
     public VO<RoleVO> handleGetRoleByIdRequest(
-            @PathVariable
-            @NotNull(message = "id 不能为空")
-            @Min(value = 1, message = "id 必须大于等于 1")
+            @RequestParam
+            @NotNull(message = "id cannot be null")
+            @Min(value = 1, message = "id must be greater than or equal to 1")
             Integer id
     ) {
         Role role = roleService.getRoleById(id);
@@ -124,13 +126,14 @@ public class RoleRest {
     }
 
     @GetMapping("info-list")
-    public VO<Iterable<RoleVO>> handleGetRoleListRequest(
+    public VO<Iterable<RoleVO>> handleGetRoleByPageRequest(
             @ModelAttribute RoleDTO roleDto,
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "id:asc") List<String> sorts
     ) {
         Role role = roleConverter.toEntity(roleDto);
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = getPageRequest(page, size, sorts);
         Page<Role> rolePage = roleService.getRolesByPage(role, pageRequest);
         Page<RoleVO> roleVOPage = rolePage.map(roleConverter::toVO);
         return VO.response(Code.SUCCESS, roleVOPage);

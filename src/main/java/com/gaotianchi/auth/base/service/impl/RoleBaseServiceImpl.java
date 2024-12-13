@@ -3,8 +3,6 @@ package com.gaotianchi.auth.base.service.impl;
 import com.gaotianchi.auth.base.dao.RoleBaseDao;
 import com.gaotianchi.auth.base.entity.Role;
 import com.gaotianchi.auth.base.service.RoleBaseService;
-import com.gaotianchi.auth.enums.Code;
-import com.gaotianchi.auth.exception.SQLException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -14,8 +12,6 @@ import org.springframework.util.Assert;
 import java.util.List;
 
 /**
- * 角色表(Role)表服务实现类
- *
  * @author gaotianchi
  * @since 2024-12-07 11:29:50
  */
@@ -31,44 +27,32 @@ public class RoleBaseServiceImpl implements RoleBaseService {
 
     @Override
     public void addNewRole(Role role) {
-        if (roleBaseDao.insertRole(role) != 1) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
+        roleBaseDao.insertRole(role);
     }
 
     @Override
     public void addNewRolesInBatches(List<Role> roles) {
-        if (roleBaseDao.insertRolesInBatches(roles) != roles.size()) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
+        roleBaseDao.insertRolesInBatches(roles);
     }
 
     @Override
     public void removeRoleById(Integer id) {
-        if (roleBaseDao.deleteRoleById(id) != 1) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
+        roleBaseDao.deleteRoleById(id);
     }
 
     @Override
     public void removeRolesInBatchesByIds(List<Integer> ids) {
-        if (roleBaseDao.deleteRolesInBatchesByIds(ids) != ids.size()) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
+        roleBaseDao.deleteRolesInBatchesByIds(ids);
     }
 
     @Override
     public void updateRoleById(Role role) {
-        if (roleBaseDao.updateRoleById(role) != 1) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
+        roleBaseDao.updateRoleById(role);
     }
 
     @Override
     public void addNewOrUpdateExistingRolesInBatches(List<Role> roles) {
-        if (roleBaseDao.insertOrUpdateExistingRolesInBatches(roles) != roles.size()) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
+        roleBaseDao.insertOrUpdateExistingRolesInBatches(roles);
     }
 
     @Override
