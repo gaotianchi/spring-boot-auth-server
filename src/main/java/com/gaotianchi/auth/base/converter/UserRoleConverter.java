@@ -3,24 +3,12 @@ package com.gaotianchi.auth.base.converter;
 import com.gaotianchi.auth.base.dto.UserRoleDTO;
 import com.gaotianchi.auth.base.entity.UserRole;
 import com.gaotianchi.auth.base.vo.UserRoleVO;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@Component
-public class UserRoleConverter {
+@Mapper
+public interface UserRoleConverter {
 
-    public UserRole toEntity(UserRoleDTO dto) {
-        return UserRole.builder()
-                .id(dto.getId())
-                .userId(dto.getUserId())
-                .roleCode(dto.getRoleCode())
-                .build();
-    }
+    UserRole toEntity(UserRoleDTO dto);
 
-    public UserRoleVO toVO(UserRole entity) {
-        return UserRoleVO.builder()
-                .id(entity.getId())
-                .userId(entity.getUserId())
-                .roleCode(entity.getRoleCode())
-                .build();
-    }
+    UserRoleVO toVO(UserRole entity);
 }

@@ -30,7 +30,7 @@ public class UserRoleRest {
     }
 
     @PostMapping("")
-    public VO<String> handleCreateUserRoleRequest(
+    public VO<String> handleAddNewUserRoleRequest(
             @RequestBody
             @Validated(UserRoleDTO.CreateUserRole.class)
             UserRoleDTO userRoleDto
@@ -41,7 +41,7 @@ public class UserRoleRest {
     }
 
     @PostMapping("batch")
-    public VO<String> handleCreateUserRolesBatchRequest(
+    public VO<String> handleAddNewUserRolesInBatchesRequest(
             @RequestBody
             @Validated(UserRoleDTO.CreateUserRole.class)
             List<UserRoleDTO> userRoleDTOList
@@ -69,7 +69,7 @@ public class UserRoleRest {
     }
 
     @DeleteMapping("batch")
-    public VO<Void> handleRemoveUserRoleBatchByIdsRequest(
+    public VO<Void> handleRemoveUserRoleInBatchesByIdsRequest(
             @RequestParam("ids")
             @NotNull(message = "ids cannot be null")
             @Size(min = 1, message = "At least one id must be provided")
@@ -78,9 +78,44 @@ public class UserRoleRest {
         return VO.response(Code.SUCCESS, null);
     }
 
-    @GetMapping("info/{id}")
+    @PutMapping("")
+    public VO<String> handleUpdateUserRoleRequest(
+            @RequestBody
+            UserRoleDTO userRoleDto) {
+        UserRole userRole = userRoleConverter.toEntity(userRoleDto);
+        userRoleBaseService.updateUserRoleById(userRole);
+        return VO.response(Code.SUCCESS, "/user-role/info/" + userRole.getId());
+    }
+
+    @PutMapping("")
+    public VO<String> handleUpdateUserRoleByIdRequest(
+            @RequestBody
+            UserRoleDTO userRoleDto) {
+        UserRole userRole = userRoleConverter.toEntity(userRoleDto);
+        userRoleBaseService.updateUserRoleById(userRole);
+        return VO.response(Code.SUCCESS, "/user-role/info/" + userRole.getId());
+    }
+
+    @PutMapping("batch")
+    public VO<String> handleAddNewOrUpdateExistingUserRoleInBatches(
+            @RequestBody
+            List<UserRoleDTO> userRoleDTOList
+    ) {
+        List<UserRole> userRoles = userRoleDTOList.stream()
+                .map(userRoleConverter::toEntity)
+                .toList();
+        userRoleBaseService.addNewOrUpdateExistingUserRolesInBatches(userRoles);
+        return VO.response(Code.SUCCESS, userRoles
+                .stream()
+                .map(userRole -> "/user-role/info/" + userRole.getId())
+                .toList()
+                .toString());
+    }
+
+
+    @GetMapping("info")
     public VO<UserRoleVO> handleGetUserRoleByIdRequest(
-            @PathVariable("id")
+            @RequestParam("id")
             @Min(value = 1, message = "id must be greater than or equal to 1")
             Integer id) {
         UserRole userRole = userRoleBaseService.getUserRoleById(id);
@@ -89,7 +124,7 @@ public class UserRoleRest {
     }
 
     @GetMapping("info-list")
-    public VO<Page<UserRoleVO>> handleGetUserRoleListRequest(
+    public VO<Page<UserRoleVO>> handleGetUserRoleByPageRequest(
             @ModelAttribute UserRoleDTO userRoleDto,
             @RequestParam(defaultValue = "0")
             @Min(value = 0, message = "page must be greater than or equal to 0")
