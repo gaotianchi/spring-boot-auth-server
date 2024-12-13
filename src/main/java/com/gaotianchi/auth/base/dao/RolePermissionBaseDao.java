@@ -16,17 +16,17 @@ import java.util.List;
 @Mapper
 public interface RolePermissionBaseDao {
 
-    int insertRolePermission(RolePermission rolePermission);
+    void insertRolePermission(RolePermission rolePermission);
 
-    int insertRolePermissionsInBatches(@Param("entities") List<RolePermission> entities);
+    void insertRolePermissionsInBatches(@Param("entities") List<RolePermission> entities);
 
-    int deleteRolePermissionById(Integer id);
+    void deleteRolePermissionById(Integer id);
 
-    int deleteRolePermissionsInBatchesByIds(@Param("ids") List<Integer> ids);
+    void deleteRolePermissionsInBatchesByIds(@Param("ids") List<Integer> ids);
 
-    int updateRolePermissionById(RolePermission rolePermission);
+    void updateRolePermissionById(RolePermission rolePermission);
 
-    int insertOrUpdateExistingRolePermissionsInBatches(@Param("entities") List<RolePermission> entities);
+    void insertOrUpdateExistingRolePermissionsInBatches(@Param("entities") List<RolePermission> entities);
 
     RolePermission selectRolePermissionById(Integer id);
 

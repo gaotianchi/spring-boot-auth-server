@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
+
 /**
  * @author gaotianchi
  * @since 2024/12/7 18:06
@@ -35,7 +37,7 @@ public class RolePermissionRest {
     }
 
     @PostMapping("")
-    public VO<String> handleCreateRolePermissionRequest(
+    public VO<String> handleAddNewRolePermissionRequest(
             @RequestBody
             @Validated(RolePermissionDTO.CreateRolePermission.class)
             RolePermissionDTO rolePermissionDto
@@ -46,7 +48,7 @@ public class RolePermissionRest {
     }
 
     @PostMapping("batch")
-    public VO<String> handleCreateRolePermissionBatchRequest(
+    public VO<String> handleAddNewRolePermissionInBatchesRequest(
             @RequestBody
             @Validated(RolePermissionDTO.CreateRolePermission.class)
             List<RolePermissionDTO> rolePermissionDTOList
@@ -64,8 +66,8 @@ public class RolePermissionRest {
     @DeleteMapping("")
     public VO<Void> handleRemoveRolePermissionByIdRequest(
             @RequestParam("id")
-            @NotNull(message = "id 不能为空")
-            @Min(value = 1, message = "id 必须大于等于 1")
+            @NotNull(message = "id cannot be null.")
+            @Min(value = 1, message = "id must be greater than or equal to 1")
             Integer id
     ) {
         rolePermissionBaseService.removeRolePermissionById(id);
@@ -73,29 +75,29 @@ public class RolePermissionRest {
     }
 
     @DeleteMapping("batch")
-    public VO<Void> handleRemoveRolePermissionBatchRequest(
-            @RequestBody
-            @NotNull(message = "ids 不能为空")
-            @Size(min = 1, message = "id 数组长度必须大于等于 1")
-            List<@NotNull(message = "id 不能为空") Integer> ids
+    public VO<Void> handleRemoveRolePermissionInBatchesByIdsRequest(
+            @RequestParam("id")
+            @NotNull(message = "id cannot be null.")
+            @Size(min = 1, message = "id length must be greater than or equal to 1")
+            List<@NotNull(message = "id cannot be null") Integer> ids
     ) {
         rolePermissionBaseService.removeRolePermissionsInBatchesByIds(ids);
         return VO.response(Code.SUCCESS, null);
     }
 
     @PutMapping("")
-    public VO<String> handleUpdateRolePermissionRequest(
+    public VO<String> handleUpdateRolePermissionByIdRequest(
             @RequestBody
             @Validated(RolePermissionDTO.UpdateRolePermission.class)
             RolePermissionDTO rolePermissionDto
     ) {
         RolePermission rolePermission = rolePermissionConverter.toEntity(rolePermissionDto);
-        rolePermissionBaseService.addNewRolePermission(rolePermission);
+        rolePermissionBaseService.updateRolePermissionById(rolePermission);
         return VO.response(Code.SUCCESS, "/role-permission/info/" + rolePermission.getId());
     }
 
     @PutMapping("batch")
-    public VO<String> handleUpdateRolePermissionBatchRequest(
+    public VO<String> handleAddNewOrUpdateExistingRolePermissionInBatchesRequest(
             @RequestBody
             @Validated(RolePermissionDTO.UpdateRolePermission.class)
             List<RolePermissionDTO> rolePermissionDTOList
@@ -110,11 +112,11 @@ public class RolePermissionRest {
         return VO.response(Code.SUCCESS, uris.toString());
     }
 
-    @GetMapping("info/{id}")
+    @GetMapping("info")
     public VO<RolePermissionVO> handleGetRolePermissionByIdRequest(
-            @PathVariable
-            @NotNull(message = "id 不能为空")
-            @Min(value = 1, message = "id 必须大于等于 1")
+            @RequestParam("id")
+            @NotNull(message = "id cannot be null.")
+            @Min(value = 1, message = "id must be greater than or equal to 1")
             Integer id
     ) {
         RolePermission rolePermission = rolePermissionBaseService.getRolePermissionById(id);
@@ -123,13 +125,14 @@ public class RolePermissionRest {
     }
 
     @GetMapping("info-list")
-    public VO<Page<RolePermissionVO>> handleGetRolePermissionListRequest(
+    public VO<Page<RolePermissionVO>> handleGetRolePermissionByPageRequest(
             @ModelAttribute RolePermissionDTO rolePermissionDto,
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "id:asc") List<String> sorts
     ) {
         RolePermission rolePermission = rolePermissionConverter.toEntity(rolePermissionDto);
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = getPageRequest(page, size, sorts);
         Page<RolePermission> rolePermissionPage = rolePermissionBaseService.getRolePermissionsByPage(rolePermission, pageRequest);
         Page<RolePermissionVO> rolePermissionVOPage = rolePermissionPage.map(rolePermissionConverter::toVO);
         return VO.response(Code.SUCCESS, rolePermissionVOPage);

@@ -3,8 +3,6 @@ package com.gaotianchi.auth.base.service.impl;
 import com.gaotianchi.auth.base.dao.RolePermissionBaseDao;
 import com.gaotianchi.auth.base.entity.RolePermission;
 import com.gaotianchi.auth.base.service.RolePermissionBaseService;
-import com.gaotianchi.auth.enums.Code;
-import com.gaotianchi.auth.exception.SQLException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -31,44 +29,32 @@ public class RolePermissionBaseServiceImpl implements RolePermissionBaseService 
 
     @Override
     public void addNewRolePermission(RolePermission rolePermission) {
-        if (rolePermissionBaseDao.insertRolePermission(rolePermission) != 1) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
+        rolePermissionBaseDao.insertRolePermission(rolePermission);
     }
 
     @Override
     public void addNewRolePermissionsInBatches(List<RolePermission> rolePermissions) {
-        if (rolePermissionBaseDao.insertRolePermissionsInBatches(rolePermissions) != rolePermissions.size()) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
+        rolePermissionBaseDao.insertRolePermissionsInBatches(rolePermissions);
     }
 
     @Override
     public void removeRolePermissionById(Integer id) {
-        if (rolePermissionBaseDao.deleteRolePermissionById(id) != 1) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
+        rolePermissionBaseDao.deleteRolePermissionById(id);
     }
 
     @Override
     public void removeRolePermissionsInBatchesByIds(List<Integer> ids) {
-        if (rolePermissionBaseDao.deleteRolePermissionsInBatchesByIds(ids) != ids.size()) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
+        rolePermissionBaseDao.deleteRolePermissionsInBatchesByIds(ids);
     }
 
     @Override
     public void updateRolePermissionById(RolePermission rolePermission) {
-        if (rolePermissionBaseDao.updateRolePermissionById(rolePermission) != 1) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
+        rolePermissionBaseDao.updateRolePermissionById(rolePermission);
     }
 
     @Override
     public void addNewOrUpdateExistingRolePermissionsInBatches(List<RolePermission> rolePermissions) {
-        if (rolePermissionBaseDao.insertOrUpdateExistingRolePermissionsInBatches(rolePermissions) != rolePermissions.size()) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
+        rolePermissionBaseDao.insertOrUpdateExistingRolePermissionsInBatches(rolePermissions);
     }
 
     @Override
@@ -81,6 +67,4 @@ public class RolePermissionBaseServiceImpl implements RolePermissionBaseService 
         long total = rolePermissionBaseDao.countByRolePermission(rolePermission);
         return new PageImpl<>(rolePermissionBaseDao.selectRolePermissionsByPage(rolePermission, pageRequest), pageRequest, total);
     }
-
-
 }

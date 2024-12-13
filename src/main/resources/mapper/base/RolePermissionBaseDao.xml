@@ -101,6 +101,17 @@
                 and permission_code = #{permissionCode}
             </if>
         </where>
+        <choose>
+            <when test="pageable.sort != null">
+                ORDER BY
+                <foreach collection="pageable.sort" item="sortOrder" separator=",">
+                    ${sortOrder.property} ${sortOrder.direction}
+                </foreach>
+            </when>
+            <otherwise>
+                ORDER BY id
+            </otherwise>
+        </choose>
         limit #{pageable.offset}, #{pageable.pageSize}
     </select>
 </mapper>

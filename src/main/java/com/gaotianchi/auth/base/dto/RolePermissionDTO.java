@@ -4,11 +4,18 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Data
 @Builder
 public class RolePermissionDTO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    // =========================== Basic information ================================= //
+
     private Integer id;
 
     @NotNull(groups = {CreateRolePermission.class})
@@ -16,6 +23,8 @@ public class RolePermissionDTO implements Serializable {
 
     @NotNull(groups = {CreateRolePermission.class})
     private Integer permissionCode;
+
+    // =========================== Advanced information ================================= //
 
     public interface CreateRolePermission {
     }
