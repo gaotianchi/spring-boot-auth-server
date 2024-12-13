@@ -13,6 +13,8 @@ import java.util.Date;
 
 /**
  * Data Transfer Object for User entity
+ * @author gaotianchi
+ * @since 2024/12/13
  */
 @Data
 @Builder
@@ -21,19 +23,25 @@ public class UserDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    // ====================== Basic information ====================== //
+
     private Integer id;
 
-    @NotBlank(message = "用户名不能为空")
-    @Size(max = 255, message = "用户名长度不能超过255")
+    @NotBlank(message = "Username cannot be empty.")
+    @Size(max = 255, message = "Username length cannot exceed 255")
     private String username;
 
-    @NotBlank(message = "密码不能为空")
-    @Size(max = 255, message = "密码长度不能超过255")
+    @NotBlank(message = "Password cannot be empty.")
+    @Size(max = 255, message = "Password length cannot exceed 255")
     private String password;
 
-    @Email(message = "邮箱格式不正确")
-    @Size(max = 255, message = "邮箱长度不能超过255")
+    @Email(message = "The email format is incorrect")
+    @Size(max = 255, message = "Email length cannot exceed 255")
     private String email;
+
+    // ============================ Time related ============================ //
+
+    private Date passwordExpiration;
 
     private Date createdAt;
 
@@ -41,7 +49,9 @@ public class UserDTO implements Serializable {
 
     private Date lastLoginTime;
 
-    @Size(max = 45, message = "IP地址长度不能超过45")
+    // ============================ Additional information ============================ //
+
+    @Size(max = 45, message = "IP address length cannot exceed 255")
     private String lastLoginIp;
 
     @NotNull
@@ -54,6 +64,8 @@ public class UserDTO implements Serializable {
 
     @NotNull
     private Integer isEnabled;
+
+    // ============================== Validation group ============================== //
 
     public interface CreateUser {
     }

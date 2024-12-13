@@ -1,4 +1,4 @@
-package com.gaotianchi.auth.rest;
+package com.gaotianchi.auth.base.rest;
 
 import com.gaotianchi.auth.base.converter.UserConverter;
 import com.gaotianchi.auth.base.dto.UserDTO;
@@ -9,6 +9,7 @@ import com.gaotianchi.auth.base.vo.VO;
 import com.gaotianchi.auth.enums.Code;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
 
 /**
  * @author gaotianchi
@@ -34,7 +37,7 @@ public class UserRest {
     }
 
     @PostMapping("")
-    public VO<String> handleCreateUserRequest(
+    public VO<String> handleAddNewUserRequest(
             @RequestBody
             @Validated(UserDTO.CreateUser.class)
             UserDTO userDto
@@ -45,7 +48,7 @@ public class UserRest {
     }
 
     @PostMapping("batch")
-    public VO<String> handleCreateUsersBatchRequest(
+    public VO<String> handleAddNewUserInBatchesRequest(
             @RequestBody
             @Validated(UserDTO.CreateUser.class)
             List<UserDTO> userDTOList
@@ -63,16 +66,28 @@ public class UserRest {
     @DeleteMapping("")
     public VO<Void> handleRemoveUserByIdRequest(
             @RequestParam("id")
-            @NotNull(message = "id 不能为空")
-            @Min(value = 1, message = "id 必须大于等于 1")
+            @NotNull(message = "id cannot be empty")
+            @Min(value = 1, message = "id must be greater then or equal to 1")
             Integer id
     ) {
         userBaseService.removeUserById(id);
         return VO.response(Code.SUCCESS, null);
     }
 
+    @DeleteMapping("batch")
+    public VO<Void> handleRemoveUsersInBatchesByIdsRequest(
+            @RequestParam("id")
+            @NotNull(message = "id cannot be null.")
+            @Size(min = 1, message = "At least one id is required")
+            List<Integer> ids
+    ) {
+        userBaseService.removeUsersInBatchesByIds(ids);
+        return VO.response(Code.SUCCESS, null);
+    }
+
+
     @PutMapping("")
-    public VO<Void> handleUpdateUserRequest(
+    public VO<Void> handleUpdateUserByIdRequest(
             @RequestBody
             @Validated(UserDTO.UpdateUser.class)
             UserDTO userDto
@@ -82,10 +97,24 @@ public class UserRest {
         return VO.response(Code.SUCCESS, null);
     }
 
-    @GetMapping("info/{id}")
+    @PutMapping("batch")
+    public VO<Void> handleAddNewOrUpdateExistingUsersInBatchesRequest(
+            @RequestBody
+            @Validated(UserDTO.UpdateUser.class)
+            List<UserDTO> userDTOList
+    ) {
+        List<User> userList = userDTOList
+                .stream()
+                .map(userConverter::toEntity)
+                .toList();
+        userBaseService.addNewOrUpdateExistingUsersInBatches(userList);
+        return VO.response(Code.SUCCESS, null);
+    }
+
+    @GetMapping("info")
     public VO<UserVO> handleGetUserByIdRequest(
-            @PathVariable("id")
-            @Min(value = 1, message = "id 必须大于等于 1")
+            @RequestParam("id")
+            @Min(value = 1, message = "id must be greater then or equal to 1")
             Integer id
     ) {
         User user = userBaseService.getUserById(id);
@@ -94,17 +123,15 @@ public class UserRest {
     }
 
     @GetMapping("info-list")
-    public VO<Page<UserVO>> handleGetUserListRequest(
+    public VO<Page<UserVO>> handleGetUserByPageRequest(
             @ModelAttribute UserDTO userDto,
-            @RequestParam(value = "page", defaultValue = "0")
-            @Min(value = 0, message = "page 必须大于等于 0")
-            Integer page,
-            @RequestParam(value = "size", defaultValue = "10")
-            @Min(value = 1, message = "size 必须大于等于 1")
-            Integer size
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "id:asc") List<String> sorts
     ) {
         User user = userConverter.toEntity(userDto);
-        Page<User> userPage = userBaseService.getUsersByPage(user, PageRequest.of(page, size));
+        PageRequest pageRequest = getPageRequest(page, size, sorts);
+        Page<User> userPage = userBaseService.getUsersByPage(user, pageRequest);
         Page<UserVO> userVOPage = userPage.map(userConverter::toVO);
         return VO.response(Code.SUCCESS, userVOPage);
     }

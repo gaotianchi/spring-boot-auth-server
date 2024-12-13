@@ -7,8 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import java.util.List;
 
 /**
- * 用户表(User)表服务接口
- *
  * @author gaotianchi
  * @since 2024-12-07 11:24:29
  */
