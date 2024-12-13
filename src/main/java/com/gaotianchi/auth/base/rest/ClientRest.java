@@ -1,4 +1,4 @@
-package com.gaotianchi.auth.rest;
+package com.gaotianchi.auth.base.rest;
 
 
 import com.gaotianchi.auth.base.converter.ClientConverter;
@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
+
 /**
  * @author gaotianchi
  * @since 2024/11/26 12:51
@@ -37,7 +39,7 @@ public class ClientRest {
     }
 
     @PostMapping("")
-    public VO<String> handleCreateClientRequest(
+    public VO<String> handleAddNewClientRequest(
             @RequestBody
             @Validated(ClientDTO.CreateClient.class)
             ClientDTO clientDto
@@ -48,7 +50,7 @@ public class ClientRest {
     }
 
     @PostMapping("batch")
-    public VO<String> handleCreateClientsBatchRequest(
+    public VO<String> handleAddNewClientInBatchesRequest(
             @RequestBody
             @Validated(ClientDTO.CreateClient.class)
             List<ClientDTO> clientDTOList
@@ -66,8 +68,8 @@ public class ClientRest {
     @DeleteMapping("")
     public VO<Void> handleRemoveClientByIdRequest(
             @RequestParam("id")
-            @NotNull(message = "id 不能为空")
-            @Min(value = 1, message = "id 必须大于等于 1")
+            @NotNull(message = "id cannot be empty")
+            @Min(value = 1, message = "id must be greater then or equal to 1")
             Integer id
     ) {
         clientBaseService.removeClientById(id);
@@ -75,10 +77,10 @@ public class ClientRest {
     }
 
     @DeleteMapping("batch")
-    public VO<Void> handleRemoveClientBatchByIdsRequest(
-            @RequestParam("ids")
-            @NotNull(message = "ids 不能为空")
-            @Size(min = 1, message = "至少需要提供一个 id")
+    public VO<Void> handleRemoveClientInBatchesByIdsRequest(
+            @RequestParam("id")
+            @NotNull(message = "id cannot be empty")
+            @Size(min = 1, message = "At least one id is required")
             List<Integer> ids
     ) {
         clientBaseService.removeClientsInBatchesByIds(ids);
@@ -86,7 +88,7 @@ public class ClientRest {
     }
 
     @PutMapping("")
-    public VO<String> handleUpdateClientDetailsRequest(
+    public VO<String> handleUpdateClientByIdRequest(
             @RequestBody
             @Validated(ClientDTO.UpdateClientDetails.class)
             ClientDTO clientDto
@@ -97,7 +99,7 @@ public class ClientRest {
     }
 
     @PutMapping("batch")
-    public VO<String> handleUpdateClientsBatchRequest(
+    public VO<String> handleAddNewClientOrUpdateExistingClientInBatchesRequest(
             @RequestBody
             @Validated(ClientDTO.UpdateClientDetails.class)
             List<ClientDTO> clientDTOList
@@ -112,11 +114,11 @@ public class ClientRest {
         return VO.response(Code.SUCCESS, uris.toString());
     }
 
-    @GetMapping("info/{id}")
+    @GetMapping("info")
     public VO<ClientVO> handleGetClientByIdRequest(
-            @PathVariable
-            @NotNull(message = "id 不能为空")
-            @Min(value = 1, message = "id 必须大于等于 1")
+            @RequestParam
+            @NotNull(message = "id can not be null")
+            @Min(value = 1, message = "id must be greater than or equal to 1")
             Integer id
     ) {
         Client client = clientBaseService.getClientById(id);
@@ -125,13 +127,14 @@ public class ClientRest {
     }
 
     @GetMapping("info-list")
-    public VO<Page<ClientVO>> handleGetClientListRequest(
+    public VO<Page<ClientVO>> handleGetClientByIdRequest(
             @ModelAttribute ClientDTO clientDto,
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "id:asc") List<String> sorts
     ) {
         Client client = clientConverter.toEntity(clientDto);
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = getPageRequest(page, size, sorts);
         Page<Client> clientPage = clientBaseService.getClientsByPage(client, pageRequest);
         Page<ClientVO> clientVOPage = clientPage.map(clientConverter::toVO);
         return VO.response(Code.SUCCESS, clientVOPage);

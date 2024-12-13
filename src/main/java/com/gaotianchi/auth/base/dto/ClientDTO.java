@@ -11,8 +11,6 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * 客户端创建 DTO
- *
  * @author gaotianchi
  * @since 2024/11/25 20:36
  **/
@@ -20,57 +18,60 @@ import java.util.Set;
 @Data
 public class ClientDTO {
 
-    // ===================== 基本信息 =====================
+    // ===================== Basic information ===================== //
 
-    @NotBlank(groups = CreateClient.class, message = "客户端ID不能为空")
-    @Size(groups = CreateClient.class, max = 255, message = "客户端ID长度不能超过255")
+    private Integer id;
+
+    @NotBlank(groups = CreateClient.class, message = "Client ID cannot be empty")
+    @Size(groups = CreateClient.class, max = 255, message = "Client ID length cannot exceed 255")
     private String clientId;
 
-    @Size(groups = CreateClient.class, max = 255, message = "客户端密钥长度不能超过255")
+    @Size(groups = CreateClient.class, max = 255, message = "Client key length cannot exceed 255")
     private String clientSecret;
 
-    @NotBlank(groups = CreateClient.class, message = "客户端名称不能为空")
-    @Size(groups = {CreateClient.class, UpdateClientDetails.class}, max = 255, message = "客户端名称长度不能超过255")
+    @NotBlank(groups = CreateClient.class, message = "Client name cannot be empty")
+    @Size(groups = {CreateClient.class, UpdateClientDetails.class}, max = 255, message = "Client name length cannot exceed 255")
     private String clientName;
 
-    // ===================== 授权配置 =====================
+    // ==================== == Authorization configuration ====================== //
 
-    @NotNull(groups = CreateClient.class, message = "授权类型不能为空")
+    @NotNull(groups = CreateClient.class, message = "Authorization type cannot be empty")
     private Set<
-            @NotBlank(groups = ClientDTO.class, message = "授权类型不能为空")
+            @NotBlank(groups = ClientDTO.class, message = "Authorization type cannot be empty")
                     String
             > authorizationGrantTypes;
 
-    @Size(groups = CreateClient.class, max = 1000, message = "重定向URI列表长度不能超过1000")
+    @Size(groups = CreateClient.class, max = 1000, message = "The length of the redirect URI list cannot exceed 1000")
     private Set<
-            @NotBlank(message = "重定向URI不能为空", groups = ClientDTO.class)
+            @NotBlank(message = "Redirect URI cannot be empty", groups = ClientDTO.class)
                     String
             > redirectUris;
 
-    @Size(groups = CreateClient.class, max = 1000, message = "注销后重定向URI列表长度不能超过1000")
+    @Size(groups = CreateClient.class, max = 1000, message = "The length of the redirect URI list cannot be More than 1000")
     private Set<
-            @NotBlank(message = "注销后重定向URI不能为空", groups = ClientDTO.class)
+            @NotBlank(message = "Redirect URI cannot be empty after logout", groups = ClientDTO.class)
                     String
             > postLogoutRedirectUris;
 
-    @NotNull(groups = CreateClient.class, message = "作用域不能为空")
+    @NotNull(groups = CreateClient.class, message = "Scope cannot be empty ")
     private Set<
-            @NotBlank(message = "作用域不能为空", groups = ClientDTO.class)
+            @NotBlank(message = "scope cannot be empty", groups = ClientDTO.class)
                     String
             > scopes;
 
-    @NotNull(groups = CreateClient.class, message = "客户端认证方式不能为空")
+    @NotNull(groups = CreateClient.class, message = "Client authentication method cannot be empty")
     private Set<
-            @NotBlank(message = "认证方式不能为空", groups = ClientDTO.class)
+            @NotBlank(message = "Authentication method cannot be empty", groups = ClientDTO.class)
                     String
             > clientAuthenticationMethods;
 
-    // ===================== 时间相关 =====================
+    // ===================== Time related ===================== //
 
     private Date clientSecretExpiresAt;
+
     private Date clientIdIssuedAt;
 
-    // ===================== 配置字段 =====================
+    // ===================== Configuration fields ================ //
 
     private Integer requireProofKey;
     private Integer requireAuthorizationConsent;
@@ -78,11 +79,12 @@ public class ClientDTO {
     private Integer refreshTokenTimeToLive;
     private Integer reuseRefreshTokens;
 
-    // ===================== 验证组 =====================
+    // ===================== Validation group ===================== //
 
     public interface CreateClient extends Default {
     }
 
     public interface UpdateClientDetails extends Default {
     }
+
 }

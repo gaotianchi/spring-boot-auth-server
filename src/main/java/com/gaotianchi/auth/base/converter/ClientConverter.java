@@ -17,7 +17,6 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface ClientConverter {
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "clientAuthenticationMethods", expression = "java(setToString(clientDto.getClientAuthenticationMethods()))")
     @Mapping(target = "authorizationGrantTypes", expression = "java(setToString(clientDto.getAuthorizationGrantTypes()))")
     @Mapping(target = "scopes", expression = "java(setToString(clientDto.getScopes()))")
