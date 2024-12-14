@@ -24,12 +24,12 @@ import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
  **/
 @RestController
 @RequestMapping("role")
-public class RoleRest {
+public class RoleBaseRest {
 
     private final RoleBaseService roleService;
     private final RoleConverter roleConverter;
 
-    public RoleRest(RoleBaseService roleService, RoleConverter roleConverter) {
+    public RoleBaseRest(RoleBaseService roleService, RoleConverter roleConverter) {
         this.roleService = roleService;
         this.roleConverter = roleConverter;
     }

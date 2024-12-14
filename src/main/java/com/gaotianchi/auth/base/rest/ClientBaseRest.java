@@ -27,13 +27,13 @@ import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
  **/
 @RestController
 @RequestMapping("client")
-public class ClientRest {
+public class ClientBaseRest {
 
     private final ClientBaseService clientBaseService;
 
     private final ClientConverter clientConverter;
 
-    public ClientRest(ClientBaseService clientBaseService, ClientConverter clientConverter) {
+    public ClientBaseRest(ClientBaseService clientBaseService, ClientConverter clientConverter) {
         this.clientBaseService = clientBaseService;
         this.clientConverter = clientConverter;
     }

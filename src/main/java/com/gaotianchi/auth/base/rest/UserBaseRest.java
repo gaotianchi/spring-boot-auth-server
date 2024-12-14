@@ -26,12 +26,12 @@ import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
  **/
 @RestController
 @RequestMapping("user")
-public class UserRest {
+public class UserBaseRest {
 
     private final UserBaseService userBaseService;
     private final UserConverter userConverter;
 
-    public UserRest(UserBaseService userBaseService, UserConverter userConverter) {
+    public UserBaseRest(UserBaseService userBaseService, UserConverter userConverter) {
         this.userBaseService = userBaseService;
         this.userConverter = userConverter;
     }

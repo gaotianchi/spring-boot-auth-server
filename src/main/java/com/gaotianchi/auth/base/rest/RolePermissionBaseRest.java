@@ -26,12 +26,12 @@ import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
  **/
 @RestController
 @RequestMapping("role-permission")
-public class RolePermissionRest {
+public class RolePermissionBaseRest {
 
     private final RolePermissionBaseService rolePermissionBaseService;
     private final RolePermissionConverter rolePermissionConverter;
 
-    public RolePermissionRest(RolePermissionBaseService rolePermissionBaseService, RolePermissionConverter rolePermissionConverter) {
+    public RolePermissionBaseRest(RolePermissionBaseService rolePermissionBaseService, RolePermissionConverter rolePermissionConverter) {
         this.rolePermissionBaseService = rolePermissionBaseService;
         this.rolePermissionConverter = rolePermissionConverter;
     }

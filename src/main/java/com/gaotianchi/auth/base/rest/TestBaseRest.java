@@ -22,12 +22,12 @@ import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
  **/
 @RestController
 @RequestMapping("test")
-public class TestRest {
+public class TestBaseRest {
 
     private final TestBaseService testBaseService;
     private final TestConverter testConverter;
 
-    public TestRest(TestBaseService testBaseService, TestConverter testConverter) {
+    public TestBaseRest(TestBaseService testBaseService, TestConverter testConverter) {
         this.testBaseService = testBaseService;
         this.testConverter = testConverter;
     }

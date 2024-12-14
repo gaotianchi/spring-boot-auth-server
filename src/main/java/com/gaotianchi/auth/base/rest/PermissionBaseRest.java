@@ -21,11 +21,11 @@ import java.util.List;
 @RestController
 @RequestMapping("permission")
 @Validated
-public class PermissionRest {
+public class PermissionBaseRest {
     private final PermissionBaseService permissionBaseService;
     private final PermissionConverter permissionConverter;
 
-    public PermissionRest(PermissionBaseService permissionBaseService, PermissionConverter permissionConverter) {
+    public PermissionBaseRest(PermissionBaseService permissionBaseService, PermissionConverter permissionConverter) {
         this.permissionBaseService = permissionBaseService;
         this.permissionConverter = permissionConverter;
     }

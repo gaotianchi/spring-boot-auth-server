@@ -21,11 +21,11 @@ import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
 @RestController
 @RequestMapping("action-log")
 @Validated
-public class ActionLogRest {
+public class ActionLogBaseRest {
     private final ActionLogBaseService actionLogBaseService;
     private final ActionLogConverter actionLogConverter;
 
-    public ActionLogRest(ActionLogBaseService actionLogBaseService, ActionLogConverter actionLogConverter) {
+    public ActionLogBaseRest(ActionLogBaseService actionLogBaseService, ActionLogConverter actionLogConverter) {
         this.actionLogBaseService = actionLogBaseService;
         this.actionLogConverter = actionLogConverter;
     }

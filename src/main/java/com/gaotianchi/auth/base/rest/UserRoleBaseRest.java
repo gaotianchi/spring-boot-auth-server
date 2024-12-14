@@ -20,11 +20,11 @@ import java.util.List;
 @RestController
 @RequestMapping("user-role")
 @Validated
-public class UserRoleRest {
+public class UserRoleBaseRest {
     private final UserRoleBaseService userRoleBaseService;
     private final UserRoleConverter userRoleConverter;
 
-    public UserRoleRest(UserRoleBaseService userRoleBaseService, UserRoleConverter userRoleConverter) {
+    public UserRoleBaseRest(UserRoleBaseService userRoleBaseService, UserRoleConverter userRoleConverter) {
         this.userRoleBaseService = userRoleBaseService;
         this.userRoleConverter = userRoleConverter;
     }
