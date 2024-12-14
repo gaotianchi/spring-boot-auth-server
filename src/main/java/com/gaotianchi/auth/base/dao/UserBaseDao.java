@@ -16,17 +16,17 @@ import java.util.List;
 @Mapper
 public interface UserBaseDao {
 
-    int insertUser(User user);
+    void insertUser(User user);
 
-    int insertUsersInBatches(@Param("entities") List<User> entities);
+    void insertUsersInBatches(@Param("entities") List<User> entities);
 
-    int deleteUserById(Integer id);
+    void deleteUserById(Integer id);
 
-    int deleteUsersInBatchesByIds(@Param("ids") List<Integer> ids);
+    void deleteUsersInBatchesByIds(@Param("ids") List<Integer> ids);
 
-    int updateUserById(User user);
+    void updateUserById(User user);
 
-    int insertOrUpdateExistingUsersInBatches(@Param("entities") List<User> entities);
+    void insertOrUpdateExistingUsersInBatches(@Param("entities") List<User> entities);
 
     User selectUserById(Integer id);
 

@@ -69,7 +69,7 @@ public class ClientRest {
     public VO<Void> handleRemoveClientByIdRequest(
             @RequestParam("id")
             @NotNull(message = "id cannot be empty")
-            @Min(value = 1, message = "id must be greater then or equal to 1")
+            @Min(value = 1, message = "id must be greater than or equal to 1")
             Integer id
     ) {
         clientBaseService.removeClientById(id);

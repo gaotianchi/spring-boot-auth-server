@@ -12,8 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
 
 /**
  * @author gaotianchi
@@ -146,22 +147,7 @@ public class TestRest {
             @RequestParam(value = "sort", defaultValue = "id:asc") List<String> sorts
     ) {
         Test test = testConverter.toEntity(testDto);
-        List<Sort.Order> orders = new ArrayList<>();
-        for (String sort : sorts) {
-            String[] sortParts = sort.split(":");
-            if (sortParts.length == 2) {
-                String field = sortParts[0].trim();
-                String direction = sortParts[1].trim().toUpperCase();
-
-                if ("DESC".equals(direction)) {
-                    orders.add(Sort.Order.desc(field));
-                } else {
-                    orders.add(Sort.Order.asc(field));
-                }
-            }
-        }
-        Sort sort = Sort.by(orders);
-        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        PageRequest pageRequest = getPageRequest(page, size, sorts);
         Page<Test> testPage = testBaseService.getTestsByPage(test, pageRequest);
         Page<TestVO> testVOPage = testPage.map(testConverter::toVO);
         return VO.response(Code.SUCCESS, testVOPage);

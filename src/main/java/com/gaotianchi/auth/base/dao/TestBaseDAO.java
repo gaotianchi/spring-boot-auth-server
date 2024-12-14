@@ -14,7 +14,7 @@ import java.util.List;
  * @since 2024-12-10 11:13:40
  */
 @Mapper
-public interface TestBaseDao {
+public interface TestBaseDAO {
 
     void insertTest(Test test);
 

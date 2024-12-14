@@ -3,8 +3,6 @@ package com.gaotianchi.auth.base.service.impl;
 import com.gaotianchi.auth.base.dao.ClientBaseDao;
 import com.gaotianchi.auth.base.entity.Client;
 import com.gaotianchi.auth.base.service.ClientBaseService;
-import com.gaotianchi.auth.enums.Code;
-import com.gaotianchi.auth.exception.SQLException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -31,44 +29,32 @@ public class ClientBaseServiceImpl implements ClientBaseService {
 
     @Override
     public void addNewClient(Client client) {
-        if (clientBaseDao.insertClient(client) != 1) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
+        clientBaseDao.insertClient(client);
     }
 
     @Override
     public void addNewClientsInBatches(List<Client> clients) {
-        if (clientBaseDao.insertClientsInBatches(clients) != clients.size()) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
+        clientBaseDao.insertClientsInBatches(clients);
     }
 
     @Override
     public void removeClientById(Integer id) {
-        if (clientBaseDao.deleteClientById(id) != 1) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
+        clientBaseDao.deleteClientById(id);
     }
 
     @Override
     public void removeClientsInBatchesByIds(List<Integer> ids) {
-        if (clientBaseDao.deleteClientsInBatchesByIds(ids) != ids.size()) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
+        clientBaseDao.deleteClientsInBatchesByIds(ids);
     }
 
     @Override
     public void updateClientById(Client client) {
-        if (clientBaseDao.updateClientById(client) != 1) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
+        clientBaseDao.updateClientById(client);
     }
 
     @Override
     public void addNewOrUpdateExistingClientsInBatches(List<Client> clients) {
-        if (clientBaseDao.insertOrUpdateExistingClientsInBatches(clients) != clients.size()) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
+        clientBaseDao.insertOrUpdateExistingClientsInBatches(clients);
     }
 
     @Override

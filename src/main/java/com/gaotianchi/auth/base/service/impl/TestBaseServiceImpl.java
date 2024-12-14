@@ -1,6 +1,6 @@
 package com.gaotianchi.auth.base.service.impl;
 
-import com.gaotianchi.auth.base.dao.TestBaseDao;
+import com.gaotianchi.auth.base.dao.TestBaseDAO;
 import com.gaotianchi.auth.base.entity.Test;
 import com.gaotianchi.auth.base.service.TestBaseService;
 import org.springframework.data.domain.Page;
@@ -17,9 +17,9 @@ import java.util.List;
 @Service("testBaseService")
 public class TestBaseServiceImpl implements TestBaseService {
 
-    private final TestBaseDao testBaseDao;
+    private final TestBaseDAO testBaseDao;
 
-    public TestBaseServiceImpl(TestBaseDao testBaseDao) {
+    public TestBaseServiceImpl(TestBaseDAO testBaseDao) {
         this.testBaseDao = testBaseDao;
     }
 

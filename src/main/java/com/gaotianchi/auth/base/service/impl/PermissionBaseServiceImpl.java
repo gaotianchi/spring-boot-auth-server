@@ -3,8 +3,6 @@ package com.gaotianchi.auth.base.service.impl;
 import com.gaotianchi.auth.base.dao.PermissionBaseDao;
 import com.gaotianchi.auth.base.entity.Permission;
 import com.gaotianchi.auth.base.service.PermissionBaseService;
-import com.gaotianchi.auth.enums.Code;
-import com.gaotianchi.auth.exception.SQLException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -31,44 +29,32 @@ public class PermissionBaseServiceImpl implements PermissionBaseService {
 
     @Override
     public void addNewPermission(Permission permission) {
-        if (permissionBaseDao.insertPermission(permission) != 1) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
+        permissionBaseDao.insertPermission(permission);
     }
 
     @Override
     public void addNewPermissionsInBatches(List<Permission> permissions) {
-        if (permissionBaseDao.insertPermissionsInBatches(permissions) != permissions.size()) {
-            throw new SQLException(Code.SQL_INSERT_ERROR);
-        }
+        permissionBaseDao.insertPermissionsInBatches(permissions);
     }
 
     @Override
     public void removePermissionById(Integer id) {
-        if (permissionBaseDao.deletePermissionById(id) != 1) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
+        permissionBaseDao.deletePermissionById(id);
     }
 
     @Override
     public void removePermissionsInBatchesByIds(List<Integer> ids) {
-        if (permissionBaseDao.deletePermissionsInBatchesByIds(ids) != ids.size()) {
-            throw new SQLException(Code.SQL_DELETE_ERROR);
-        }
+        permissionBaseDao.deletePermissionsInBatchesByIds(ids);
     }
 
     @Override
     public void updatePermissionById(Permission permission) {
-        if (permissionBaseDao.updatePermissionById(permission) != 1) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
+        permissionBaseDao.updatePermissionById(permission);
     }
 
     @Override
     public void addNewOrUpdateExistingPermissionsInBatches(List<Permission> permissions) {
-        if (permissionBaseDao.insertOrUpdateExistingPermissionsInBatches(permissions) != permissions.size()) {
-            throw new SQLException(Code.SQL_UPDATE_ERROR);
-        }
+        permissionBaseDao.insertOrUpdateExistingPermissionsInBatches(permissions);
     }
 
     @Override

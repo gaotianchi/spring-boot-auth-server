@@ -31,7 +31,7 @@ public class PermissionRest {
     }
 
     @PostMapping("")
-    public VO<String> handleCreatePermissionRequest(
+    public VO<String> handleAddNewPermissionRequest(
             @RequestBody
             @Validated(PermissionDTO.CreatePermission.class)
             PermissionDTO permissionDto) {
@@ -41,7 +41,7 @@ public class PermissionRest {
     }
 
     @PostMapping("batch")
-    public VO<String> handleCreatePermissionsBatchRequest(
+    public VO<String> handleAddNewPermissionsInBatchesRequest(
             @RequestBody
             @Validated(PermissionDTO.CreatePermission.class)
             List<PermissionDTO> permissionDTOList) {
@@ -66,7 +66,7 @@ public class PermissionRest {
     }
 
     @DeleteMapping("batch")
-    public VO<Void> handleRemovePermissionBatchByIdsRequest(
+    public VO<Void> handleRemovePermissionInBatchesByIdsRequest(
             @RequestParam("ids")
             @NotNull(message = "ids cannot be null")
             @Size(min = 1, message = "At least one id must be provided")
@@ -76,7 +76,7 @@ public class PermissionRest {
     }
 
     @PutMapping("")
-    public VO<String> handleUpdatePermissionRequest(
+    public VO<String> handleUpdatePermissionByIdRequest(
             @RequestBody
             @Validated(PermissionDTO.UpdatePermission.class)
             PermissionDTO permissionDto) {
@@ -84,6 +84,22 @@ public class PermissionRest {
         permissionBaseService.updatePermissionById(permission);
         return VO.response(Code.SUCCESS, "/permission/info/" + permission.getId());
     }
+
+    @PutMapping("batch")
+    public VO<String> handleAddNewOrUpdateExistingPermissionsInBatchesRequest(
+            @RequestBody
+            @Validated(PermissionDTO.UpdatePermission.class)
+            List<PermissionDTO> permissionDTOList) {
+        List<Permission> permissionList = permissionDTOList
+                .stream()
+                .map(permissionConverter::toEntity)
+                .toList();
+        permissionBaseService.addNewOrUpdateExistingPermissionsInBatches(permissionList);
+        List<String> uris = new ArrayList<>();
+        permissionList.forEach(permission -> uris.add("/permission/info/" + permission.getId()));
+        return VO.response(Code.SUCCESS, uris.toString());
+    }
+
 
     @GetMapping("info/{id}")
     public VO<PermissionVO> handleGetPermissionByIdRequest(
@@ -96,7 +112,7 @@ public class PermissionRest {
     }
 
     @GetMapping("info-list")
-    public VO<Page<PermissionVO>> handleGetPermissionListRequest(
+    public VO<Page<PermissionVO>> handleGetPermissionByPageRequest(
             @ModelAttribute PermissionDTO permissionDto,
             @RequestParam(defaultValue = "0")
             @Min(value = 0, message = "page must be greater than or equal to 0")

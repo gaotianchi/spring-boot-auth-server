@@ -16,17 +16,17 @@ import java.util.List;
 @Mapper
 public interface ClientBaseDao {
 
-    int insertClient(Client client);
+    void insertClient(Client client);
 
-    int insertClientsInBatches(@Param("entities") List<Client> entities);
+    void insertClientsInBatches(@Param("entities") List<Client> entities);
 
     int deleteClientById(Integer id);
 
-    int deleteClientsInBatchesByIds(@Param("ids") List<Integer> ids);
+    void deleteClientsInBatchesByIds(@Param("ids") List<Integer> ids);
 
-    int updateClientById(Client client);
+    void updateClientById(Client client);
 
-    int insertOrUpdateExistingClientsInBatches(@Param("entities") List<Client> entities);
+    void insertOrUpdateExistingClientsInBatches(@Param("entities") List<Client> entities);
 
     Client selectClientById(Integer id);
 

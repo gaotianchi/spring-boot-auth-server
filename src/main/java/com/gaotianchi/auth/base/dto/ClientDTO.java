@@ -7,6 +7,8 @@ import jakarta.validation.groups.Default;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -16,7 +18,10 @@ import java.util.Set;
  **/
 @Builder
 @Data
-public class ClientDTO {
+public class ClientDTO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     // ===================== Basic information ===================== //
 

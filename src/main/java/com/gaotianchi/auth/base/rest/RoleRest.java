@@ -85,7 +85,7 @@ public class RoleRest {
     }
 
     @PutMapping("")
-    public VO<String> handleUpdateRoleRequest(
+    public VO<String> handleUpdateRoleByIdRequest(
             @RequestBody
             @Validated(RoleDTO.UpdateRole.class)
             RoleDTO roleDto
@@ -96,7 +96,7 @@ public class RoleRest {
     }
 
     @PutMapping("batch")
-    public VO<String> handleUpdateRolesBatchRequest(
+    public VO<String> handleAddNewOrUpdateExistingRolesInBatchesRequest(
             @RequestBody
             @Validated(RoleDTO.UpdateRole.class)
             List<RoleDTO> roleDTOList

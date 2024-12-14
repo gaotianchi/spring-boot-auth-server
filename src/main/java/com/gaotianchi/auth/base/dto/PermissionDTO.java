@@ -12,6 +12,7 @@ import java.util.Date;
 public class PermissionDTO implements Serializable {
     private Integer id;
 
+    // ============================ Basic information ========================= //
     @NotNull(groups = {CreatePermission.class})
     private Integer code;
 
@@ -19,8 +20,14 @@ public class PermissionDTO implements Serializable {
     private String name;
 
     private String description;
+
+
+    // =============================== Time related ============================ //
     private Date createdAt;
     private Date updatedAt;
+
+
+    // =============================== Validation groups ======================= //
 
     public interface CreatePermission {
     }
