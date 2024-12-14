@@ -14,6 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
+
 @RestController
 @RequestMapping("action-log")
 @Validated
@@ -27,12 +31,26 @@ public class ActionLogRest {
     }
 
     @PostMapping("")
-    public VO<String> handleCreateActionLogRequest(
+    public VO<String> handleAddNewActionLogRequest(
             @Validated(ActionLogDTO.CreateActionLog.class) @RequestBody ActionLogDTO actionLogDto) {
         ActionLog actionLog = actionLogConverter.toEntity(actionLogDto);
         actionLogBaseService.addNewActionLog(actionLog);
         return VO.response(Code.SUCCESS, "/action-log/" + actionLog.getId());
     }
+
+    @PostMapping("batch")
+    public VO<Void> handleAddNewActionLogsInBatchesRequest(
+            @RequestBody
+            List<ActionLogDTO> actionLogDtoList
+    ) {
+        List<ActionLog> actionLogs = actionLogDtoList
+                .stream()
+                .map(actionLogConverter::toEntity)
+                .toList();
+        actionLogBaseService.addNewActionLogsInBatches(actionLogs);
+        return VO.response(Code.SUCCESS, null);
+    }
+
 
     @DeleteMapping("")
     public VO<Void> handleRemoveActionLogByIdRequest(
@@ -44,9 +62,43 @@ public class ActionLogRest {
         return VO.response(Code.SUCCESS, null);
     }
 
-    @GetMapping("info/{id}")
+    @DeleteMapping("batch")
+    public VO<Void> handleRemoveActionLogsInBatchesRequest(
+            @RequestBody
+            List<Integer> idList
+    ) {
+        actionLogBaseService.removeActionLogsInBatchesByIds(idList);
+        return VO.response(Code.SUCCESS, null);
+    }
+
+    @PutMapping("")
+    public VO<Void> handleUpdateActionLogByIdRequest(
+            @RequestParam("id")
+            @NotNull(message = "id cannot be null")
+            @Min(value = 1, message = "id must be greater than or equal to 1")
+            Integer id,
+            @RequestBody ActionLogDTO actionLogDto) {
+        ActionLog actionLog = actionLogConverter.toEntity(actionLogDto);
+        actionLogBaseService.updateActionLogById(actionLog);
+        return VO.response(Code.SUCCESS, null);
+    }
+
+    @PutMapping("batch")
+    public VO<Void> handleUpdateActionLogsInBatchesRequest(
+            @RequestBody
+            List<ActionLogDTO> actionLogDtoList
+    ) {
+        List<ActionLog> actionLogs = actionLogDtoList
+                .stream()
+                .map(actionLogConverter::toEntity)
+                .toList();
+        actionLogBaseService.addNewOrUpdateExistingActionLogsInBatches(actionLogs);
+        return VO.response(Code.SUCCESS, null);
+    }
+
+    @GetMapping("info")
     public VO<ActionLogVO> handleGetActionLogByIdRequest(
-            @PathVariable("id")
+            @RequestParam("id")
             @Min(value = 1, message = "id must be greater than or equal to 1")
             Integer id) {
         ActionLog actionLog = actionLogBaseService.getActionLogById(id);
@@ -57,14 +109,13 @@ public class ActionLogRest {
     @GetMapping("info-list")
     public VO<Page<ActionLogVO>> handleGetActionLogListRequest(
             @ModelAttribute ActionLogDTO actionLogDto,
-            @RequestParam(defaultValue = "0")
-            @Min(value = 0, message = "page must be greater than or equal to 0")
-            int page,
-            @RequestParam(defaultValue = "10")
-            @Min(value = 1, message = "size must be greater than or equal to 1")
-            int size) {
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "id:asc") List<String> sorts
+    ) {
         ActionLog actionLog = actionLogConverter.toEntity(actionLogDto);
-        Page<ActionLog> actionLogPage = actionLogBaseService.getActionLogsByPage(actionLog, PageRequest.of(page, size));
+        PageRequest pageRequest = getPageRequest(page, size, sorts);
+        Page<ActionLog> actionLogPage = actionLogBaseService.getActionLogsByPage(actionLog, pageRequest);
         Page<ActionLogVO> actionLogVOPage = actionLogPage.map(actionLogConverter::toVO);
         return VO.response(Code.SUCCESS, actionLogVOPage);
     }

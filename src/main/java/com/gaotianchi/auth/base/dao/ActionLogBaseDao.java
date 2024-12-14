@@ -16,17 +16,17 @@ import java.util.List;
 @Mapper
 public interface ActionLogBaseDao {
 
-    int insertActionLog(ActionLog actionLog);
+    void insertActionLog(ActionLog actionLog);
 
-    int insertActionLogsInBatches(@Param("entities") List<ActionLog> entities);
+    void insertActionLogsInBatches(@Param("entities") List<ActionLog> entities);
 
-    int deleteActionLogById(Integer id);
+    void deleteActionLogById(Integer id);
 
-    int deleteActionLogsInBatchesByIds(@Param("ids") List<Integer> ids);
+    void deleteActionLogsInBatchesByIds(@Param("ids") List<Integer> ids);
 
-    int updateActionLogById(ActionLog actionLog);
+    void updateActionLogById(ActionLog actionLog);
 
-    int insertOrUpdateExistingActionLogsInBatches(@Param("entities") List<ActionLog> entities);
+    void insertOrUpdateExistingActionLogsInBatches(@Param("entities") List<ActionLog> entities);
 
     ActionLog selectActionLogById(Integer id);
 
