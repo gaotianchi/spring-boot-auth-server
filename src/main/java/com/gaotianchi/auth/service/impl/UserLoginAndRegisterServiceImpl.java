@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.gaotianchi.auth.utils.ServiceTool.generateVerificationCode;
+
 
 /**
  * User login and registration related business logic
@@ -172,16 +174,5 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
             }
             username = email.split("@")[0] + "_" + i++;
         }
-    }
-
-    /**
-     * Generate a random four-digit number
-     *
-     * @return verification code:  a random four-digit number
-     * @author gaotianchi
-     * @since 2024/12/16 11:28
-     **/
-    private int generateVerificationCode() {
-        return (int) (Math.random() * 9000) + 1000;
     }
 }
