@@ -35,7 +35,7 @@
            OR email = #{usernameOrEmail}
     </select>
 
-    <select id="selectUserRolesAndPermissionsNamesByUsername" resultType="java.lang.String">
+    <select id="selectUserRolesAndPermissionsNamesByUsernameOrEmail" resultType="java.lang.String">
         WITH user_roles AS (SELECT r.name AS role_name,
                                    p.name AS permission_name
                             FROM user u
@@ -47,7 +47,8 @@
                                  role_permission rp ON r.code = rp.role_code
                                      LEFT JOIN
                                  permission p ON rp.permission_code = p.code
-                            WHERE u.username = #{username})
+                            WHERE u.username = #{usernameOrEmail}
+                               OR u.email = #{usernameOrEmail})
         SELECT DISTINCT CONCAT('ROLE_', role_name) AS name
         FROM user_roles
 

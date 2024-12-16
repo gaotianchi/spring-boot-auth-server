@@ -19,11 +19,10 @@ public interface UserDao extends UserBaseDao {
 
     /**
      * role name with prefix ROLE_, example: {"ROLE_ADMIN", "ALL"}
-     *
-     * @return java.util.List<java.lang.String>
+     * @return set of user permission or role name
      * @author gaotianchi
      * @since 2024/11/28 21:00
      **/
-    Set<String> selectUserRolesAndPermissionsNamesByUsername(String username);
+    Set<String> selectUserRolesAndPermissionsNamesByUsernameOrEmail(String usernameOrEmail);
 }
 

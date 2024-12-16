@@ -16,17 +16,24 @@ import java.util.List;
 @Mapper
 public interface UserBaseDao {
 
-    void insertUser(User user);
+    /**
+     * username, password and email are required, others are optional
+     *
+     * @param user User
+     * @author gaotianchi
+     * @since 2024/12/16 10:48
+     **/
+    int insertUser(User user);
 
-    void insertUsersInBatches(@Param("entities") List<User> entities);
+    int insertUsersInBatches(@Param("entities") List<User> entities);
 
-    void deleteUserById(Integer id);
+    int deleteUserById(Integer id);
 
-    void deleteUsersInBatchesByIds(@Param("ids") List<Integer> ids);
+    int deleteUsersInBatchesByIds(@Param("ids") List<Integer> ids);
 
-    void updateUserById(User user);
+    int updateUserById(User user);
 
-    void insertOrUpdateExistingUsersInBatches(@Param("entities") List<User> entities);
+    int insertOrUpdateExistingUsersInBatches(@Param("entities") List<User> entities);
 
     User selectUserById(Integer id);
 

@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS blog_auth.user
         primary key,
     username        varchar(255)                         not null,
     password        varchar(255)                         not null,
-    email           varchar(255)                         null,
+    email                        varchar(255)         not null,
     created_at      datetime   default CURRENT_TIMESTAMP not null,
     updated_at      datetime   default CURRENT_TIMESTAMP not null,
     last_login_time datetime                             null,
@@ -75,6 +75,9 @@ CREATE TABLE IF NOT EXISTS blog_auth.user
     is_locked       tinyint(1) default 0                 not null,
     lock_expiration datetime                             null,
     is_enabled      tinyint(1) default 1                 not null,
+    verification_code            int                  null,
+    verification_code_expiration datetime             null,
+    email_is_verified            tinyint(1) default 0 not null,
     constraint user_admin_pk_2
         unique (username),
     constraint user_pk
