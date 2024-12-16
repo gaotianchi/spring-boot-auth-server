@@ -1,8 +1,8 @@
 package com.gaotianchi.auth.filter;
 
-import com.gaotianchi.auth.base.vo.VO;
 import com.gaotianchi.auth.enums.Code;
 import com.gaotianchi.auth.exception.SQLException;
+import com.gaotianchi.auth.vo.VO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.validation.BindException;

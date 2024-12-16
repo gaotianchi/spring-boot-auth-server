@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gaotianchi.auth.base.dao.TestBaseDAO">
+<mapper namespace="com.gaotianchi.auth.dao.base.TestBaseDAO">
 
-    <resultMap type="com.gaotianchi.auth.base.entity.Test" id="TestMap">
+    <resultMap type="com.gaotianchi.auth.entity.Test" id="TestMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="insertTest" keyProperty="id" useGeneratedKeys="true"
-            parameterType="com.gaotianchi.auth.base.entity.Test">
+            parameterType="com.gaotianchi.auth.entity.Test">
         INSERT INTO test(name)
         VALUES (#{name})
     </insert>

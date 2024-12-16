@@ -1,7 +1,7 @@
 package com.gaotianchi.auth.service.impl;
 
-import com.gaotianchi.auth.base.entity.User;
 import com.gaotianchi.auth.dao.UserDao;
+import com.gaotianchi.auth.entity.User;
 import com.gaotianchi.auth.service.PasswordRelatedService;
 import com.gaotianchi.auth.utils.ServiceTool;
 import org.springframework.security.crypto.password.PasswordEncoder;

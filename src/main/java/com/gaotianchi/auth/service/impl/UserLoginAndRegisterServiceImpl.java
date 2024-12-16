@@ -1,7 +1,7 @@
 package com.gaotianchi.auth.service.impl;
 
-import com.gaotianchi.auth.base.entity.User;
 import com.gaotianchi.auth.dao.UserDao;
+import com.gaotianchi.auth.entity.User;
 import com.gaotianchi.auth.enums.Code;
 import com.gaotianchi.auth.exception.SQLException;
 import com.gaotianchi.auth.service.UserLoginAndRegisterService;
@@ -98,6 +98,8 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
             throw new SQLException(Code.SQL_UPDATE_ERROR, "Fail to verify email.");
         }
     }
+
+    // =================================================== deregister ================================================ //
 
     @Override
     public void deregisterUserViaEmailAndSendVerificationCode(String email) {
