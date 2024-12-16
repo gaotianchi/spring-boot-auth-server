@@ -82,8 +82,8 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
         }
 
         // 2. Check if verification code is correct.
-        if (user.getVerificationCodeExpiration().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Verification code is expired");
+        if (user.getVerificationCode().equals(verificationCode)) {
+            throw new RuntimeException("Verification code is incorrect");
         }
 
         // 3. Verify whether the verification code has expired
@@ -98,6 +98,55 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
             throw new SQLException(Code.SQL_UPDATE_ERROR, "Fail to verify email.");
         }
     }
+
+    @Override
+    public void deregisterUserViaEmailAndSendVerificationCode(String email) {
+        // 1. Load user from database.
+        User user = userDao.selectByUsernameOrEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        // 2. Update user's verification code.
+        int verificationCode = generateVerificationCode();
+        user.setVerificationCode(verificationCode);
+        user.setVerificationCodeExpiration(LocalDateTime.now().plus(Duration.ofMinutes(10)));
+        int rows = userDao.updateUserById(user);
+        if (rows != 1) {
+            throw new SQLException(Code.SQL_UPDATE_ERROR, "Fail to update user's verification code.");
+        }
+
+        // TODO: 3. Send verification code to user's email.
+    }
+
+
+    @Override
+    public void confirmDeregisterUserViaEmailAndVerificationCode(String email, int verificationCode) {
+        // 1. Load user from database.
+        User user = userDao.selectByUsernameOrEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        // 2. Check if verification code is correct.
+        if (user.getVerificationCode().equals(verificationCode)) {
+            throw new RuntimeException("Verification code is incorrect");
+        }
+
+        // 3. Verify whether the verification code has expired
+        LocalDateTime currentTime = LocalDateTime.now();
+        if (user.getVerificationCodeExpiration().isBefore(currentTime)) {
+            throw new RuntimeException("Verification code has expired");
+        }
+
+        // 4. Set user's status to deregistered.
+        int rows = userDao.updateUserById(User.builder().id(user.getId()).isEnabled(0).build());
+        if (rows != 1) {
+            throw new SQLException(Code.SQL_UPDATE_ERROR, "Fail to deregister user.");
+        }
+
+    }
+
 
     // =============================== User login =================================== //
 
