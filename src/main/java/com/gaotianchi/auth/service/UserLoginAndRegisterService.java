@@ -12,7 +12,22 @@ public interface UserLoginAndRegisterService extends UserDetailsService {
 
     // =============================== User registration =================================== //
 
+    /**
+     * Register a new user via email and send verification code
+     *
+     * @param email    email
+     * @param password password
+     * @author gaotianchi
+     * @since 2024/12/16 16:40
+     **/
     void registerUserViaEmailAndSendVerificationCode(String email, String password);
 
+    /**
+     * Verify the email address and verification code
+     * @author gaotianchi
+     * @since 2024/12/16 16:41
+     * @param email email
+     * @param verificationCode verification code
+     **/
     void verifyEmail(String email, int verificationCode);
 }
