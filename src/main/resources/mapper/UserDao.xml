@@ -15,6 +15,9 @@
         <result property="isLocked" column="is_locked" jdbcType="INTEGER"/>
         <result property="lockExpiration" column="lock_expiration" jdbcType="TIMESTAMP"/>
         <result property="isEnabled" column="is_enabled" jdbcType="INTEGER"/>
+        <result property="verification_code" column="verification_code" jdbcType="INTEGER"/>
+        <result property="verification_code_expiration" column="verification_code_expiration" jdbcType="TIMESTAMP"/>
+        <result property="email_is_verified" column="email_is_verified" jdbcType="INTEGER"/>
     </resultMap>
 
     <select id="selectByUsernameOrEmail" resultMap="UserMap">
@@ -29,7 +32,10 @@
                failed_attempts,
                is_locked,
                lock_expiration,
-               is_enabled
+               is_enabled,
+               verification_code,
+               verification_code_expiration,
+               email_is_verified
         FROM user
         WHERE username = #{usernameOrEmail}
            OR email = #{usernameOrEmail}

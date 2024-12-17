@@ -23,7 +23,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 public class DaoExceptionHandlerAspect {
 
 
-    @Pointcut("execution(* com.gaotianchi.auth.base.dao.*.insert*(..))")
+    @Pointcut("execution(* com.gaotianchi.auth.dao.base.*.insert*(..))")
     public void insertPointcut() {
     }
 

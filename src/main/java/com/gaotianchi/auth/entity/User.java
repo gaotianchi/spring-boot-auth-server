@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -34,7 +34,7 @@ public class User implements Serializable {
     private Date lockExpiration;
     private Integer isEnabled;
     private Integer verificationCode;
-    private LocalDateTime verificationCodeExpiration;
-    private Integer email_is_activated;
+    private Instant verificationCodeExpiration;
+    private Integer emailIsVerified;
 }
 

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
@@ -42,13 +43,6 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
 
     // =============================== User registration =================================== //
 
-    /**
-     * Register a user via email and send verification code.
-     *
-     * @param email user email
-     * @author gaotianchi
-     * @since 2024/12/14 18:20
-     **/
     @Override
     public void registerUserViaEmailAndSendVerificationCode(String email, String password) {
 
@@ -62,7 +56,7 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
                 .password(encodedPassword)
                 .username(username)
                 .verificationCode(verificationCode)
-                .verificationCodeExpiration(LocalDateTime.now().plus(Duration.ofMinutes(10)))
+                .verificationCodeExpiration(Instant.now().plus(Duration.ofMinutes(10)))
                 .build();
         int rows = userDao.insertUser(user);
         if (rows != 1) {
@@ -87,19 +81,18 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
         }
 
         // 3. Verify whether the verification code has expired
-        LocalDateTime currentTime = LocalDateTime.now();
-        if (user.getVerificationCodeExpiration().isBefore(currentTime)) {
+        if (user.getVerificationCodeExpiration().isBefore(Instant.now())) {
             throw new RuntimeException("Verification code has expired");
         }
 
         // 4. Now user's email is verified, so we can update email's status.
-        int rows = userDao.updateUserById(User.builder().id(user.getId()).email_is_activated(1).build());
+        int rows = userDao.updateUserById(User.builder().id(user.getId()).emailIsVerified(1).build());
         if (rows != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR, "Fail to verify email.");
         }
     }
 
-    // =================================================== deregister ================================================ //
+    // ================================== deregister ======================================= //
 
     @Override
     public void deregisterUserViaEmailAndSendVerificationCode(String email) {
@@ -112,7 +105,7 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
         // 2. Update user's verification code.
         int verificationCode = generateVerificationCode();
         user.setVerificationCode(verificationCode);
-        user.setVerificationCodeExpiration(LocalDateTime.now().plus(Duration.ofMinutes(10)));
+        user.setVerificationCodeExpiration(Instant.now().plus(Duration.ofMinutes(10)));
         int rows = userDao.updateUserById(user);
         if (rows != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR, "Fail to update user's verification code.");
@@ -137,7 +130,7 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
 
         // 3. Verify whether the verification code has expired
         LocalDateTime currentTime = LocalDateTime.now();
-        if (user.getVerificationCodeExpiration().isBefore(currentTime)) {
+        if (user.getVerificationCodeExpiration().isBefore(Instant.now())) {
             throw new RuntimeException("Verification code has expired");
         }
 
