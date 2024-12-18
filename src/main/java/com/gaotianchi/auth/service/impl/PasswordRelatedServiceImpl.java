@@ -64,7 +64,7 @@ public class PasswordRelatedServiceImpl implements PasswordRelatedService {
     }
 
     @Override
-    public void resetPassword(String email, String verificationCode, String newPassword) {
+    public void resetPassword(String email, Integer verificationCode, String newPassword) {
         // 1. Load user by email.
         User user = userDao.selectByUsernameOrEmail(email);
         if (user == null) {
@@ -72,7 +72,7 @@ public class PasswordRelatedServiceImpl implements PasswordRelatedService {
         }
 
         // 2. Check verification code.
-        if (!user.getVerificationCode().toString().equals(verificationCode)) {
+        if (!user.getVerificationCode().equals(verificationCode)) {
             throw new RuntimeException("Verification code is incorrect");
         }
 

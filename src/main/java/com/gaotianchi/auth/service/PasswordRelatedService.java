@@ -35,5 +35,5 @@ public interface PasswordRelatedService {
      * @author gaotianchi
      * @since 2024/12/16 16:12
      **/
-    void resetPassword(String email, String verificationCode, String newPassword);
+    void resetPassword(String email, Integer verificationCode, String newPassword);
 }

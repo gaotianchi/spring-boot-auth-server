@@ -15,9 +15,9 @@
         <result property="isLocked" column="is_locked" jdbcType="INTEGER"/>
         <result property="lockExpiration" column="lock_expiration" jdbcType="TIMESTAMP"/>
         <result property="isEnabled" column="is_enabled" jdbcType="INTEGER"/>
-        <result property="verification_code" column="verification_code" jdbcType="INTEGER"/>
-        <result property="verification_code_expiration" column="verification_code_expiration" jdbcType="TIMESTAMP"/>
-        <result property="email_is_verified" column="email_is_verified" jdbcType="INTEGER"/>
+        <result property="verificationCode" column="verification_code" jdbcType="INTEGER"/>
+        <result property="verificationCodeExpiration" column="verification_code_expiration" jdbcType="TIMESTAMP"/>
+        <result property="emailIsVerified" column="email_is_verified" jdbcType="INTEGER"/>
     </resultMap>
 
     <insert id="insertUser" keyProperty="id" useGeneratedKeys="true">

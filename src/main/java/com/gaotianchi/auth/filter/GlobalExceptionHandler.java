@@ -87,7 +87,7 @@ public class GlobalExceptionHandler {
      **/
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public VO<String> exceptionHandler(Exception e) {
-        return VO.response(Code.UNKNOWN_ERROR, e.getLocalizedMessage());
+    public VO<Throwable> exceptionHandler(Exception e) {
+        return VO.response(Code.UNKNOWN_ERROR, e.getCause());
     }
 }

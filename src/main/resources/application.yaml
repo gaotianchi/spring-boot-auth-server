@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: dev
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    time-zone: UTC
 
 mybatis:
   mapper-locations:
