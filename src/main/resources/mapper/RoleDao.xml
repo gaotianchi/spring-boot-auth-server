@@ -10,12 +10,7 @@
         <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <resultMap id="roleWithPermissions" type="com.gaotianchi.auth.vo.RoleVO" extends="RoleMap">
-        <collection property="permission" column="id" ofType="com.gaotianchi.auth.entity.Permission"
-                    select="getRoleWithPermissionsByRoleId"/>
-    </resultMap>
-
-    <select id="getRoleWithPermissionsByRoleId" resultType="com.gaotianchi.auth.entity.Permission">
+    <select id="selectAllPermissionByRoleId" resultType="com.gaotianchi.auth.entity.Permission">
         SELECT code, name, description, created_at, updated_at
         FROM permission P
                  INNER JOIN role_permission RP ON P.code = RP.permission_code

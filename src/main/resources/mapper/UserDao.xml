@@ -20,11 +20,6 @@
         <result property="emailIsVerified" column="email_is_verified" jdbcType="INTEGER"/>
     </resultMap>
 
-    <resultMap id="UserVOMap" type="com.gaotianchi.auth.vo.UserVO" extends="UserMap">
-        <collection property="roles" ofType="com.gaotianchi.auth.entity.Role" column="id"
-                    select="selectAllUserRolesByUserId"/>
-    </resultMap>
-
     <select id="selectByUsernameOrEmail" resultMap="UserMap">
         SELECT id,
                username,
@@ -69,7 +64,7 @@
         FROM user_roles;
     </select>
 
-    <select id="selectAllUserRolesByUserId" resultType="com.gaotianchi.auth.entity.Role">
+    <select id="selectAllRolesByUserId" resultType="com.gaotianchi.auth.entity.Role">
         SELECT R.code, R.name, R.description, R.created_at, R.updated_at
         FROM role R
                  INNER JOIN user_role UR ON R.code = UR.role_code

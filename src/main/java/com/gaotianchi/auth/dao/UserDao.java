@@ -1,6 +1,7 @@
 package com.gaotianchi.auth.dao;
 
 import com.gaotianchi.auth.dao.base.UserBaseDao;
+import com.gaotianchi.auth.dao.base.UserRoleBaseDao;
 import com.gaotianchi.auth.entity.Role;
 import com.gaotianchi.auth.entity.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,7 +16,7 @@ import java.util.Set;
  * @since 2024-11-27 21:35:13
  */
 @Mapper
-public interface UserDao extends UserBaseDao {
+public interface UserDao extends UserBaseDao, UserRoleBaseDao {
 
     User selectByUsernameOrEmail(String usernameOrEmail);
 
@@ -27,6 +28,6 @@ public interface UserDao extends UserBaseDao {
      **/
     Set<String> selectUserRolesAndPermissionsNamesByUsernameOrEmail(String usernameOrEmail);
 
-    List<Role> selectAllUserRolesByUserId(int userId);
+    List<Role> selectAllRolesByUserId(int userId);
 }
 
