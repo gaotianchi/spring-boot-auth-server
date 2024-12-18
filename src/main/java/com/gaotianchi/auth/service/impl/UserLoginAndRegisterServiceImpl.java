@@ -213,7 +213,8 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
         int i = 1;
         while (true) {
             User user = userDao.selectByUsernameOrEmail(username);
-            if (user == null) {
+            // The default anonymous username in Spring security is anonymousUser
+            if (user == null && !username.equals("anonymousUser")) {
                 return username;
             }
             username = email.split("@")[0] + "_" + i++;
