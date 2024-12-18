@@ -49,4 +49,14 @@ public class VO<T> implements Serializable {
         return new VO<>(code, code.getMessage(), data);
     }
 
+    /**
+     * Common method in controllers
+     *
+     * @param data response data
+     * @author gaotianchi
+     * @since 2024/12/18 14:11
+     **/
+    public static <T> VO<T> success(T data) {
+        return new VO<>(Code.SUCCESS, Code.SUCCESS.getMessage(), data);
+    }
 }
