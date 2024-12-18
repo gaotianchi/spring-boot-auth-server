@@ -1,11 +1,22 @@
 package com.gaotianchi.auth.rest;
 
+import com.gaotianchi.auth.converter.UserConverter;
 import com.gaotianchi.auth.dto.UserDTO;
+import com.gaotianchi.auth.entity.User;
 import com.gaotianchi.auth.service.PasswordRelatedService;
+import com.gaotianchi.auth.service.RoleAndPermissionRelatedService;
+import com.gaotianchi.auth.service.UserLoaderService;
 import com.gaotianchi.auth.service.UserLoginAndRegisterService;
+import com.gaotianchi.auth.vo.UserVO;
 import com.gaotianchi.auth.vo.VO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static com.gaotianchi.auth.utils.RestTool.getPageRequest;
 
 /**
  * Handle user related requests.
@@ -18,10 +29,17 @@ public class UserRest {
 
     private final UserLoginAndRegisterService userLoginAndRegisterService;
     private final PasswordRelatedService passwordRelatedService;
+    private final UserLoaderService userLoaderService;
+    private final UserConverter userConverter;
+    private final RoleAndPermissionRelatedService roleAndPermissionRelatedService;
 
-    public UserRest(UserLoginAndRegisterService userLoginAndRegisterService, PasswordRelatedService passwordRelatedService) {
+
+    public UserRest(UserLoginAndRegisterService userLoginAndRegisterService, PasswordRelatedService passwordRelatedService, UserLoaderService userLoaderService, UserConverter userConverter, RoleAndPermissionRelatedService roleAndPermissionRelatedService) {
         this.userLoginAndRegisterService = userLoginAndRegisterService;
         this.passwordRelatedService = passwordRelatedService;
+        this.userLoaderService = userLoaderService;
+        this.userConverter = userConverter;
+        this.roleAndPermissionRelatedService = roleAndPermissionRelatedService;
     }
 
     @PostMapping("register")
@@ -88,5 +106,19 @@ public class UserRest {
     ) {
         passwordRelatedService.resetPassword(userDTO.getEmail(), userDTO.getVerificationCode(), userDTO.getNewPassword());
         return VO.success(null);
+    }
+
+    @GetMapping("list")
+    public VO<Page<UserVO>> handleGetUsersByPageRequest(
+            @ModelAttribute UserDTO userDto,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "id:asc") List<String> sorts
+    ) {
+        User user = userConverter.toEntity(userDto);
+        PageRequest pageRequest = getPageRequest(page, size, sorts);
+        Page<User> userPage = userLoaderService.getUsersByPage(user, pageRequest);
+        Page<UserVO> userVOPage = userPage.map(userConverter::toVO);
+        return VO.success(userVOPage);
     }
 }
