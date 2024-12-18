@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
+ * Get user information from SecurityContextHolder.
  * @author gaotianchi
  * @since 2024/12/18 9:11
  **/

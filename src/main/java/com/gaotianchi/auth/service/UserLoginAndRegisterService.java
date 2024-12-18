@@ -36,22 +36,20 @@ public interface UserLoginAndRegisterService extends UserDetailsService {
 
     /**
      * Deregister a user via email and send verification code
-     *
-     * @param email email
+     * Prerequisite: The user has logged in.
      * @author gaotianchi
      * @since 2024/12/16 17:09
      **/
-    void deregisterUserViaEmailAndSendVerificationCode(String email);
+    void deregisterUserViaEmailAndSendVerificationCode();
 
 
     /**
      * Confirm deregister a user via email and verification code
-     *
-     * @param email            email
+     * Prerequisite: The user has logged in.
      * @param verificationCode verification code
      * @author gaotianchi
      * @since 2024/12/16 17:17
      **/
-    void confirmDeregisterUserViaEmailAndVerificationCode(String email, int verificationCode);
+    void confirmDeregisterUserViaEmailAndVerificationCode(int verificationCode);
 
 }

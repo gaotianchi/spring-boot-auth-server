@@ -4,6 +4,7 @@ import com.gaotianchi.auth.dao.UserDao;
 import com.gaotianchi.auth.entity.User;
 import com.gaotianchi.auth.enums.Code;
 import com.gaotianchi.auth.exception.SQLException;
+import com.gaotianchi.auth.service.UserLoaderService;
 import com.gaotianchi.auth.service.UserLoginAndRegisterService;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,18 +34,18 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
 
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
+    private final UserLoaderService userLoaderService;
 
-    public UserLoginAndRegisterServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder) {
+    public UserLoginAndRegisterServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder, UserLoaderService userLoaderService) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
+        this.userLoaderService = userLoaderService;
     }
-
 
     // =============================== User registration =================================== //
 
     @Override
     public void registerUserViaEmailAndSendVerificationCode(String email, String password) {
-
 
         // 1. Try to insert user into database.
         int verificationCode = generateVerificationCode();
@@ -76,16 +76,9 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
         }
 
         // 2. Check if verification code is correct.
-        if (user.getVerificationCode().equals(verificationCode)) {
-            throw new RuntimeException("Verification code is incorrect");
-        }
+        checkVerificationCode(user, verificationCode);
 
-        // 3. Verify whether the verification code has expired
-        if (user.getVerificationCodeExpiration().isBefore(Instant.now())) {
-            throw new RuntimeException("Verification code has expired");
-        }
-
-        // 4. Now user's email is verified, so we can update email's status.
+        // 3. Now user's email is verified, so we can update email's status.
         int rows = userDao.updateUserById(User.builder().id(user.getId()).emailIsVerified(1).build());
         if (rows != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR, "Fail to verify email.");
@@ -95,12 +88,9 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
     // ================================== deregister ======================================= //
 
     @Override
-    public void deregisterUserViaEmailAndSendVerificationCode(String email) {
+    public void deregisterUserViaEmailAndSendVerificationCode() {
         // 1. Load user from database.
-        User user = userDao.selectByUsernameOrEmail(email);
-        if (user == null) {
-            throw new RuntimeException("User not found");
-        }
+        User user = userLoaderService.loadCurrentLoggedInUser();
 
         // 2. Update user's verification code.
         int verificationCode = generateVerificationCode();
@@ -116,25 +106,14 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
 
 
     @Override
-    public void confirmDeregisterUserViaEmailAndVerificationCode(String email, int verificationCode) {
+    public void confirmDeregisterUserViaEmailAndVerificationCode(int verificationCode) {
         // 1. Load user from database.
-        User user = userDao.selectByUsernameOrEmail(email);
-        if (user == null) {
-            throw new RuntimeException("User not found");
-        }
+        User user = userLoaderService.loadCurrentLoggedInUser();
 
         // 2. Check if verification code is correct.
-        if (user.getVerificationCode().equals(verificationCode)) {
-            throw new RuntimeException("Verification code is incorrect");
-        }
+        checkVerificationCode(user, verificationCode);
 
-        // 3. Verify whether the verification code has expired
-        LocalDateTime currentTime = LocalDateTime.now();
-        if (user.getVerificationCodeExpiration().isBefore(Instant.now())) {
-            throw new RuntimeException("Verification code has expired");
-        }
-
-        // 4. Set user's status to deregistered.
+        // 3. Set user's status to deregistered.
         int rows = userDao.updateUserById(User.builder().id(user.getId()).isEnabled(0).build());
         if (rows != 1) {
             throw new SQLException(Code.SQL_UPDATE_ERROR, "Fail to deregister user.");
@@ -218,6 +197,16 @@ public class UserLoginAndRegisterServiceImpl implements UserLoginAndRegisterServ
                 return username;
             }
             username = email.split("@")[0] + "_" + i++;
+        }
+    }
+
+    private void checkVerificationCode(User user, int verificationCode) {
+        if (user.getVerificationCode().equals(verificationCode)) {
+            throw new RuntimeException("Verification code is incorrect");
+        }
+
+        if (user.getVerificationCodeExpiration().isBefore(Instant.now())) {
+            throw new RuntimeException("Verification code has expired");
         }
     }
 }
