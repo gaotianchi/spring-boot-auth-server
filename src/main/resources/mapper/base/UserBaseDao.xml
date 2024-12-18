@@ -189,7 +189,7 @@
 
     <select id="selectUsersByPage" resultMap="UserMap">
         SELECT
-        id, username, password, email, created_at, updated_at, last_login_time, last_login_ip, failed_attempts,
+        id, username, null, email, created_at, updated_at, last_login_time, last_login_ip, failed_attempts,
         is_locked, lock_expiration, is_enabled
         FROM user
         <where>
@@ -198,9 +198,6 @@
             </if>
             <if test="username != null and username != ''">
                 and username = #{username}
-            </if>
-            <if test="password != null and password != ''">
-                and password = #{password}
             </if>
             <if test="email != null and email != ''">
                 and email = #{email}
