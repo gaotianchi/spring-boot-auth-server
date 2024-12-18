@@ -4,7 +4,6 @@ import com.gaotianchi.auth.converter.UserConverter;
 import com.gaotianchi.auth.dto.UserDTO;
 import com.gaotianchi.auth.entity.User;
 import com.gaotianchi.auth.service.PasswordRelatedService;
-import com.gaotianchi.auth.service.RoleAndPermissionRelatedService;
 import com.gaotianchi.auth.service.UserLoaderService;
 import com.gaotianchi.auth.service.UserLoginAndRegisterService;
 import com.gaotianchi.auth.vo.UserVO;
@@ -31,15 +30,13 @@ public class UserRest {
     private final PasswordRelatedService passwordRelatedService;
     private final UserLoaderService userLoaderService;
     private final UserConverter userConverter;
-    private final RoleAndPermissionRelatedService roleAndPermissionRelatedService;
 
 
-    public UserRest(UserLoginAndRegisterService userLoginAndRegisterService, PasswordRelatedService passwordRelatedService, UserLoaderService userLoaderService, UserConverter userConverter, RoleAndPermissionRelatedService roleAndPermissionRelatedService) {
+    public UserRest(UserLoginAndRegisterService userLoginAndRegisterService, PasswordRelatedService passwordRelatedService, UserLoaderService userLoaderService, UserConverter userConverter) {
         this.userLoginAndRegisterService = userLoginAndRegisterService;
         this.passwordRelatedService = passwordRelatedService;
         this.userLoaderService = userLoaderService;
         this.userConverter = userConverter;
-        this.roleAndPermissionRelatedService = roleAndPermissionRelatedService;
     }
 
     @PostMapping("register")

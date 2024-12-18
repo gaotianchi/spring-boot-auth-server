@@ -1,9 +1,9 @@
 package com.gaotianchi.auth.service;
 
+import com.gaotianchi.auth.entity.Permission;
+import com.gaotianchi.auth.entity.Role;
 import com.gaotianchi.auth.entity.RolePermission;
 import com.gaotianchi.auth.entity.UserRole;
-import com.gaotianchi.auth.vo.RoleVO;
-import com.gaotianchi.auth.vo.UserVO;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @author gaotianchi
  * @since 2024/12/18 14:39
  **/
-public interface RoleAndPermissionRelatedService {
+public interface RoleAndPermissionService {
 
     /**
      * Update user roles in batches.
@@ -33,7 +33,7 @@ public interface RoleAndPermissionRelatedService {
      **/
     void updateRolePermissions(List<RolePermission> rolePermissions);
 
-    UserVO getUserWithRolesByUserId(int userId);
+    List<Role> getAllRolesByUserId(int userId);
 
-    RoleVO getRoleWithPermissionsByRoleId(int roleId);
+    List<Permission> getAllPermissionsByRoleId(int roleId);
 }
