@@ -7,14 +7,13 @@ package com.gaotianchi.auth.service;
 public interface PasswordRelatedService {
     /**
      * User update password, check old password and update password.
-     *
-     * @param usernameOrEmail username or email
+     * Prerequisite: User must be logged in.
      * @param oldPassword     old password
      * @param newPassword     new password
      * @author gaotianchi
      * @since 2024/12/16 16:12
      **/
-    void updatePassword(String usernameOrEmail, String oldPassword, String newPassword);
+    void updatePassword(String oldPassword, String newPassword);
 
 
     /**
@@ -37,5 +36,4 @@ public interface PasswordRelatedService {
      * @since 2024/12/16 16:12
      **/
     void resetPassword(String email, String verificationCode, String newPassword);
-
 }

@@ -16,19 +16,18 @@ public class PasswordRelatedServiceImpl implements PasswordRelatedService {
 
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
+    private final UserLoaderServiceImpl userLoaderService;
 
-    public PasswordRelatedServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder) {
+    public PasswordRelatedServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder, UserLoaderServiceImpl userLoaderService) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
+        this.userLoaderService = userLoaderService;
     }
 
     @Override
-    public void updatePassword(String usernameOrEmail, String oldPassword, String newPassword) {
+    public void updatePassword(String oldPassword, String newPassword) {
         // 1. Load user by username or email.
-        User user = userDao.selectByUsernameOrEmail(usernameOrEmail);
-        if (user == null) {
-            throw new RuntimeException("User not found");
-        }
+        User user = userLoaderService.loadCurrentLoggedInUser();
 
         // 2. Check old password.
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
