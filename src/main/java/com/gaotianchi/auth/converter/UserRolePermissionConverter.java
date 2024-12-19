@@ -1,6 +1,8 @@
 package com.gaotianchi.auth.converter;
 
 import com.gaotianchi.auth.dto.UserRolePermissionDTO;
+import com.gaotianchi.auth.entity.Permission;
+import com.gaotianchi.auth.entity.Role;
 import com.gaotianchi.auth.entity.RolePermission;
 import com.gaotianchi.auth.entity.UserRole;
 import com.gaotianchi.auth.vo.PermissionVO;
@@ -20,7 +22,7 @@ public interface UserRolePermissionConverter {
     RolePermission toRolePermission(UserRolePermissionDTO userRolePermissionDTO);
 
     @Mapping(target = "permissions", ignore = true)
-    RoleVO toRoleVO(UserRole userRole);
+    RoleVO toRoleVO(Role role);
 
-    PermissionVO toPermissionVO(RolePermission rolePermission);
+    PermissionVO toPermissionVO(Permission permission);
 }
