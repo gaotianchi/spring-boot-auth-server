@@ -1,5 +1,6 @@
 package com.gaotianchi.auth.service.impl;
 
+import com.gaotianchi.auth.dao.PermissionDao;
 import com.gaotianchi.auth.dao.RoleDao;
 import com.gaotianchi.auth.dao.UserDao;
 import com.gaotianchi.auth.entity.Permission;
@@ -20,10 +21,12 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
 
     private final RoleDao roleDao;
     private final UserDao userDao;
+    private final PermissionDao permissionDao;
 
-    public RoleAndPermissionServiceImpl(RoleDao roleDao, UserDao userDao) {
+    public RoleAndPermissionServiceImpl(RoleDao roleDao, UserDao userDao, PermissionDao permissionDao) {
         this.roleDao = roleDao;
         this.userDao = userDao;
+        this.permissionDao = permissionDao;
     }
 
     @Override
@@ -38,11 +41,11 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
 
     @Override
     public List<Role> getAllRolesByUserId(int userId) {
-        return userDao.selectAllRolesByUserId(userId);
+        return roleDao.selectAllRolesByUserId(userId);
     }
 
     @Override
     public List<Permission> getAllPermissionsByRoleId(int roleId) {
-        return roleDao.selectAllPermissionByRoleId(roleId);
+        return permissionDao.selectAllPermissionByRoleId(roleId);
     }
 }

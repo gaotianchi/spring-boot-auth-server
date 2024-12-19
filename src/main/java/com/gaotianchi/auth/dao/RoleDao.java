@@ -2,7 +2,7 @@ package com.gaotianchi.auth.dao;
 
 import com.gaotianchi.auth.dao.base.RoleBaseDao;
 import com.gaotianchi.auth.dao.base.RolePermissionBaseDao;
-import com.gaotianchi.auth.entity.Permission;
+import com.gaotianchi.auth.entity.Role;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,5 +13,5 @@ import java.util.List;
  **/
 @Mapper
 public interface RoleDao extends RoleBaseDao, RolePermissionBaseDao {
-    List<Permission> selectAllPermissionByRoleId(int roleId);
+    List<Role> selectAllRolesByUserId(int userId);
 }
