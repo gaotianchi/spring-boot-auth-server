@@ -63,5 +63,52 @@
         SELECT DISTINCT permission_name AS name
         FROM user_roles;
     </select>
+
+    <select id="countByRoleCodes" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM user_role
+        WHERE role_code IN
+        <foreach collection="roleCodes" item="roleCode" separator="," open="(" close=")" index="roleCode"
+                 nullable="false">
+            #{roleCode}
+        </foreach>
+    </select>
+
+    <select id="selectUsersWithCertainRoles" resultMap="UserMap">
+        SELECT U.id,
+        U.username,
+        NULL,
+        U.email,
+        U.created_at,
+        U.updated_at,
+        U.last_login_time,
+        U.last_login_ip,
+        U.failed_attempts,
+        U.is_locked,
+        U.lock_expiration,
+        U.is_enabled,
+        U.verification_code,
+        U.verification_code_expiration,
+        U.email_is_verified
+        FROM user U
+        INNER JOIN user_role UR ON U.id = UR.user_id
+        WHERE UR.role_code IN
+        <foreach collection="roleCodes" item="roleCode" separator="," open="(" close=")" index="roleCode"
+                 nullable="false">
+            #{roleCode}
+        </foreach>
+        <choose>
+            <when test="pageable.sort != null">
+                ORDER BY
+                <foreach collection="pageable.sort" item="sortOrder" separator=",">
+                    ${sortOrder.property} ${sortOrder.direction}
+                </foreach>
+            </when>
+            <otherwise>
+                ORDER BY id
+            </otherwise>
+        </choose>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
 </mapper>
 
