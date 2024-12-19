@@ -8,6 +8,7 @@ import com.gaotianchi.auth.service.UserLoaderService;
 import com.gaotianchi.auth.service.UserLoginAndRegisterService;
 import com.gaotianchi.auth.vo.UserVO;
 import com.gaotianchi.auth.vo.VO;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.annotation.Validated;
@@ -115,6 +116,21 @@ public class UserRest {
         User user = userConverter.toEntity(userDto);
         PageRequest pageRequest = getPageRequest(page, size, sorts);
         Page<User> userPage = userLoaderService.getUsersByPage(user, pageRequest);
+        Page<UserVO> userVOPage = userPage.map(userConverter::toVO);
+        return VO.success(userVOPage);
+    }
+
+    @GetMapping("users-with-certain-roles")
+    public VO<Page<UserVO>> handleGetUsersWithCertainRolesRequest(
+            @RequestParam("roleIds")
+            @NotNull(message = "Role ids cannot be null.")
+            List<Integer> roleCodes,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "id:asc") List<String> sorts
+    ) {
+        PageRequest pageRequest = getPageRequest(page, size, sorts);
+        Page<User> userPage = userLoaderService.getUsersWithCertainRoles(roleCodes, pageRequest);
         Page<UserVO> userVOPage = userPage.map(userConverter::toVO);
         return VO.success(userVOPage);
     }

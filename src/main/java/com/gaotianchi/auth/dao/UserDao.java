@@ -4,7 +4,10 @@ import com.gaotianchi.auth.dao.base.UserBaseDao;
 import com.gaotianchi.auth.dao.base.UserRoleBaseDao;
 import com.gaotianchi.auth.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,5 +28,9 @@ public interface UserDao extends UserBaseDao, UserRoleBaseDao {
      * @since 2024/11/28 21:00
      **/
     Set<String> selectUserRolesAndPermissionsNamesByUsernameOrEmail(String usernameOrEmail);
+
+    long countByRoleCodes(@Param("roleCodes") List<Integer> roleCodes);
+
+    List<User> selectUsersWithCertainRoles(@Param("roleCodes") List<Integer> roleCodes, @Param("pageable") PageRequest pageRequest);
 }
 
