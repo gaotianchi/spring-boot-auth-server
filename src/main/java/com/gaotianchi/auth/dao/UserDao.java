@@ -32,5 +32,9 @@ public interface UserDao extends UserBaseDao, UserRoleBaseDao {
     long countByRoleCodes(@Param("roleCodes") List<Integer> roleCodes);
 
     List<User> selectUsersWithCertainRoles(@Param("roleCodes") List<Integer> roleCodes, @Param("pageable") PageRequest pageRequest);
+
+    long countByPermissionCodes(@Param("permissionCodes") List<Integer> permissionCodes);
+
+    List<User> selectUsersWithCertainPermissions(@Param("permissionCodes") List<Integer> permissionCodes, @Param("pageable") PageRequest pageRequest);
 }
 

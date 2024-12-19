@@ -18,4 +18,6 @@ public interface UserLoaderService {
     Page<User> getUsersByPage(User user, PageRequest pageRequest);
 
     Page<User> getUsersWithCertainRoles(List<Integer> roleCodes, PageRequest pageRequest);
+
+    Page<User> getUsersWithCertainPermissions(List<Integer> permissionCodes, PageRequest pageRequest);
 }

@@ -53,4 +53,11 @@ public class UserLoaderServiceImpl implements UserLoaderService {
         List<User> users = userDao.selectUsersWithCertainRoles(roleCodes, pageRequest);
         return new PageImpl<>(users, pageRequest, total);
     }
+
+    @Override
+    public Page<User> getUsersWithCertainPermissions(List<Integer> permissionCodes, PageRequest pageRequest) {
+        long total = userDao.countByPermissionCodes(permissionCodes);
+        List<User> users = userDao.selectUsersWithCertainPermissions(permissionCodes, pageRequest);
+        return new PageImpl<>(users, pageRequest, total);
+    }
 }
